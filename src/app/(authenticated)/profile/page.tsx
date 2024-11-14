@@ -84,7 +84,7 @@ function LoanCard({ loan, onExtend }: { loan: Loan; onExtend: (loanId: number) =
             <DialogHeader>
               <DialogTitle>Extend Loan</DialogTitle>
               <DialogDescription>
-                Are you sure you want to extend the loan for "{loan.book.title}"?
+                Are you sure you want to extend the loan for `{loan.book.title}`?
               </DialogDescription>
             </DialogHeader>
             <DialogFooter>

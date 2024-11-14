@@ -3,13 +3,8 @@
 import { populateData } from '@/components/data/populateData';
 import DataTable from '@/components/data/table';
 import { Separator } from '@/components/ui/separator';
-import Image from 'next/image'
-import Link from 'next/link'
-
-
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import Header from '@/components/ui/header';
 
 export default function BooksPage() {
   const router = useRouter();
@@ -20,19 +15,15 @@ export default function BooksPage() {
 
   const searchParams = useSearchParams();
   function gridFn(e: any) {
-
     return '/books/' + e.id + '/detail'
   }
 
   useEffect(() => {
     populateData({ model: 'BookCategory' }).then((res) => {
-      console.log(res.data);
       setItems(res.data.sort((a: any, b: any) => {
         return a.code.localeCompare(b.code)
       }))
     });
-
-
 
 
   }, []);
@@ -41,7 +32,7 @@ export default function BooksPage() {
   useEffect(() => {
     const currentCategoryCode = searchParams.get('category_code');
     if (currentCategoryCode) {
-      console.log("Category Code:", currentCategoryCode); // Optional: log for debugging
+   
       let item = items.filter((v) => {
         return v.code == currentCategoryCode
       })[0]

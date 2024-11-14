@@ -80,7 +80,7 @@ export default function SignIn() {
         </CardContent>
         <CardFooter className="flex flex-col gap-4 justify-between">
           <p className="text-sm text-gray-600">
-            Don't have an account?{' '}
+            Dont have an account?{' '}
             <a href="/signUp" className="text-blue-600 hover:underline">
               Sign up
             </a>

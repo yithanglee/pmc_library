@@ -36,7 +36,7 @@ export default function SignUpPage() {
     setError(null)
     setSuccess(false)
     try {
-      var res = await createUserWithEmailAndPassword(auth, email, password)
+      let res = await createUserWithEmailAndPassword(auth, email, password)
       console.log(res)
       setSuccess(true)
       setTimeout(() => {
