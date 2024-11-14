@@ -1,0 +1,3 @@
+[submodule "next_src"]
+	path = next_src
+	url = git@github.com:yithanglee/nxt_helpers.git
