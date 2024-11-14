@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useFirebaseAuth } from '@/context/authContext'
+import { forgotPassword } from '@/lib/auth'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -11,11 +12,12 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 
 export default function ForgotPassword() {
+
   const [email, setEmail] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [message, setMessage] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
-  const { forgotPassword } = useFirebaseAuth() // Access forgotPassword from context
+
   const router = useRouter()
 
   const handleForgotPassword = async (e: React.FormEvent<HTMLFormElement>) => {
