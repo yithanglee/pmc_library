@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useAuth } from '@/lib/auth'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -11,13 +11,17 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 
 export default function SignIn() {
-  const origin = window.location.origin
+  const [origin, setOrigin] = useState('')
   const { login } = useAuth()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
+
+  useEffect(() => {
+    setOrigin(window.location.origin)
+  }, [])
 
   const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
