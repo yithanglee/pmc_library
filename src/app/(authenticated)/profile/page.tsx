@@ -1,19 +1,20 @@
 "use client"
 
-import { useFirebaseAuth } from '@/context/authContext'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { signOut } from 'firebase/auth'
 import { auth } from '@/lib/firebaseConfig'
 import { useRouter } from 'next/navigation'
-import { PHX_ENDPOINT, PHX_HTTP_PROTOCOL } from '@/lib/constants'
+import { PHX_COOKIE, PHX_ENDPOINT, PHX_HTTP_PROTOCOL } from '@/lib/constants'
 import { useEffect, useState } from 'react'
 import { format } from 'date-fns'
 import { Book, Calendar, DollarSign } from 'lucide-react'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { toast } from "@/hooks/use-toast"
-
+import Link from 'next/link'
+import { useAuth } from "@/lib/auth"
+import Cookies from 'js-cookie'
 interface Loan {
   has_extended: boolean
   id: number
@@ -27,17 +28,33 @@ interface Loan {
   fine_amount: number
 }
 
-function LoanCard({ loan, onExtend }: { loan: Loan; onExtend: (loanId: number) => Promise<void> }) {
+interface ExtendLoanResponse {
+  status: 'success' | 'error'
+  reason?: string
+}
+
+function LoanCard({ loan, onExtend }: { loan: Loan; onExtend: (loanId: number) => Promise<ExtendLoanResponse> }) {
   const [isExtending, setIsExtending] = useState(false)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const handleExtend = async () => {
     setIsExtending(true)
     try {
-      await onExtend(loan.id)
-      toast({
-        title: "Loan Extended",
-        description: `The loan for "${loan.book.title}" has been successfully extended.`,
-      })
+      let res = await onExtend(loan.id)
+      console.log("res")
+      console.log(res)
+      if (res?.status === "error") {
+        toast({
+          title: "Error",
+          description: `${res?.reason}.`,
+          variant: "destructive",
+        })
+      } else {
+        toast({
+          title: "Loan Extended",
+          description: `The loan for "${loan.book.title}" has been successfully extended.`,
+        })
+      }
+
       setIsDialogOpen(false)
     } catch (error) {
       console.error('Error extending loan:', error)
@@ -100,7 +117,7 @@ function LoanCard({ loan, onExtend }: { loan: Loan; onExtend: (loanId: number) =
   )
 }
 
-function OutstandingLoans({ loans, onExtend }: { loans: Loan[]; onExtend: (loanId: number) => Promise<void> }) {
+function OutstandingLoans({ loans, onExtend }: { loans: Loan[]; onExtend: (loanId: number) => Promise<ExtendLoanResponse> }) {
   return (
     <Card className="mt-6">
       <CardHeader>
@@ -121,14 +138,14 @@ function OutstandingLoans({ loans, onExtend }: { loans: Loan[]; onExtend: (loanI
 }
 
 export default function MemberProfile() {
-  const { user } = useFirebaseAuth()
+  const { user } = useAuth()
   const router = useRouter()
   const blog_url = PHX_HTTP_PROTOCOL + PHX_ENDPOINT
   const [outstandingLoans, setOutstandingLoans] = useState<Loan[]>([])
 
   async function queryMember() {
     try {
-      const response = await fetch(`${blog_url}/svt_api/webhook?scope=member_outstanding_loans&uid=${user.uid}`, {
+      const response = await fetch(`${blog_url}/svt_api/webhook?scope=member_outstanding_loans&uid=${user?.uid}`, {
         headers: {
           'content-type': 'application/json'
         },
@@ -148,27 +165,34 @@ export default function MemberProfile() {
   const handleSignOut = async () => {
     try {
       await signOut(auth)
+
+      Cookies.remove(PHX_COOKIE)
+
       router.push('/signIn')
     } catch (error) {
       console.error('Error signing out:', error)
     }
   }
 
-  const handleExtendLoan = async (loanId: number) => {
+  const handleExtendLoan = async (loanId: number): Promise<ExtendLoanResponse> => {
     try {
       const response = await fetch(`${blog_url}/svt_api/webhook?scope=extend_book&loan_id=${loanId}`, {
-
+        headers: {
+          'content-type': 'application/json'
+        },
       })
 
+      const responseData: ExtendLoanResponse = await response.json();
 
       if (!response.ok) {
-        throw new Error('Failed to extend loan')
+        return { status: 'error', reason: 'Failed to extend loan' };
       }
 
       await queryMember() // Refresh the loan list
+      return responseData
     } catch (error) {
       console.error('Error extending loan:', error)
-      throw error
+      return { status: 'error', reason: 'An unexpected error occurred' };
     }
   }
 
@@ -185,19 +209,27 @@ export default function MemberProfile() {
           <CardTitle className="text-2xl">Member Profile</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="flex items-center space-x-4">
+        {user ?  (  <div className="flex items-center space-x-4">
             <Avatar className="h-16 w-16">
-              <AvatarImage src={user?.photoURL || ''} alt={user?.displayName || 'User'} />
-              <AvatarFallback>{user?.displayName?.[0] || 'U'}</AvatarFallback>
+            
+              <AvatarFallback>{user?.userStruct?.name?.[0] || 'U'}</AvatarFallback>
             </Avatar>
             <div>
-              <h2 className="text-xl font-semibold">{user?.displayName || 'Anonymous User'}</h2>
-              <p className="text-sm text-gray-500">{user?.email}</p>
+              <h2 className="text-xl font-semibold">{user?.userStruct?.name || 'Anonymous User'}</h2>
+              <p className="text-sm text-gray-500">{user?.userStruct?.email} | {user?.userStruct?.code}</p>
             </div>
+          </div>) : null}
+         
+          <div className="flex flex-col space-y-2">
+            <Link href="/profile/edit">
+              <Button variant="outline" className="w-full">
+                Edit Profile
+              </Button>
+            </Link>
+            <Button onClick={handleSignOut} variant="outline" className="w-full">
+              Sign Out
+            </Button>
           </div>
-          <Button onClick={handleSignOut} variant="outline" className="w-full">
-            Sign Out
-          </Button>
         </CardContent>
       </Card>
       <OutstandingLoans loans={outstandingLoans} onExtend={handleExtendLoan} />

@@ -1,23 +1,35 @@
 "use client"
 
 import { useState } from 'react'
-import { logOut } from '@/lib/auth'
+import { logOut, useAuth } from '@/lib/auth'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useFirebaseAuth } from '@/context/authContext'
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { Menu, X, User, LogOut, BookOpen } from 'lucide-react'
+import { signOut } from 'firebase/auth'
+import { auth } from '@/lib/firebaseConfig'
+import Cookies from 'js-cookie'
+import { PHX_COOKIE } from '@/lib/constants'
+import { useRouter } from 'next/navigation'
 
 export default function Header() {
-    const { user } = useFirebaseAuth();
+    const { user } = useAuth();
+
     const [isOpen, setIsOpen] = useState(false);
 
-    const handleLogout = async () => {
-        await logOut();
-        setIsOpen(false);
-    };
 
+    const handleSignOut = async () => {
+        try {
+            await signOut(auth)
+
+            Cookies.remove(PHX_COOKIE)
+            setIsOpen(false);
+            window.location.href = "/"
+        } catch (error) {
+            console.error('Error signing out:', error)
+        }
+    }
     const NavItems = () => (
         <>
             <li>
@@ -46,7 +58,7 @@ export default function Header() {
                         <Button
                             variant="ghost"
                             className="flex items-center text-blue-600 hover:text-blue-800 transition-colors p-0"
-                            onClick={handleLogout}
+                            onClick={handleSignOut}
                         >
                             <LogOut className="h-5 w-5 mr-2" />
                             <span className="md:hidden">Log Out</span>

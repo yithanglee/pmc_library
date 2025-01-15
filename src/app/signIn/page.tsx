@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from 'react'
-import { signIn } from '@/lib/auth'
+import { useAuth } from '@/lib/auth'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -11,6 +11,8 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 
 export default function SignIn() {
+  const origin = window.location.origin
+  const { login } = useAuth()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
@@ -23,9 +25,7 @@ export default function SignIn() {
     setIsLoading(true)
 
     try {
-      await signIn(email, password)
-
-      router.replace('/profile')
+      await login(email, password, origin)
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message)

@@ -1,5 +1,5 @@
-import AuthCheck from '@/app/(public)/AuthCheck'
 import Header from '@/components/ui/header'
+import { AuthProvider } from '@/lib/auth'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -8,12 +8,10 @@ export default function PublicLayout({
 }: {
   children: React.ReactNode
 }) {
-
   return (
-    <AuthCheck>
-     <Header ></Header>
+    <AuthProvider>
+      <Header />
       {children}
-
-    </AuthCheck>
+    </AuthProvider>
   )
 }

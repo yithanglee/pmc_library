@@ -14,7 +14,7 @@ export default function CommunityLibrary() {
   }, [])
 
   return (
-    <div className="">
+    <div className="" >
       <Header></Header>
       <main className="container mx-auto px-4 py-12">
         <section className="text-center mb-16">
