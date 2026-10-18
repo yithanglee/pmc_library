@@ -67,9 +67,9 @@ function getLoanTimingStatus(loan: Loan) {
       type: 'overdue' as const,
       label: `Overdue by ${overdueDays} ${overdueDays === 1 ? 'day' : 'days'}`,
       sublabel: 'Please return to the library as soon as possible',
-      badgeClass: 'bg-red-100 text-red-900 border-red-300',
+      badgeClass: 'bg-red-100 text-red-700 border-red-300',
       borderClass: 'border-red-300 bg-red-50/30',
-      dateBoxClass: 'bg-red-50 border-red-200 text-red-900',
+      dateBoxClass: 'bg-red-50 border-red-200 text-red-800',
       daysRemaining,
     }
   }
@@ -77,9 +77,9 @@ function getLoanTimingStatus(loan: Loan) {
   if (daysRemaining === 0) {
     return {
       type: 'due-soon' as const,
-      label: 'Due Today',
+      label: 'Due Today!',
       sublabel: 'Return or extend your loan today',
-      badgeClass: 'bg-amber-100 text-amber-900 border-amber-300',
+      badgeClass: 'bg-amber-100 text-amber-800 border-amber-300',
       borderClass: 'border-amber-300 bg-amber-50/20',
       dateBoxClass: 'bg-amber-50 border-amber-200 text-amber-900',
       daysRemaining,
@@ -91,8 +91,8 @@ function getLoanTimingStatus(loan: Loan) {
       type: 'due-soon' as const,
       label: `Due in ${daysRemaining} ${daysRemaining === 1 ? 'day' : 'days'}`,
       sublabel: 'Return deadline approaching soon',
-      badgeClass: 'bg-amber-100 text-amber-900 border-amber-300',
-      borderClass: 'border-amber-200/90 bg-white',
+      badgeClass: 'bg-amber-100 text-amber-800 border-amber-300',
+      borderClass: 'border-amber-200 bg-white',
       dateBoxClass: 'bg-amber-50/80 border-amber-200 text-amber-900',
       daysRemaining,
     }
@@ -100,11 +100,11 @@ function getLoanTimingStatus(loan: Loan) {
 
   return {
     type: 'active' as const,
-    label: `${daysRemaining} days remaining`,
+    label: `${daysRemaining} days left`,
     sublabel: 'Active loan on schedule',
-    badgeClass: 'bg-emerald-50 text-emerald-800 border-emerald-200',
-    borderClass: 'border-stone-200/90 bg-white',
-    dateBoxClass: 'bg-[#FAF7F2] border-stone-200/80 text-stone-900',
+    badgeClass: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+    borderClass: 'border-blue-100 bg-white',
+    dateBoxClass: 'bg-red-50/60 border-red-200 text-red-700',
     daysRemaining,
   }
 }
@@ -132,8 +132,8 @@ function LoanCard({
         })
       } else {
         toast({
-          title: "Loan Extended Successfully",
-          description: `The return due date for "${loan.book.title}" has been updated.`,
+          title: "Loan Extended!",
+          description: `The return due date for "${loan.book.title}" has been extended.`,
         })
       }
       setIsDialogOpen(false)
@@ -154,25 +154,25 @@ function LoanCard({
 
   return (
     <div
-      className={`rounded-2xl border p-5 sm:p-6 transition-all shadow-sm hover:shadow-md ${status.borderClass}`}
+      className={`rounded-3xl border-2 p-5 sm:p-6 transition-all shadow-md hover:shadow-lg ${status.borderClass}`}
     >
       {/* Top Row: Call Number, Status Pill, Extension Badge */}
       <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
         <div className="flex items-center gap-2">
-          <span className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold px-2.5 py-1 rounded-md bg-stone-100 text-stone-700 border border-stone-200">
-            <Barcode className="h-3.5 w-3.5 text-stone-500" />
+          <span className="inline-flex items-center gap-1.5 text-xs font-mono font-bold px-3 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-200">
+            <Barcode className="h-3.5 w-3.5 text-blue-600" />
             {loan.book.call_number || 'No Call #'}
           </span>
 
           {loan.has_extended && (
-            <Badge variant="outline" className="text-[11px] bg-stone-100 text-stone-600 border-stone-200">
-              Already Extended
+            <Badge variant="outline" className="text-[11px] font-bold bg-indigo-50 text-indigo-700 border-indigo-200 rounded-full">
+              Extended 1x
             </Badge>
           )}
         </div>
 
         <span
-          className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold border ${status.badgeClass}`}
+          className={`inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-extrabold border ${status.badgeClass}`}
         >
           {status.type === 'overdue' ? (
             <AlertTriangle className="h-3.5 w-3.5" />
@@ -186,35 +186,35 @@ function LoanCard({
       </div>
 
       {/* Book Title */}
-      <h3 className="font-serif text-xl font-bold text-stone-900 leading-snug mb-4">
+      <h3 className="font-display text-xl font-extrabold text-blue-950 leading-snug mb-4">
         {loan.book.title}
       </h3>
 
       {/* Dates & Fine Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
-        <div className="rounded-xl p-3.5 bg-[#FAF7F2] border border-stone-200/70 flex items-center gap-3">
-          <div className="h-9 w-9 rounded-lg bg-white border border-stone-200/80 flex items-center justify-center text-stone-500 shrink-0">
-            <Calendar className="h-4 w-4" />
+        <div className="rounded-2xl p-3.5 bg-blue-50/60 border border-blue-100 flex items-center gap-3">
+          <div className="h-10 w-10 rounded-xl bg-blue-600 text-white flex items-center justify-center shrink-0 shadow-sm">
+            <Calendar className="h-5 w-5" />
           </div>
           <div>
-            <div className="text-[11px] font-medium uppercase tracking-wider text-stone-400">
-              Borrowed On
+            <div className="text-[11px] font-extrabold uppercase tracking-wider text-blue-600">
+              Borrowed Date
             </div>
-            <div className="text-sm font-semibold text-stone-800 mt-0.5">
+            <div className="text-sm font-extrabold text-slate-900 mt-0.5">
               {formattedLoanDate}
             </div>
           </div>
         </div>
 
-        <div className={`rounded-xl p-3.5 border flex items-center gap-3 ${status.dateBoxClass}`}>
-          <div className="h-9 w-9 rounded-lg bg-white/90 border border-current/15 flex items-center justify-center shrink-0">
-            <Clock className="h-4 w-4" />
+        <div className={`rounded-2xl p-3.5 border flex items-center gap-3 ${status.dateBoxClass}`}>
+          <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-red-500 to-rose-600 text-white flex items-center justify-center shrink-0 shadow-sm">
+            <Clock className="h-5 w-5" />
           </div>
           <div>
-            <div className="text-[11px] font-semibold uppercase tracking-wider opacity-75">
+            <div className="text-[11px] font-extrabold uppercase tracking-wider opacity-85">
               Return Due Date
             </div>
-            <div className="text-sm font-bold mt-0.5">
+            <div className="text-sm font-extrabold mt-0.5">
               {formattedReturnDate}
             </div>
           </div>
@@ -223,23 +223,23 @@ function LoanCard({
 
       {/* Fine Alert if applicable */}
       {(loan.late_days > 0 || loan.fine_amount > 0) && (
-        <div className="mb-4 rounded-xl bg-red-100/80 border border-red-200 px-4 py-3 flex items-center justify-between text-red-900 text-sm">
-          <div className="flex items-center gap-2 font-medium">
-            <DollarSign className="h-4 w-4 text-red-700 shrink-0" />
-            <span>Overdue Fine Accrued ({loan.late_days} days late)</span>
+        <div className="mb-4 rounded-2xl bg-red-100/90 border border-red-300 px-4 py-3 flex items-center justify-between text-red-900 text-sm">
+          <div className="flex items-center gap-2 font-bold">
+            <DollarSign className="h-4 w-4 text-red-600 shrink-0" />
+            <span>Overdue Fine ({loan.late_days} days late)</span>
           </div>
-          <span className="font-bold font-mono">
+          <span className="font-extrabold font-mono text-base">
             ${Math.abs(loan.fine_amount).toFixed(2)}
           </span>
         </div>
       )}
 
       {/* Action Footer: Extend Loan Button or Status Note */}
-      <div className="pt-3 border-t border-stone-200/60 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <span className="text-xs text-stone-500">
+      <div className="pt-3 border-t border-blue-100/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <span className="text-xs font-semibold text-slate-500">
           {!loan.has_extended
-            ? 'Need more time? You can extend this loan once online.'
-            : 'This loan has already been extended once.'}
+            ? 'Want more time to read? Extend your loan online!'
+            : 'This book loan has already been extended once.'}
         </span>
 
         {!loan.has_extended ? (
@@ -247,32 +247,32 @@ function LoanCard({
             <DialogTrigger asChild>
               <Button
                 onClick={() => setIsDialogOpen(true)}
-                className="bg-rose-900 hover:bg-rose-800 text-white rounded-xl shadow-sm gap-2 sm:w-auto w-full"
+                className="bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 text-white font-bold rounded-full px-6 shadow-md shadow-red-500/20 gap-2 sm:w-auto w-full transition-transform hover:scale-105"
               >
                 <RefreshCw className="h-4 w-4" />
                 <span>Extend Loan</span>
               </Button>
             </DialogTrigger>
 
-            <DialogContent className="bg-[#FDFBF7] border-stone-200 rounded-2xl sm:max-w-md">
+            <DialogContent className="bg-white border-2 border-blue-100 rounded-3xl sm:max-w-md">
               <DialogHeader>
-                <DialogTitle className="font-serif text-2xl font-bold text-stone-900">
-                  Extend Book Loan
+                <DialogTitle className="font-display text-2xl font-extrabold text-blue-950">
+                  Extend Your Book Loan
                 </DialogTitle>
-                <DialogDescription className="text-stone-600 pt-1">
-                  Would you like to extend your loan for{' '}
-                  <span className="font-semibold text-stone-900">"{loan.book.title}"</span>?
+                <DialogDescription className="text-slate-600 pt-1 font-medium">
+                  Would you like to extend the return due date for{' '}
+                  <span className="font-bold text-blue-700">"{loan.book.title}"</span>?
                 </DialogDescription>
               </DialogHeader>
 
-              <div className="my-2 rounded-xl bg-white p-4 border border-stone-200/80 space-y-2 text-xs">
+              <div className="my-2 rounded-2xl bg-gradient-to-r from-blue-50 to-red-50 p-4 border border-blue-100 space-y-2 text-xs">
                 <div className="flex justify-between">
-                  <span className="text-stone-500">Call Number:</span>
-                  <span className="font-mono font-medium text-stone-900">{loan.book.call_number}</span>
+                  <span className="font-semibold text-slate-500">Call Number:</span>
+                  <span className="font-mono font-bold text-blue-800">{loan.book.call_number}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-stone-500">Current Return Due Date:</span>
-                  <span className="font-semibold text-rose-900">{formattedReturnDate}</span>
+                  <span className="font-semibold text-slate-500">Current Return Date:</span>
+                  <span className="font-extrabold text-red-600">{formattedReturnDate}</span>
                 </div>
               </div>
 
@@ -280,14 +280,14 @@ function LoanCard({
                 <Button
                   variant="outline"
                   onClick={() => setIsDialogOpen(false)}
-                  className="rounded-xl border-stone-300"
+                  className="rounded-full border-blue-200 font-bold text-slate-700"
                 >
                   Cancel
                 </Button>
                 <Button
                   onClick={handleExtend}
                   disabled={isExtending}
-                  className="bg-rose-900 hover:bg-rose-800 text-white rounded-xl gap-2"
+                  className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold rounded-full gap-2 shadow-md"
                 >
                   <RefreshCw className={`h-4 w-4 ${isExtending ? 'animate-spin' : ''}`} />
                   {isExtending ? "Extending..." : "Confirm Extension"}
@@ -299,9 +299,9 @@ function LoanCard({
           <Button
             variant="outline"
             disabled
-            className="rounded-xl border-stone-200 text-stone-400 sm:w-auto w-full"
+            className="rounded-full border-slate-200 text-slate-400 font-bold sm:w-auto w-full"
           >
-            Extension Used
+            Already Extended
           </Button>
         )}
       </div>
@@ -399,73 +399,73 @@ export default function MemberProfile() {
   return (
     <div className="max-w-6xl mx-auto space-y-8">
       {/* Page Header */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-stone-200/80 pb-6">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-blue-100 pb-6">
         <div>
-          <div className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest text-rose-800 mb-1.5">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-50 border border-red-200 text-xs font-extrabold uppercase tracking-widest text-red-600 mb-2">
             <Sparkles className="h-3.5 w-3.5" />
             <span>Member Loan Portal</span>
           </div>
-          <h1 className="font-serif text-3xl sm:text-4xl font-bold text-stone-900">
-            My Loans & Return Schedule
+          <h1 className="font-display text-3xl sm:text-4xl font-extrabold text-blue-950">
+            My Loans & Return Dates
           </h1>
-          <p className="text-sm sm:text-base text-stone-600 mt-1">
-            Track your borrowed books, check upcoming return deadlines, and extend active loans.
+          <p className="text-sm sm:text-base text-slate-600 mt-1 font-medium">
+            See when your borrowed books are due back and extend active loans with one click!
           </p>
         </div>
 
         <Link href="/books">
-          <Button variant="outline" className="rounded-xl border-stone-300 bg-white hover:bg-stone-100 text-stone-800 gap-2">
-            <BookOpen className="h-4 w-4 text-rose-800" />
+          <Button className="rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold px-6 shadow-md gap-2">
+            <BookOpen className="h-4 w-4" />
             <span>Browse More Books</span>
           </Button>
         </Link>
       </div>
 
       {/* Quick Summary Metrics Row */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="paper-card rounded-2xl p-5 flex items-center gap-4">
-          <div className="h-12 w-12 rounded-xl bg-rose-900/10 text-rose-900 flex items-center justify-center shrink-0">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+        <div className="bg-white border-2 border-blue-100 rounded-3xl p-5 flex items-center gap-4 shadow-md shadow-blue-900/5">
+          <div className="h-13 w-13 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-700 text-white flex items-center justify-center shrink-0 p-3.5 shadow-md shadow-blue-600/20">
             <BookOpen className="h-6 w-6" />
           </div>
           <div>
-            <div className="text-xs font-medium uppercase tracking-wider text-stone-400">
+            <div className="text-xs font-extrabold uppercase tracking-wider text-blue-600">
               Active Loans
             </div>
-            <div className="font-serif text-2xl font-bold text-stone-900">
+            <div className="font-display text-2xl font-extrabold text-slate-900">
               {totalLoans} {totalLoans === 1 ? 'Book' : 'Books'}
             </div>
           </div>
         </div>
 
-        <div className="paper-card rounded-2xl p-5 flex items-center gap-4">
+        <div className="bg-white border-2 border-red-100 rounded-3xl p-5 flex items-center gap-4 shadow-md shadow-red-900/5">
           <div
-            className={`h-12 w-12 rounded-xl flex items-center justify-center shrink-0 ${
+            className={`h-13 w-13 rounded-2xl flex items-center justify-center shrink-0 p-3.5 shadow-md ${
               dueSoonOrOverdueCount > 0
-                ? 'bg-amber-500/15 text-amber-800'
-                : 'bg-emerald-500/10 text-emerald-800'
+                ? 'bg-gradient-to-br from-red-500 to-rose-600 text-white shadow-red-500/20'
+                : 'bg-gradient-to-br from-emerald-500 to-teal-600 text-white shadow-emerald-500/20'
             }`}
           >
             <Clock className="h-6 w-6" />
           </div>
           <div>
-            <div className="text-xs font-medium uppercase tracking-wider text-stone-400">
-              Due Soon / Overdue
+            <div className="text-xs font-extrabold uppercase tracking-wider text-red-500">
+              Return Schedule
             </div>
-            <div className="font-serif text-2xl font-bold text-stone-900">
-              {dueSoonOrOverdueCount === 0 ? 'All On Time' : `${dueSoonOrOverdueCount} Attention`}
+            <div className="font-display text-2xl font-extrabold text-slate-900">
+              {dueSoonOrOverdueCount === 0 ? 'All On Time!' : `${dueSoonOrOverdueCount} Due Soon`}
             </div>
           </div>
         </div>
 
-        <div className="paper-card rounded-2xl p-5 flex items-center gap-4">
-          <div className="h-12 w-12 rounded-xl bg-stone-100 text-stone-700 flex items-center justify-center shrink-0">
+        <div className="bg-white border-2 border-indigo-100 rounded-3xl p-5 flex items-center gap-4 shadow-md shadow-indigo-900/5">
+          <div className="h-13 w-13 rounded-2xl bg-gradient-to-br from-indigo-500 to-blue-600 text-white flex items-center justify-center shrink-0 p-3.5 shadow-md shadow-indigo-500/20">
             <RefreshCw className="h-6 w-6" />
           </div>
           <div>
-            <div className="text-xs font-medium uppercase tracking-wider text-stone-400">
-              Eligible to Extend
+            <div className="text-xs font-extrabold uppercase tracking-wider text-indigo-600">
+              Can Extend Online
             </div>
-            <div className="font-serif text-2xl font-bold text-stone-900">
+            <div className="font-display text-2xl font-extrabold text-slate-900">
               {extendableCount} {extendableCount === 1 ? 'Loan' : 'Loans'}
             </div>
           </div>
@@ -476,28 +476,28 @@ export default function MemberProfile() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* Left Column: Library Membership Card */}
         <div className="lg:col-span-4 space-y-6">
-          <div className="paper-card rounded-2xl overflow-hidden">
+          <div className="bg-white border-2 border-blue-100 rounded-3xl overflow-hidden shadow-xl shadow-blue-900/5">
             {/* Digital Library Card Header */}
-            <div className="bg-gradient-to-br from-rose-950 via-rose-900 to-stone-900 p-6 text-white">
+            <div className="bg-gradient-to-br from-blue-900 via-indigo-800 to-red-700 p-6 text-white">
               <div className="flex items-center justify-between mb-4">
-                <span className="text-[10px] font-semibold uppercase tracking-widest text-rose-200/90">
-                  PMC Community Library
+                <span className="text-[11px] font-extrabold uppercase tracking-widest text-blue-200">
+                  PMC Library Pass
                 </span>
-                <UserCheck className="h-4 w-4 text-rose-200" />
+                <UserCheck className="h-4 w-4 text-red-300" />
               </div>
 
               <div className="flex items-center gap-4">
-                <Avatar className="h-14 w-14 border-2 border-white/20 bg-rose-800 text-white">
-                  <AvatarFallback className="bg-rose-800 text-white font-serif text-xl font-bold">
+                <Avatar className="h-15 w-15 border-2 border-white/40 bg-red-500 text-white shadow-md">
+                  <AvatarFallback className="bg-gradient-to-br from-red-500 to-rose-600 text-white font-display text-xl font-extrabold">
                     {memberName?.[0]?.toUpperCase() || 'M'}
                   </AvatarFallback>
                 </Avatar>
                 <div className="min-w-0">
-                  <h2 className="font-serif text-xl font-bold text-white truncate">
+                  <h2 className="font-display text-xl font-extrabold text-white truncate">
                     {memberName}
                   </h2>
                   {memberEmail && (
-                    <p className="text-xs text-rose-100/80 truncate mt-0.5">
+                    <p className="text-xs text-blue-100 truncate mt-0.5 font-medium">
                       {memberEmail}
                     </p>
                   )}
@@ -505,9 +505,9 @@ export default function MemberProfile() {
               </div>
 
               {memberCode && (
-                <div className="mt-5 pt-4 border-t border-white/15 flex items-center justify-between text-xs">
-                  <span className="text-rose-200/80">Member ID / Code</span>
-                  <span className="font-mono font-semibold text-white bg-white/10 px-2.5 py-0.5 rounded">
+                <div className="mt-5 pt-4 border-t border-white/20 flex items-center justify-between text-xs">
+                  <span className="text-blue-100 font-semibold">Member Code</span>
+                  <span className="font-mono font-extrabold text-white bg-white/20 px-3 py-1 rounded-full">
                     {memberCode}
                   </span>
                 </div>
@@ -519,30 +519,31 @@ export default function MemberProfile() {
               <Link href="/profile/edit" className="block">
                 <Button
                   variant="outline"
-                  className="w-full justify-start gap-2.5 rounded-xl border-stone-200 text-stone-700 hover:bg-stone-100 hover:text-stone-900 h-10"
+                  className="w-full justify-start gap-2.5 rounded-2xl border-blue-100 text-blue-900 hover:bg-blue-50 font-bold h-11"
                 >
-                  <Settings className="h-4 w-4 text-stone-500" />
-                  <span>Edit Personal Details</span>
+                  <Settings className="h-4 w-4 text-blue-600" />
+                  <span>Edit My Profile</span>
                 </Button>
               </Link>
               <Button
                 onClick={handleSignOut}
                 variant="ghost"
-                className="w-full justify-start gap-2.5 rounded-xl text-rose-800 hover:bg-rose-50 hover:text-rose-900 h-10"
+                className="w-full justify-start gap-2.5 rounded-2xl text-red-600 hover:bg-red-50 hover:text-red-700 font-bold h-11"
               >
                 <LogOut className="h-4 w-4" />
-                <span>Sign Out of Account</span>
+                <span>Sign Out</span>
               </Button>
             </div>
           </div>
 
           {/* Helpful Borrowing Policy Note */}
-          <div className="rounded-2xl bg-[#FAF6EE] border border-stone-200/80 p-5 space-y-2">
-            <h3 className="font-serif font-bold text-stone-900 text-base">
-              Loan Renewal Guidelines
+          <div className="rounded-3xl bg-gradient-to-br from-blue-50 to-red-50 border-2 border-blue-100 p-5 space-y-2">
+            <h3 className="font-display font-extrabold text-blue-950 text-base flex items-center gap-2">
+              <Sparkles className="h-4 w-4 text-red-500" />
+              Quick Loan Tip
             </h3>
-            <p className="text-xs text-stone-600 leading-relaxed">
-              Each borrowed book can be extended online once before its return due date. Please return books on time so other community members may enjoy them.
+            <p className="text-xs text-slate-600 leading-relaxed font-medium">
+              Each borrowed book can be extended online once before its return due date. Returning books on time helps everyone in our community enjoy them!
             </p>
           </div>
         </div>
@@ -550,50 +551,50 @@ export default function MemberProfile() {
         {/* Right Column: Outstanding Loans List */}
         <div className="lg:col-span-8 space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="font-serif text-2xl font-bold text-stone-900 flex items-center gap-2.5">
-              <BookOpen className="h-5 w-5 text-rose-800" />
-              <span>Outstanding Loans</span>
+            <h2 className="font-display text-2xl font-extrabold text-blue-950 flex items-center gap-2.5">
+              <BookOpen className="h-6 w-6 text-red-500" />
+              <span>Your Borrowed Books</span>
             </h2>
             <Button
               variant="ghost"
               size="sm"
               onClick={queryMember}
-              className="text-xs text-stone-500 hover:text-stone-900 gap-1.5"
+              className="text-xs font-bold text-blue-600 hover:bg-blue-50 rounded-full gap-1.5"
             >
               <RefreshCw className={`h-3.5 w-3.5 ${isLoadingLoans ? 'animate-spin' : ''}`} />
-              <span>Refresh</span>
+              <span>Refresh List</span>
             </Button>
           </div>
 
           {isLoadingLoans ? (
             <div className="space-y-4">
               {[1, 2].map((n) => (
-                <div key={n} className="paper-card rounded-2xl p-6 animate-pulse space-y-4">
-                  <div className="h-4 w-1/4 bg-stone-200 rounded" />
-                  <div className="h-6 w-2/3 bg-stone-200 rounded" />
+                <div key={n} className="bg-white border-2 border-blue-100 rounded-3xl p-6 animate-pulse space-y-4">
+                  <div className="h-4 w-1/4 bg-blue-100 rounded-full" />
+                  <div className="h-6 w-2/3 bg-blue-100 rounded-xl" />
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="h-14 bg-stone-200 rounded-xl" />
-                    <div className="h-14 bg-stone-200 rounded-xl" />
+                    <div className="h-14 bg-blue-50 rounded-2xl" />
+                    <div className="h-14 bg-red-50 rounded-2xl" />
                   </div>
                 </div>
               ))}
             </div>
           ) : outstandingLoans.length === 0 ? (
-            <div className="paper-card rounded-2xl p-10 text-center space-y-4">
-              <div className="h-14 w-14 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center mx-auto">
-                <CheckCircle2 className="h-7 w-7" />
+            <div className="bg-white border-2 border-blue-100 rounded-3xl p-10 text-center space-y-4 shadow-sm">
+              <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-blue-50 to-emerald-50 text-emerald-600 flex items-center justify-center mx-auto border border-emerald-200">
+                <CheckCircle2 className="h-8 w-8" />
               </div>
               <div className="space-y-1 max-w-md mx-auto">
-                <h3 className="font-serif text-xl font-bold text-stone-900">
-                  No Outstanding Loans
+                <h3 className="font-display text-xl font-extrabold text-blue-950">
+                  No Active Loans Right Now!
                 </h3>
-                <p className="text-sm text-stone-500 leading-relaxed">
-                  You don't have any borrowed books due for return right now. Explore our catalogue to discover your next great read!
+                <p className="text-sm text-slate-500 leading-relaxed font-medium">
+                  You don't have any borrowed books due for return. Ready to discover your next favorite read?
                 </p>
               </div>
               <div className="pt-2">
                 <Link href="/books">
-                  <Button className="bg-rose-900 hover:bg-rose-800 text-white rounded-xl gap-2">
+                  <Button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold rounded-full px-7 shadow-md gap-2">
                     <span>Explore Book Catalogue</span>
                     <ArrowRight className="h-4 w-4" />
                   </Button>

@@ -56,47 +56,47 @@ export default function SignUpPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FDFBF7]">
+    <div className="min-h-screen flex flex-col">
       <Header />
 
       <main className="flex-grow flex items-center justify-center p-4 sm:p-6 lg:p-10">
-        <div className="w-full max-w-4xl grid md:grid-cols-12 rounded-3xl overflow-hidden paper-card shadow-lg">
+        <div className="w-full max-w-4xl grid md:grid-cols-12 rounded-3xl overflow-hidden bg-white border-2 border-blue-100 shadow-2xl shadow-blue-900/10">
           {/* Left Panel */}
-          <div className="md:col-span-5 bg-gradient-to-br from-stone-900 via-rose-950 to-rose-900 p-8 text-white flex flex-col justify-between">
+          <div className="md:col-span-5 bg-gradient-to-br from-red-600 via-rose-600 to-blue-900 p-8 text-white flex flex-col justify-between">
             <div className="space-y-6">
-              <div className="inline-flex items-center gap-2.5 bg-white/10 backdrop-blur-sm px-3 py-1.5 rounded-xl border border-white/15">
+              <div className="inline-flex items-center gap-2.5 bg-white/15 backdrop-blur-sm px-3.5 py-1.5 rounded-full border border-white/20">
                 <Image
                   src="/pmc_logo.png"
                   alt="PMC Library"
                   width={24}
                   height={24}
-                  className="bg-white rounded p-0.5"
+                  className="bg-white rounded-full p-0.5"
                 />
-                <span className="text-xs font-semibold tracking-wide">Join Our Community</span>
+                <span className="text-xs font-extrabold tracking-wide">Join Our Community</span>
               </div>
 
               <div className="space-y-2 pt-2">
-                <h1 className="font-serif text-2xl sm:text-3xl font-bold text-white leading-snug">
-                  Become a Library Member
+                <h1 className="font-display text-2xl sm:text-3xl font-extrabold text-white leading-snug">
+                  Become a Library Member!
                 </h1>
-                <p className="text-xs sm:text-sm text-rose-100/80 leading-relaxed">
-                  Register an online account to connect with our community catalogue, track your borrowed books, and renew loans with ease.
+                <p className="text-xs sm:text-sm text-red-100 leading-relaxed font-medium">
+                  Sign up for free to borrow books, track return due dates online, and extend your loans anytime!
                 </p>
               </div>
 
-              <div className="space-y-3 pt-4 border-t border-white/15 text-xs text-rose-100/90">
+              <div className="space-y-3 pt-4 border-t border-white/20 text-xs text-white font-semibold">
                 <div className="flex items-center gap-2.5">
-                  <Sparkles className="h-4 w-4 text-rose-300 shrink-0" />
-                  <span>Free membership for community readers</span>
+                  <Sparkles className="h-4 w-4 text-yellow-300 shrink-0" />
+                  <span>Free membership for everyone</span>
                 </div>
                 <div className="flex items-center gap-2.5">
-                  <BookOpen className="h-4 w-4 text-rose-300 shrink-0" />
-                  <span>Full online loan management & extensions</span>
+                  <BookOpen className="h-4 w-4 text-blue-200 shrink-0" />
+                  <span>Easy online loan extensions & due dates</span>
                 </div>
               </div>
             </div>
 
-            <div className="pt-8 text-[11px] text-rose-200/60">
+            <div className="pt-8 text-[11px] font-bold text-white/75">
               Pioneer Methodist Community Library
             </div>
           </div>
@@ -104,21 +104,21 @@ export default function SignUpPage() {
           {/* Right Panel: Registration Form */}
           <div className="md:col-span-7 p-6 sm:p-10 bg-white flex flex-col justify-center">
             <div className="mb-6">
-              <h2 className="font-serif text-2xl sm:text-3xl font-bold text-stone-900">
+              <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-blue-950">
                 Create Member Account
               </h2>
-              <p className="text-sm text-stone-500 mt-1">
+              <p className="text-sm text-slate-500 mt-1 font-medium">
                 Enter your email address and choose a password to get started
               </p>
             </div>
 
             <form onSubmit={handleSignUp} className="space-y-4">
               <div className="space-y-1.5">
-                <Label htmlFor="email" className="text-xs font-semibold uppercase tracking-wider text-stone-600">
+                <Label htmlFor="email" className="text-xs font-extrabold uppercase tracking-wider text-blue-900">
                   Email Address
                 </Label>
                 <div className="relative">
-                  <Mail className="h-4 w-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                  <Mail className="h-4 w-4 text-blue-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
                   <Input
                     type="email"
                     id="email"
@@ -126,17 +126,17 @@ export default function SignUpPage() {
                     onChange={(e) => setEmail(e.target.value)}
                     required
                     placeholder="name@example.com"
-                    className="pl-10 h-11 rounded-xl border-stone-300 focus-visible:ring-rose-800"
+                    className="pl-10 h-11 rounded-xl border-blue-200 focus-visible:ring-blue-600"
                   />
                 </div>
               </div>
 
               <div className="space-y-1.5">
-                <Label htmlFor="password" className="text-xs font-semibold uppercase tracking-wider text-stone-600">
+                <Label htmlFor="password" className="text-xs font-extrabold uppercase tracking-wider text-blue-900">
                   Password
                 </Label>
                 <div className="relative">
-                  <Lock className="h-4 w-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                  <Lock className="h-4 w-4 text-blue-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
                   <Input
                     type="password"
                     id="password"
@@ -144,7 +144,7 @@ export default function SignUpPage() {
                     onChange={(e) => setPassword(e.target.value)}
                     required
                     placeholder="Create a secure password"
-                    className="pl-10 h-11 rounded-xl border-stone-300 focus-visible:ring-rose-800"
+                    className="pl-10 h-11 rounded-xl border-blue-200 focus-visible:ring-blue-600"
                   />
                 </div>
               </div>
@@ -160,7 +160,7 @@ export default function SignUpPage() {
               {success && (
                 <Alert className="rounded-xl border-emerald-200 bg-emerald-50 text-emerald-900">
                   <CheckCircle2 className="h-4 w-4 text-emerald-600" />
-                  <AlertTitle className="font-semibold">Account Created!</AlertTitle>
+                  <AlertTitle className="font-bold">Account Created!</AlertTitle>
                   <AlertDescription>
                     Registration successful! Redirecting you to sign in...
                   </AlertDescription>
@@ -170,27 +170,27 @@ export default function SignUpPage() {
               <Button
                 type="submit"
                 disabled={isLoading || success}
-                className="w-full h-11 bg-rose-900 hover:bg-rose-800 text-white rounded-xl font-medium shadow-sm mt-2 gap-2"
+                className="w-full h-12 bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 text-white rounded-full font-bold text-base shadow-lg shadow-red-500/25 mt-2 gap-2"
               >
                 <UserPlus className="h-4 w-4" />
-                <span>{isLoading ? 'Creating Account...' : 'Register Member Account'}</span>
+                <span>{isLoading ? 'Creating Account...' : 'Join Library Free'}</span>
               </Button>
             </form>
 
-            <div className="mt-8 pt-6 border-t border-stone-100 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm">
-              <p className="text-stone-600">
+            <div className="mt-8 pt-6 border-t border-blue-50 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm">
+              <p className="text-slate-600 font-medium">
                 Already have an account?{' '}
-                <Link href="/signIn" className="font-semibold text-rose-900 hover:underline">
+                <Link href="/signIn" className="font-extrabold text-blue-600 hover:underline">
                   Sign in here
                 </Link>
               </p>
 
               <Link
                 href="/"
-                className="text-stone-500 hover:text-stone-900 inline-flex items-center gap-1"
+                className="text-blue-600 font-bold hover:text-blue-800 inline-flex items-center gap-1"
               >
                 <ArrowLeft className="h-3.5 w-3.5" />
-                <span>Back home</span>
+                <span>Back Home</span>
               </Link>
             </div>
           </div>

@@ -83,14 +83,14 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
     return (
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="max-w-5xl mx-auto animate-pulse space-y-8">
-          <div className="h-5 w-36 bg-stone-200 rounded" />
+          <div className="h-5 w-36 bg-blue-100 rounded-full" />
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
-            <div className="md:col-span-4 aspect-[3/4] bg-stone-200 rounded-2xl" />
+            <div className="md:col-span-4 aspect-[3/4] bg-blue-100/70 rounded-3xl" />
             <div className="md:col-span-8 space-y-4">
-              <div className="h-6 w-32 bg-stone-200 rounded-full" />
-              <div className="h-10 w-3/4 bg-stone-200 rounded" />
-              <div className="h-5 w-1/3 bg-stone-200 rounded" />
-              <div className="h-32 w-full bg-stone-200 rounded-xl mt-6" />
+              <div className="h-6 w-32 bg-blue-100 rounded-full" />
+              <div className="h-10 w-3/4 bg-blue-100 rounded-xl" />
+              <div className="h-5 w-1/3 bg-blue-100 rounded-xl" />
+              <div className="h-32 w-full bg-blue-50 rounded-2xl mt-6" />
             </div>
           </div>
         </div>
@@ -110,26 +110,26 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
       : null
 
   return (
-    <div className="min-h-screen bg-[#FDFBF7] py-8 sm:py-12">
+    <div className="min-h-screen py-8 sm:py-12">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
         {/* Back navigation */}
         <div className="mb-6">
           <Button
             variant="ghost"
             onClick={() => router.back()}
-            className="text-stone-600 hover:text-stone-900 hover:bg-stone-200/50 -ml-3 gap-2 text-sm font-medium"
+            className="text-blue-700 hover:text-blue-900 hover:bg-blue-50 -ml-3 gap-2 text-sm font-bold rounded-full px-4"
           >
             <ArrowLeft className="h-4 w-4" />
-            <span>Back to Catalogue</span>
+            <span>Back to Book Catalogue</span>
           </Button>
         </div>
 
         {/* Main Book Showcase Card */}
-        <div className="paper-card rounded-3xl p-6 sm:p-8 lg:p-10">
+        <div className="bg-white border-2 border-blue-100 rounded-3xl p-6 sm:p-8 lg:p-10 shadow-xl shadow-blue-900/5">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-start">
             {/* Left Column: Book Cover */}
             <div className="md:col-span-4 flex flex-col items-center">
-              <div className="w-full max-w-[280px] aspect-[3/4] rounded-2xl bg-[#F5F0E6] border border-stone-200/80 overflow-hidden book-shadow flex items-center justify-center relative">
+              <div className="w-full max-w-[280px] aspect-[3/4] rounded-2xl bg-gradient-to-br from-blue-50 via-indigo-50/40 to-red-50 border-2 border-blue-100 overflow-hidden book-shadow flex items-center justify-center relative">
                 {coverUrl ? (
                   <Image
                     src={coverUrl}
@@ -140,8 +140,10 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
                   />
                 ) : (
                   <div className="flex flex-col items-center justify-center p-6 text-center">
-                    <BookOpen className="w-16 h-16 text-stone-400/80 mb-3 stroke-[1.25]" />
-                    <span className="font-serif text-sm text-stone-500 font-medium">
+                    <div className="h-16 w-16 rounded-2xl bg-white shadow-sm flex items-center justify-center mb-3 text-blue-600">
+                      <BookOpen className="w-9 h-9" />
+                    </div>
+                    <span className="font-display text-sm text-blue-950 font-bold">
                       {book.title}
                     </span>
                   </div>
@@ -150,24 +152,24 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
 
               {/* Availability Status Card under cover */}
               <div
-                className={`w-full max-w-[280px] mt-5 rounded-xl p-3.5 border flex items-center justify-between ${
+                className={`w-full max-w-[280px] mt-5 rounded-2xl p-4 border-2 flex items-center justify-between ${
                   available
-                    ? 'bg-emerald-50/70 border-emerald-200 text-emerald-900'
-                    : 'bg-amber-50/70 border-amber-200 text-amber-900'
+                    ? 'bg-emerald-50/80 border-emerald-200 text-emerald-900'
+                    : 'bg-red-50/80 border-red-200 text-red-900'
                 }`}
               >
-                <div className="flex items-center gap-2.5">
+                <div className="flex items-center gap-3">
                   {available ? (
-                    <CheckCircle2 className="h-5 w-5 text-emerald-600 shrink-0" />
+                    <CheckCircle2 className="h-6 w-6 text-emerald-600 shrink-0" />
                   ) : (
-                    <XCircle className="h-5 w-5 text-amber-600 shrink-0" />
+                    <XCircle className="h-6 w-6 text-red-500 shrink-0" />
                   )}
                   <div>
-                    <div className="text-xs font-semibold uppercase tracking-wider">
+                    <div className="text-xs font-extrabold uppercase tracking-wider">
                       {available ? 'Available on Shelf' : 'Currently Checked Out'}
                     </div>
-                    <div className="text-[11px] opacity-80">
-                      Call No: <span className="font-mono font-semibold">{code}</span>
+                    <div className="text-xs font-medium opacity-85 mt-0.5">
+                      Call No: <span className="font-mono font-bold">{code}</span>
                     </div>
                   </div>
                 </div>
@@ -182,96 +184,104 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
                   {book_category?.name && (
                     <Badge
                       variant="secondary"
-                      className="bg-rose-900/10 text-rose-900 hover:bg-rose-900/15 border border-rose-900/15 px-3 py-1 text-xs font-semibold"
+                      className="bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200 px-3.5 py-1 text-xs font-extrabold rounded-full"
                     >
                       {book_category.name}
                     </Badge>
                   )}
                   <Badge
                     variant="outline"
-                    className={
+                    className={`rounded-full px-3.5 py-1 text-xs font-extrabold ${
                       available
-                        ? 'border-emerald-300 bg-emerald-50 text-emerald-800'
-                        : 'border-amber-300 bg-amber-50 text-amber-800'
-                    }
+                        ? 'border-emerald-300 bg-emerald-50 text-emerald-700'
+                        : 'border-red-300 bg-red-50 text-red-600'
+                    }`}
                   >
-                    {available ? 'Available for Loan' : 'On Loan'}
+                    {available ? 'Ready to Borrow' : 'On Loan'}
                   </Badge>
                 </div>
 
                 {/* Title & Author */}
-                <h1 className="font-serif text-3xl sm:text-4xl font-bold text-stone-900 leading-tight">
+                <h1 className="font-display text-3xl sm:text-4xl font-extrabold text-blue-950 leading-tight">
                   {book.title}
                 </h1>
-                <p className="text-lg text-stone-600 mt-1.5 flex items-center gap-2">
+                <p className="text-lg text-slate-600 mt-1.5 flex items-center gap-2 font-medium">
                   <span>By</span>
-                  <span className="font-semibold text-stone-900">
+                  <span className="font-bold text-red-600">
                     {author?.name || 'Unknown Author'}
                   </span>
                 </p>
 
                 {/* Description / Synopsis */}
                 {book.description ? (
-                  <div className="mt-6 pt-6 border-t border-stone-200/80">
-                    <h2 className="text-xs font-semibold uppercase tracking-widest text-stone-400 mb-2.5">
+                  <div className="mt-6 pt-6 border-t border-blue-100">
+                    <h2 className="text-xs font-extrabold uppercase tracking-widest text-blue-600 mb-2.5">
                       About This Book
                     </h2>
-                    <p className="text-stone-700 leading-relaxed text-sm sm:text-base whitespace-pre-line">
+                    <p className="text-slate-700 leading-relaxed text-sm sm:text-base whitespace-pre-line">
                       {book.description}
                     </p>
                   </div>
                 ) : (
-                  <div className="mt-6 pt-6 border-t border-stone-200/80">
-                    <p className="text-sm text-stone-500 italic">
+                  <div className="mt-6 pt-6 border-t border-blue-100">
+                    <p className="text-sm text-slate-500 italic">
                       No synopsis provided for this volume. Visit the library shelf at call number{' '}
-                      <span className="font-mono font-semibold text-stone-700">{code}</span> to browse this book in person.
+                      <span className="font-mono font-bold text-blue-700">{code}</span> to check it out in person!
                     </p>
                   </div>
                 )}
 
                 {/* Catalogue Metadata Grid */}
-                <div className="mt-6 pt-6 border-t border-stone-200/80">
-                  <h2 className="text-xs font-semibold uppercase tracking-widest text-stone-400 mb-3.5">
-                    Catalogue Record
+                <div className="mt-6 pt-6 border-t border-blue-100">
+                  <h2 className="text-xs font-extrabold uppercase tracking-widest text-blue-600 mb-3.5">
+                    Book Details
                   </h2>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                    <div className="bg-[#FAF7F2] border border-stone-200/70 rounded-xl p-3.5 flex items-start gap-3">
-                      <Hash className="h-4 w-4 text-rose-800 mt-0.5 shrink-0" />
+                    <div className="bg-blue-50/50 border border-blue-100 rounded-2xl p-3.5 flex items-start gap-3">
+                      <div className="h-8 w-8 rounded-xl bg-blue-600 text-white flex items-center justify-center shrink-0">
+                        <Hash className="h-4 w-4" />
+                      </div>
                       <div>
-                        <div className="text-xs text-stone-400">Call Number / Barcode</div>
-                        <div className="text-sm font-mono font-semibold text-stone-900 mt-0.5">
+                        <div className="text-xs font-semibold text-slate-500">Call Number / Barcode</div>
+                        <div className="text-sm font-mono font-extrabold text-blue-950 mt-0.5">
                           {code || 'N/A'}
                         </div>
                       </div>
                     </div>
 
-                    <div className="bg-[#FAF7F2] border border-stone-200/70 rounded-xl p-3.5 flex items-start gap-3">
-                      <Building2 className="h-4 w-4 text-rose-800 mt-0.5 shrink-0" />
+                    <div className="bg-red-50/50 border border-red-100 rounded-2xl p-3.5 flex items-start gap-3">
+                      <div className="h-8 w-8 rounded-xl bg-red-500 text-white flex items-center justify-center shrink-0">
+                        <Building2 className="h-4 w-4" />
+                      </div>
                       <div>
-                        <div className="text-xs text-stone-400">Publisher</div>
-                        <div className="text-sm font-medium text-stone-900 mt-0.5">
+                        <div className="text-xs font-semibold text-slate-500">Publisher</div>
+                        <div className="text-sm font-bold text-slate-900 mt-0.5">
                           {publisher?.name || 'Not specified'}
                         </div>
                       </div>
                     </div>
 
                     {book.isbn && (
-                      <div className="bg-[#FAF7F2] border border-stone-200/70 rounded-xl p-3.5 flex items-start gap-3">
-                        <BookOpen className="h-4 w-4 text-rose-800 mt-0.5 shrink-0" />
+                      <div className="bg-blue-50/50 border border-blue-100 rounded-2xl p-3.5 flex items-start gap-3">
+                        <div className="h-8 w-8 rounded-xl bg-indigo-600 text-white flex items-center justify-center shrink-0">
+                          <BookOpen className="h-4 w-4" />
+                        </div>
                         <div>
-                          <div className="text-xs text-stone-400">ISBN</div>
-                          <div className="text-sm font-mono font-medium text-stone-900 mt-0.5">
+                          <div className="text-xs font-semibold text-slate-500">ISBN</div>
+                          <div className="text-sm font-mono font-bold text-slate-900 mt-0.5">
                             {book.isbn}
                           </div>
                         </div>
                       </div>
                     )}
 
-                    <div className="bg-[#FAF7F2] border border-stone-200/70 rounded-xl p-3.5 flex items-start gap-3">
-                      <Calendar className="h-4 w-4 text-rose-800 mt-0.5 shrink-0" />
+                    <div className="bg-red-50/50 border border-red-100 rounded-2xl p-3.5 flex items-start gap-3">
+                      <div className="h-8 w-8 rounded-xl bg-rose-500 text-white flex items-center justify-center shrink-0">
+                        <Calendar className="h-4 w-4" />
+                      </div>
                       <div>
-                        <div className="text-xs text-stone-400">Catalogued Date</div>
-                        <div className="text-sm font-medium text-stone-900 mt-0.5">
+                        <div className="text-xs font-semibold text-slate-500">Added to Library</div>
+                        <div className="text-sm font-bold text-slate-900 mt-0.5">
                           {book.inserted_at
                             ? new Date(book.inserted_at).toLocaleDateString('en-GB', {
                                 day: 'numeric',
@@ -284,11 +294,13 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
                     </div>
 
                     {book.price > 0 && (
-                      <div className="bg-[#FAF7F2] border border-stone-200/70 rounded-xl p-3.5 flex items-start gap-3">
-                        <DollarSign className="h-4 w-4 text-rose-800 mt-0.5 shrink-0" />
+                      <div className="bg-blue-50/50 border border-blue-100 rounded-2xl p-3.5 flex items-start gap-3">
+                        <div className="h-8 w-8 rounded-xl bg-blue-600 text-white flex items-center justify-center shrink-0">
+                          <DollarSign className="h-4 w-4" />
+                        </div>
                         <div>
-                          <div className="text-xs text-stone-400">Reference Value</div>
-                          <div className="text-sm font-medium text-stone-900 mt-0.5">
+                          <div className="text-xs font-semibold text-slate-500">Book Value</div>
+                          <div className="text-sm font-bold text-slate-900 mt-0.5">
                             RM {book.price.toFixed(2)}
                           </div>
                         </div>
@@ -299,18 +311,18 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
               </div>
 
               {/* Borrowing Guidance Callout */}
-              <div className="pt-4 border-t border-stone-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-stone-50/80 p-4 rounded-2xl border">
+              <div className="pt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-gradient-to-r from-blue-50 via-indigo-50/50 to-red-50 p-5 rounded-2xl border-2 border-blue-100">
                 <div className="flex items-start gap-3">
-                  <Info className="h-5 w-5 text-rose-800 shrink-0 mt-0.5" />
-                  <div className="text-xs sm:text-sm text-stone-600">
+                  <Info className="h-5 w-5 text-blue-600 shrink-0 mt-0.5" />
+                  <div className="text-xs sm:text-sm text-slate-700 font-medium">
                     {available ? (
                       <>
-                        <span className="font-semibold text-stone-900">Ready to borrow:</span> Locate this book using call number{' '}
-                        <span className="font-mono font-semibold text-stone-800">{code}</span> at the library desk.
+                        <span className="font-extrabold text-blue-950">Want to borrow this book?</span> Find it on the shelf with call number{' '}
+                        <span className="font-mono font-extrabold text-red-600">{code}</span>!
                       </>
                     ) : (
                       <>
-                        <span className="font-semibold text-stone-900">Currently on loan:</span> If you have borrowed this book, you can check its return due date or extend it in your member portal.
+                        <span className="font-extrabold text-blue-950">Borrowed this book?</span> Log in to your member portal to check its return due date or extend your loan!
                       </>
                     )}
                   </div>
@@ -318,12 +330,7 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
 
                 <Link href={user ? '/profile' : '/signIn'} className="shrink-0">
                   <Button
-                    variant={available ? 'default' : 'outline'}
-                    className={
-                      available
-                        ? 'bg-rose-900 hover:bg-rose-800 text-white rounded-xl w-full sm:w-auto'
-                        : 'border-stone-300 text-stone-800 hover:bg-stone-100 rounded-xl w-full sm:w-auto'
-                    }
+                    className="bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 text-white font-bold rounded-full px-6 shadow-md w-full sm:w-auto"
                   >
                     <Clock className="h-4 w-4 mr-2" />
                     {user ? 'My Loans' : 'Member Login'}
@@ -337,36 +344,36 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
         {/* Secondary Info Cards: Category & Author Bio */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
           {book_category && (
-            <div className="paper-card rounded-2xl p-6">
-              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-rose-800 mb-2">
-                <Layers className="h-4 w-4" />
+            <div className="bg-white border-2 border-blue-100 rounded-3xl p-6 shadow-sm">
+              <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-widest text-blue-600 mb-2">
+                <Layers className="h-4 w-4 text-red-500" />
                 <span>Collection Shelf</span>
               </div>
-              <h3 className="font-serif text-xl font-bold text-stone-900 mb-2">
+              <h3 className="font-display text-xl font-extrabold text-blue-950 mb-2">
                 {book_category.name}
               </h3>
               {book_category.description && (
-                <p className="text-sm text-stone-600 mb-4 leading-relaxed">
+                <p className="text-sm text-slate-600 mb-4 leading-relaxed">
                   {book_category.description}
                 </p>
               )}
-              <div className="inline-flex items-center gap-2 text-xs font-medium text-stone-500 bg-stone-100 px-3 py-1.5 rounded-lg">
-                <BookOpen className="h-3.5 w-3.5 text-stone-600" />
+              <div className="inline-flex items-center gap-2 text-xs font-bold text-blue-700 bg-blue-50 border border-blue-200 px-3.5 py-1.5 rounded-full">
+                <BookOpen className="h-3.5 w-3.5 text-blue-600" />
                 <span>{book_category.book_count} books in this category</span>
               </div>
             </div>
           )}
 
           {author?.bio && (
-            <div className="paper-card rounded-2xl p-6">
-              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-rose-800 mb-2">
-                <User className="h-4 w-4" />
+            <div className="bg-white border-2 border-red-100 rounded-3xl p-6 shadow-sm">
+              <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-widest text-red-500 mb-2">
+                <User className="h-4 w-4 text-blue-600" />
                 <span>About the Author</span>
               </div>
-              <h3 className="font-serif text-xl font-bold text-stone-900 mb-2">
+              <h3 className="font-display text-xl font-extrabold text-blue-950 mb-2">
                 {author.name}
               </h3>
-              <p className="text-sm text-stone-600 leading-relaxed">{author.bio}</p>
+              <p className="text-sm text-slate-600 leading-relaxed">{author.bio}</p>
             </div>
           )}
         </div>

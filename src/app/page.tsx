@@ -12,9 +12,9 @@ import {
   Sparkles,
   CheckCircle2,
   Bookmark,
-  Users,
-  ShieldCheck,
-  Clock
+  Clock,
+  Heart,
+  Layers
 } from 'lucide-react'
 import Header from '@/components/ui/header'
 import { Button } from '@/components/ui/button'
@@ -40,38 +40,44 @@ export default function CommunityLibrary() {
   }, [])
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FDFBF7]">
+    <div className="min-h-screen flex flex-col">
       <Header />
 
       <main className="flex-grow">
         {/* Hero Section */}
-        <section className="relative overflow-hidden border-b border-stone-200/80 bg-gradient-to-b from-[#FAF6EE] to-[#FDFBF7] pt-12 pb-20 lg:pt-20 lg:pb-28">
-          {/* Subtle decorative background accents */}
-          <div className="pointer-events-none absolute -top-24 right-0 h-96 w-96 rounded-full bg-rose-900/5 blur-3xl" />
-          <div className="pointer-events-none absolute bottom-0 left-10 h-80 w-80 rounded-full bg-amber-600/5 blur-3xl" />
+        <section className="relative overflow-hidden border-b border-blue-100 bg-gradient-to-br from-blue-50 via-white to-red-50/80 pt-12 pb-20 lg:pt-20 lg:pb-28">
+          {/* Playful decorative floating blobs */}
+          <div className="pointer-events-none absolute -top-20 -right-10 h-96 w-96 rounded-full bg-red-400/15 blur-3xl" />
+          <div className="pointer-events-none absolute top-32 -left-16 h-96 w-96 rounded-full bg-blue-500/15 blur-3xl" />
+          <div className="pointer-events-none absolute bottom-0 right-1/3 h-64 w-64 rounded-full bg-indigo-400/10 blur-3xl" />
 
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-              {/* Left Column: Editorial Copy & CTAs */}
+          <div className="container relative mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid lg:grid-cols-12 gap-12 lg:gap-10 items-center">
+              {/* Left Column: Lively Copy & CTAs */}
               <div className="lg:col-span-7 space-y-6 text-left">
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-900/10 border border-rose-900/15 text-rose-900 text-xs font-semibold tracking-wide uppercase">
-                  <Sparkles className="h-3.5 w-3.5" />
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white shadow-sm border border-blue-200 text-blue-700 text-xs font-extrabold tracking-wide uppercase">
+                  <Heart className="h-3.5 w-3.5 text-red-500 fill-red-500 animate-pulse" />
                   <span>Pioneer Methodist Community Library</span>
                 </div>
 
-                <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-stone-900 tracking-tight leading-[1.12]">
-                  A sanctuary for readers, <br className="hidden sm:inline" />
-                  <span className="text-rose-900 italic font-normal">shared by our community.</span>
+                <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold text-blue-950 tracking-tight leading-[1.12]">
+                  Discover Great Books &{' '}
+                  <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-red-500 bg-clip-text text-transparent">
+                    Manage Loans Easily!
+                  </span>
                 </h1>
 
-                <p className="text-base sm:text-lg text-stone-600 max-w-2xl leading-relaxed">
-                  Explore our curated collection of books across faith, literature, family, and personal growth. Members can effortlessly track borrowed books, check return due dates, and extend active loans online.
+                <p className="text-base sm:text-lg text-slate-600 max-w-2xl leading-relaxed font-medium">
+                  Welcome to your friendly neighborhood book hub! Explore hundreds of inspiring reads across faith, family, and life. Log in anytime to check when your books are due back or extend your loan with a single click.
                 </p>
 
                 <div className="flex flex-wrap items-center gap-4 pt-2">
                   <Link href="/books">
-                    <Button size="lg" className="bg-rose-900 hover:bg-rose-800 text-white rounded-xl px-7 h-12 text-base font-medium shadow-sm flex items-center gap-2">
-                      <Search className="h-4 w-4" />
+                    <Button
+                      size="lg"
+                      className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white rounded-full px-8 h-13 text-base font-bold shadow-lg shadow-blue-600/25 flex items-center gap-2.5 transition-transform hover:scale-105"
+                    >
+                      <Search className="h-5 w-5" />
                       <span>Explore Book Catalogue</span>
                     </Button>
                   </Link>
@@ -80,11 +86,10 @@ export default function CommunityLibrary() {
                     <Link href="/profile">
                       <Button
                         size="lg"
-                        variant="outline"
-                        className="rounded-xl px-6 h-12 text-base font-medium border-stone-300 bg-white hover:bg-stone-100 text-stone-800 flex items-center gap-2"
+                        className="rounded-full px-7 h-13 text-base font-bold bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 text-white shadow-lg shadow-red-500/25 flex items-center gap-2.5 transition-transform hover:scale-105"
                       >
-                        <CalendarClock className="h-4 w-4 text-rose-800" />
-                        <span>Manage My Loans</span>
+                        <CalendarClock className="h-5 w-5" />
+                        <span>My Loans & Due Dates</span>
                       </Button>
                     </Link>
                   ) : (
@@ -92,100 +97,107 @@ export default function CommunityLibrary() {
                       <Button
                         size="lg"
                         variant="outline"
-                        className="rounded-xl px-6 h-12 text-base font-medium border-stone-300 bg-white hover:bg-stone-100 text-stone-800 flex items-center gap-2"
+                        className="rounded-full px-7 h-13 text-base font-bold border-2 border-red-200 bg-white hover:bg-red-50 text-red-600 flex items-center gap-2.5 shadow-sm transition-transform hover:scale-105"
                       >
-                        <CalendarClock className="h-4 w-4 text-rose-800" />
+                        <CalendarClock className="h-5 w-5 text-red-500" />
                         <span>Member Login & Loans</span>
                       </Button>
                     </Link>
                   )}
                 </div>
 
-                {/* Quick Trust / Utility Pills */}
-                <div className="pt-6 grid grid-cols-3 gap-4 max-w-lg border-t border-stone-200/80 text-xs sm:text-sm text-stone-600">
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 className="h-4 w-4 text-emerald-700 shrink-0" />
-                    <span>Live Availability</span>
+                {/* Fun Feature Pills */}
+                <div className="pt-6 flex flex-wrap items-center gap-3 text-xs sm:text-sm font-bold text-slate-700">
+                  <div className="flex items-center gap-2 bg-white/90 px-3.5 py-2 rounded-full border border-blue-100 shadow-sm">
+                    <CheckCircle2 className="h-4 w-4 text-blue-600 shrink-0" />
+                    <span>Live Shelf Status</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 className="h-4 w-4 text-emerald-700 shrink-0" />
-                    <span>1-Click Extensions</span>
+                  <div className="flex items-center gap-2 bg-white/90 px-3.5 py-2 rounded-full border border-red-100 shadow-sm">
+                    <CheckCircle2 className="h-4 w-4 text-red-500 shrink-0" />
+                    <span>1-Click Loan Extension</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <CheckCircle2 className="h-4 w-4 text-emerald-700 shrink-0" />
-                    <span>Clear Due Dates</span>
+                  <div className="flex items-center gap-2 bg-white/90 px-3.5 py-2 rounded-full border border-indigo-100 shadow-sm">
+                    <CheckCircle2 className="h-4 w-4 text-indigo-600 shrink-0" />
+                    <span>Return Date Reminders</span>
                   </div>
                 </div>
               </div>
 
-              {/* Right Column: Visual Preview of Member Loan & Catalogue Card */}
+              {/* Right Column: Interactive-Looking Member Loan Card Preview */}
               <div className="lg:col-span-5">
-                <div className="relative mx-auto max-w-md lg:max-w-none">
-                  {/* Decorative back card */}
-                  <div className="absolute -inset-2 rounded-3xl bg-gradient-to-tr from-rose-900/10 via-stone-200/40 to-amber-500/10 blur-xl" />
+                <div className="relative mx-auto max-w-md lg:max-w-none animate-float-slow">
+                  {/* Vibrant glow behind card */}
+                  <div className="absolute -inset-3 rounded-[2rem] bg-gradient-to-tr from-blue-500/20 via-indigo-400/15 to-red-500/20 blur-xl" />
 
-                  <div className="relative rounded-2xl bg-white border border-stone-200/90 shadow-xl p-6 sm:p-7 space-y-6">
-                    <div className="flex items-center justify-between border-b border-stone-100 pb-4">
+                  <div className="relative rounded-3xl bg-white border-2 border-blue-100 shadow-2xl p-6 sm:p-7 space-y-5">
+                    {/* Card Header */}
+                    <div className="flex items-center justify-between border-b border-slate-100 pb-4">
                       <div className="flex items-center gap-3">
-                        <div className="h-10 w-10 rounded-xl bg-rose-900/10 text-rose-900 flex items-center justify-center">
+                        <div className="h-11 w-11 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white flex items-center justify-center shadow-md shadow-blue-600/20">
                           <Bookmark className="h-5 w-5" />
                         </div>
                         <div>
-                          <div className="text-xs font-semibold uppercase tracking-wider text-stone-400">
-                            Member Portal Preview
+                          <div className="text-[11px] font-extrabold uppercase tracking-wider text-blue-600">
+                            Member Loan Tracker
                           </div>
-                          <div className="font-serif text-lg font-bold text-stone-900">
-                            Active Loan Tracker
+                          <div className="font-display text-lg font-extrabold text-slate-900">
+                            Know When to Return!
                           </div>
                         </div>
                       </div>
-                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-50 text-emerald-800 border border-emerald-200">
-                        <span className="h-1.5 w-1.5 rounded-full bg-emerald-600" />
-                        On Time
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                        <span className="h-2 w-2 rounded-full bg-emerald-500 animate-ping" />
+                        5 Days Left
                       </span>
                     </div>
 
-                    {/* Sample Loan Item 1 */}
-                    <div className="rounded-xl bg-[#FAF7F2] border border-stone-200/80 p-4 space-y-3">
+                    {/* Sample Active Loan Box */}
+                    <div className="rounded-2xl bg-gradient-to-br from-blue-50/70 via-white to-red-50/50 border-2 border-blue-100/80 p-4 space-y-3.5">
                       <div className="flex items-start justify-between gap-2">
                         <div>
-                          <span className="text-[11px] font-mono uppercase tracking-wider text-stone-500 bg-white px-2 py-0.5 rounded border border-stone-200">
+                          <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-blue-700 bg-blue-100/80 px-2.5 py-0.5 rounded-full">
                             Call No: C-204.1
                           </span>
-                          <h4 className="font-serif font-semibold text-stone-900 text-base mt-1.5">
+                          <h4 className="font-display font-extrabold text-slate-900 text-base mt-2">
                             Mere Christianity & Reflections
                           </h4>
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-2 gap-2 pt-1 text-xs">
-                        <div className="bg-white rounded-lg p-2.5 border border-stone-200/60">
-                          <span className="text-stone-400 block">Borrowed Date</span>
-                          <span className="font-medium text-stone-700 mt-0.5 block">05 Oct 2026</span>
+                      <div className="grid grid-cols-2 gap-2.5 text-xs">
+                        <div className="bg-white rounded-xl p-3 border border-blue-100 shadow-sm">
+                          <span className="text-slate-400 font-semibold block">Borrowed On</span>
+                          <span className="font-bold text-slate-800 mt-0.5 block">05 Oct 2026</span>
                         </div>
-                        <div className="bg-white rounded-lg p-2.5 border border-amber-200/80">
-                          <span className="text-amber-800/80 block font-medium">Return Due Date</span>
-                          <span className="font-semibold text-amber-900 mt-0.5 block">19 Oct 2026</span>
+                        <div className="bg-red-50/80 rounded-xl p-3 border border-red-200 shadow-sm">
+                          <span className="text-red-600 font-bold block">Return Due Date</span>
+                          <span className="font-extrabold text-red-700 mt-0.5 block">19 Oct 2026</span>
                         </div>
                       </div>
 
                       <div className="flex items-center justify-between pt-1">
-                        <span className="text-xs text-stone-500 flex items-center gap-1.5">
-                          <Clock className="h-3.5 w-3.5 text-amber-600" />
-                          Eligible for online renewal
+                        <span className="text-xs font-semibold text-slate-600 flex items-center gap-1.5">
+                          <Clock className="h-3.5 w-3.5 text-blue-600" />
+                          Need more time to finish?
                         </span>
-                        <span className="inline-flex items-center gap-1 text-xs font-semibold text-rose-900 bg-rose-900/10 px-3 py-1.5 rounded-lg">
+                        <Link
+                          href={user ? '/profile' : '/signIn'}
+                          className="inline-flex items-center gap-1.5 text-xs font-bold text-white bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 px-3.5 py-2 rounded-full shadow-sm transition-transform hover:scale-105"
+                        >
                           <RefreshCw className="h-3 w-3" />
                           Extend Loan
-                        </span>
+                        </Link>
                       </div>
                     </div>
 
                     {/* Bottom Card Callout */}
-                    <div className="flex items-center justify-between text-xs text-stone-500 pt-1">
-                      <span>Log in anytime to check return dates</span>
-                      <Link href={user ? '/profile' : '/signIn'} className="font-semibold text-rose-900 hover:underline flex items-center gap-1">
-                        <span>{user ? 'Go to My Loans' : 'Sign in now'}</span>
+                    <div className="flex items-center justify-between text-xs font-semibold text-slate-500 pt-1">
+                      <span>Manage all your borrowed books online</span>
+                      <Link
+                        href={user ? '/profile' : '/signIn'}
+                        className="font-extrabold text-blue-600 hover:text-red-600 flex items-center gap-1 transition-colors"
+                      >
+                        <span>{user ? 'Go to My Loans' : 'Login Now'}</span>
                         <ArrowRight className="h-3.5 w-3.5" />
                       </Link>
                     </div>
@@ -196,162 +208,205 @@ export default function CommunityLibrary() {
           </div>
         </section>
 
-        {/* How It Works / Core Pillars */}
+        {/* 3 Lively Feature Cards */}
         <section className="py-16 lg:py-24 container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl mx-auto text-center mb-14">
-            <span className="text-xs font-semibold uppercase tracking-widest text-rose-800">
-              Designed for Members
+            <span className="inline-block px-3.5 py-1 rounded-full bg-blue-50 text-xs font-extrabold uppercase tracking-widest text-blue-600 border border-blue-200">
+              How Our Library Works
             </span>
-            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-stone-900 mt-2">
-              Everything you need for your reading journey
+            <h2 className="font-display text-3xl sm:text-4xl font-extrabold text-blue-950 mt-3">
+              Borrowing Books Made Fun & Simple
             </h2>
-            <p className="text-stone-600 mt-3 text-base">
-              Whether you are browsing from home or checking when your borrowed books are due back, our digital catalogue keeps you connected.
+            <p className="text-slate-600 mt-3 text-base font-medium">
+              Whether you're hunting for your next great read or extending a current loan from home, everything is just a tap away.
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {/* Pillar 1 */}
-            <div className="paper-card rounded-2xl p-7 flex flex-col justify-between transition-all hover:shadow-md hover:border-stone-300">
+            {/* Card 1: Blue Theme */}
+            <div className="group bg-white rounded-3xl p-7 border-2 border-blue-100 shadow-lg shadow-blue-900/5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5 hover:border-blue-300 hover:shadow-xl">
               <div>
-                <div className="h-12 w-12 rounded-xl bg-rose-900/10 text-rose-900 flex items-center justify-center mb-6">
-                  <BookOpen className="h-6 w-6" />
+                <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-700 text-white flex items-center justify-center mb-6 shadow-md shadow-blue-600/25 group-hover:scale-110 transition-transform">
+                  <BookOpen className="h-7 w-7" />
                 </div>
-                <h3 className="font-serif text-xl font-bold text-stone-900 mb-2.5">
-                  1. Browse the Catalogue
+                <span className="text-xs font-extrabold uppercase tracking-wider text-blue-600">
+                  Step 01
+                </span>
+                <h3 className="font-display text-xl font-extrabold text-slate-900 mt-1 mb-2.5">
+                  Browse the Catalogue
                 </h3>
-                <p className="text-stone-600 text-sm leading-relaxed">
-                  Search our complete book inventory by title, author, publisher, or category code. Check real-time shelf availability and call numbers before visiting.
+                <p className="text-slate-600 text-sm leading-relaxed">
+                  Explore books by category, title, author, or publisher. Check live shelf availability and call numbers before you visit!
                 </p>
               </div>
-              <div className="pt-6 mt-6 border-t border-stone-100">
-                <Link href="/books" className="inline-flex items-center gap-1.5 text-sm font-semibold text-rose-900 hover:text-rose-700">
-                  <span>View all books</span>
-                  <ArrowRight className="h-4 w-4" />
+              <div className="pt-6 mt-6 border-t border-blue-50">
+                <Link
+                  href="/books"
+                  className="inline-flex items-center gap-1.5 text-sm font-extrabold text-blue-600 group-hover:text-blue-800"
+                >
+                  <span>Browse all books</span>
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </Link>
               </div>
             </div>
 
-            {/* Pillar 2 */}
-            <div className="paper-card rounded-2xl p-7 flex flex-col justify-between transition-all hover:shadow-md hover:border-stone-300">
+            {/* Card 2: Red Theme */}
+            <div className="group bg-white rounded-3xl p-7 border-2 border-red-100 shadow-lg shadow-red-900/5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5 hover:border-red-300 hover:shadow-xl">
               <div>
-                <div className="h-12 w-12 rounded-xl bg-amber-600/10 text-amber-800 flex items-center justify-center mb-6">
-                  <CalendarClock className="h-6 w-6" />
+                <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-red-500 to-rose-600 text-white flex items-center justify-center mb-6 shadow-md shadow-red-500/25 group-hover:scale-110 transition-transform">
+                  <CalendarClock className="h-7 w-7" />
                 </div>
-                <h3 className="font-serif text-xl font-bold text-stone-900 mb-2.5">
-                  2. Track Return Dates
+                <span className="text-xs font-extrabold uppercase tracking-wider text-red-500">
+                  Step 02
+                </span>
+                <h3 className="font-display text-xl font-extrabold text-slate-900 mt-1 mb-2.5">
+                  Know When to Return
                 </h3>
-                <p className="text-stone-600 text-sm leading-relaxed">
-                  Never lose track of when a book is due. Your member profile displays all active loans, borrow dates, upcoming return deadlines, and any overdue alerts.
+                <p className="text-slate-600 text-sm leading-relaxed">
+                  Never miss a due date! Your member dashboard shows clear countdown badges, borrow dates, and exact return deadlines.
                 </p>
               </div>
-              <div className="pt-6 mt-6 border-t border-stone-100">
-                <Link href={user ? "/profile" : "/signIn"} className="inline-flex items-center gap-1.5 text-sm font-semibold text-amber-900 hover:text-amber-700">
-                  <span>Check due dates</span>
-                  <ArrowRight className="h-4 w-4" />
+              <div className="pt-6 mt-6 border-t border-red-50">
+                <Link
+                  href={user ? "/profile" : "/signIn"}
+                  className="inline-flex items-center gap-1.5 text-sm font-extrabold text-red-600 group-hover:text-red-700"
+                >
+                  <span>Check return dates</span>
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </Link>
               </div>
             </div>
 
-            {/* Pillar 3 */}
-            <div className="paper-card rounded-2xl p-7 flex flex-col justify-between transition-all hover:shadow-md hover:border-stone-300">
+            {/* Card 3: Indigo/Blue-Red Blend Theme */}
+            <div className="group bg-white rounded-3xl p-7 border-2 border-indigo-100 shadow-lg shadow-indigo-900/5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5 hover:border-indigo-300 hover:shadow-xl">
               <div>
-                <div className="h-12 w-12 rounded-xl bg-emerald-700/10 text-emerald-800 flex items-center justify-center mb-6">
-                  <RefreshCw className="h-6 w-6" />
+                <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-indigo-500 via-blue-600 to-red-500 text-white flex items-center justify-center mb-6 shadow-md shadow-indigo-500/25 group-hover:scale-110 transition-transform">
+                  <RefreshCw className="h-7 w-7" />
                 </div>
-                <h3 className="font-serif text-xl font-bold text-stone-900 mb-2.5">
-                  3. Extend Loans Online
+                <span className="text-xs font-extrabold uppercase tracking-wider text-indigo-600">
+                  Step 03
+                </span>
+                <h3 className="font-display text-xl font-extrabold text-slate-900 mt-1 mb-2.5">
+                  Extend Loans Online
                 </h3>
-                <p className="text-stone-600 text-sm leading-relaxed">
-                  Need a little more time to finish a chapter? Extend eligible book loans directly from your member dashboard with a single click—no trip required.
+                <p className="text-slate-600 text-sm leading-relaxed">
+                  Still enjoying your book? Extend eligible loans directly from your phone or computer with one click—no need to visit the desk!
                 </p>
               </div>
-              <div className="pt-6 mt-6 border-t border-stone-100">
-                <Link href={user ? "/profile" : "/signIn"} className="inline-flex items-center gap-1.5 text-sm font-semibold text-emerald-800 hover:text-emerald-700">
-                  <span>Extend a loan</span>
-                  <ArrowRight className="h-4 w-4" />
+              <div className="pt-6 mt-6 border-t border-indigo-50">
+                <Link
+                  href={user ? "/profile" : "/signIn"}
+                  className="inline-flex items-center gap-1.5 text-sm font-extrabold text-indigo-600 group-hover:text-indigo-800"
+                >
+                  <span>Extend a book loan</span>
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </Link>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Quick Categories Section (Dynamic if loaded) */}
+        {/* Quick Categories Section */}
         {categories.length > 0 && (
-          <section className="py-14 bg-[#F5F0E6]/70 border-y border-stone-200/80">
+          <section className="py-16 bg-gradient-to-r from-blue-50/80 via-indigo-50/40 to-red-50/80 border-y border-blue-100">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
                 <div>
-                  <span className="text-xs font-semibold uppercase tracking-widest text-stone-500">
-                    Curated Shelves
+                  <span className="text-xs font-extrabold uppercase tracking-widest text-red-500 flex items-center gap-1.5">
+                    <Layers className="h-3.5 w-3.5" />
+                    Curated Book Shelves
                   </span>
-                  <h2 className="font-serif text-2xl sm:text-3xl font-bold text-stone-900 mt-1">
-                    Explore by Category
+                  <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-blue-950 mt-1">
+                    Jump Straight to a Category
                   </h2>
                 </div>
-                <Link href="/books" className="text-sm font-semibold text-rose-900 hover:underline flex items-center gap-1">
-                  <span>View all categories</span>
+                <Link
+                  href="/books"
+                  className="text-sm font-extrabold text-blue-600 hover:text-red-600 flex items-center gap-1 transition-colors"
+                >
+                  <span>See all categories</span>
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3.5">
-                {categories.map((cat: any) => (
-                  <Link
-                    key={cat.id || cat.code}
-                    href={`/books?category_code=${encodeURIComponent(cat.code)}`}
-                    className="group bg-white hover:bg-rose-900 hover:text-white border border-stone-200/90 rounded-xl p-4 transition-all duration-200 shadow-sm flex items-center justify-between"
-                  >
-                    <div className="truncate pr-2">
-                      <span className="text-xs font-mono font-semibold text-rose-800 group-hover:text-rose-200 block">
-                        {cat.code}
-                      </span>
-                      <span className="font-medium text-sm text-stone-800 group-hover:text-white truncate block mt-0.5">
-                        {cat.name || 'Collection'}
-                      </span>
-                    </div>
-                    <ArrowRight className="h-4 w-4 text-stone-400 group-hover:text-white shrink-0 transition-transform group-hover:translate-x-0.5" />
-                  </Link>
-                ))}
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                {categories.map((cat: any, i: number) => {
+                  const isRedAccent = i % 2 === 1
+                  return (
+                    <Link
+                      key={cat.id || cat.code}
+                      href={`/books?category_code=${encodeURIComponent(cat.code)}`}
+                      className={`group bg-white border-2 rounded-2xl p-4 transition-all duration-200 shadow-sm hover:-translate-y-1 hover:shadow-md flex items-center justify-between ${
+                        isRedAccent
+                          ? 'border-red-100 hover:border-red-400 hover:bg-gradient-to-br hover:from-red-500 hover:to-rose-600'
+                          : 'border-blue-100 hover:border-blue-400 hover:bg-gradient-to-br hover:from-blue-600 hover:to-indigo-600'
+                      }`}
+                    >
+                      <div className="truncate pr-2">
+                        <span
+                          className={`inline-block text-[11px] font-mono font-extrabold px-2 py-0.5 rounded-md ${
+                            isRedAccent
+                              ? 'bg-red-50 text-red-600 group-hover:bg-white/20 group-hover:text-white'
+                              : 'bg-blue-50 text-blue-600 group-hover:bg-white/20 group-hover:text-white'
+                          }`}
+                        >
+                          {cat.code}
+                        </span>
+                        <span className="font-bold text-sm text-slate-800 group-hover:text-white truncate block mt-1.5">
+                          {cat.name || 'Collection'}
+                        </span>
+                      </div>
+                      <ArrowRight className="h-4 w-4 text-slate-400 group-hover:text-white shrink-0 transition-transform group-hover:translate-x-1" />
+                    </Link>
+                  )
+                })}
               </div>
             </div>
           </section>
         )}
       </main>
 
-      {/* Warm Editorial Footer */}
-      <footer className="bg-stone-900 text-stone-300 py-14 border-t border-stone-800">
+      {/* Vibrant Blue & Red Banner Footer */}
+      <footer className="bg-gradient-to-r from-blue-950 via-blue-900 to-red-900 text-white py-14">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 pb-10 border-b border-stone-800">
-            <div className="space-y-2 max-w-md">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 pb-10 border-b border-white/15">
+            <div className="space-y-3 max-w-md">
               <div className="flex items-center gap-3">
-                <div className="h-9 w-9 rounded-lg bg-white p-1 flex items-center justify-center">
-                  <Image src="/pmc_logo.png" alt="PMC Library" width={28} height={28} />
+                <div className="h-11 w-11 rounded-2xl bg-white p-1.5 flex items-center justify-center shadow-md">
+                  <Image src="/pmc_logo.png" alt="PMC Library" width={32} height={32} />
                 </div>
-                <span className="font-serif text-xl font-bold text-white">
-                  PMC Library
-                </span>
+                <div>
+                  <span className="font-display text-2xl font-extrabold text-white block leading-none">
+                    PMC Library
+                  </span>
+                  <span className="text-xs font-bold text-red-300 uppercase tracking-wider">
+                    Discover • Learn • Connect
+                  </span>
+                </div>
               </div>
-              <p className="text-sm text-stone-400 leading-relaxed pt-1">
-                A community resource hub fostering learning, reflection, and connection. Borrow books, manage your reading schedule, and grow together.
+              <p className="text-sm text-blue-100/90 leading-relaxed pt-1">
+                Our community library is open to everyone! Borrow inspiring books, keep track of your return dates online, and grow together.
               </p>
             </div>
 
             <div className="flex flex-wrap gap-3">
               <Link href="/books">
-                <Button variant="outline" className="border-stone-700 bg-stone-800/60 text-stone-200 hover:bg-stone-800 hover:text-white">
+                <Button
+                  variant="outline"
+                  className="rounded-full border-white/30 bg-white/10 text-white hover:bg-white hover:text-blue-900 font-bold px-6"
+                >
                   Browse Catalogue
                 </Button>
               </Link>
               {!user ? (
                 <Link href="/signIn">
-                  <Button className="bg-rose-800 hover:bg-rose-700 text-white">
-                    Member Login
+                  <Button className="rounded-full bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 text-white font-bold px-6 shadow-lg">
+                    Member Login / Register
                   </Button>
                 </Link>
               ) : (
                 <Link href="/profile">
-                  <Button className="bg-rose-800 hover:bg-rose-700 text-white">
+                  <Button className="rounded-full bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 text-white font-bold px-6 shadow-lg">
                     My Loans Dashboard
                   </Button>
                 </Link>
@@ -359,12 +414,12 @@ export default function CommunityLibrary() {
             </div>
           </div>
 
-          <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-stone-500 gap-4">
+          <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-blue-200/80 gap-4">
             <p>© {new Date().getFullYear()} Pioneer Methodist Community Library. All rights reserved.</p>
-            <div className="flex items-center gap-6">
-              <Link href="/books" className="hover:text-stone-300 transition-colors">Catalogue</Link>
-              <Link href="/signIn" className="hover:text-stone-300 transition-colors">Member Portal</Link>
-              <Link href="/signUp" className="hover:text-stone-300 transition-colors">Register</Link>
+            <div className="flex items-center gap-6 font-semibold">
+              <Link href="/books" className="hover:text-white transition-colors">Catalogue</Link>
+              <Link href="/signIn" className="hover:text-white transition-colors">Member Portal</Link>
+              <Link href="/signUp" className="hover:text-white transition-colors">Join Free</Link>
             </div>
           </div>
         </div>

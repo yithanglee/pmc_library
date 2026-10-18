@@ -29,7 +29,7 @@ export default function EditProfilePage() {
         try {
             await updateUserProfile(e.email, e.name);
             toast({
-                title: "Profile Updated",
+                title: "Profile Updated!",
                 description: "Your member profile details have been saved.",
             });
             window.location.href = '/profile';
@@ -42,24 +42,24 @@ export default function EditProfilePage() {
         <div className="max-w-4xl mx-auto space-y-6">
             <div>
                 <Link href="/profile">
-                    <Button variant="ghost" className="text-stone-600 hover:text-stone-900 -ml-3 gap-2 text-sm">
+                    <Button variant="ghost" className="text-blue-700 hover:text-blue-900 hover:bg-blue-50 -ml-3 gap-2 text-sm font-bold rounded-full px-4">
                         <ArrowLeft className="h-4 w-4" />
                         <span>Back to My Loans & Profile</span>
                     </Button>
                 </Link>
             </div>
 
-            <div className="paper-card rounded-3xl p-6 sm:p-8 lg:p-10 space-y-6">
-                <div className="flex items-center gap-3.5 border-b border-stone-200/80 pb-6">
-                    <div className="h-12 w-12 rounded-2xl bg-rose-900/10 text-rose-900 flex items-center justify-center shrink-0">
+            <div className="bg-white border-2 border-blue-100 rounded-3xl p-6 sm:p-8 lg:p-10 space-y-6 shadow-xl shadow-blue-900/5">
+                <div className="flex items-center gap-3.5 border-b border-blue-100 pb-6">
+                    <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-blue-600 to-red-500 text-white flex items-center justify-center shrink-0 shadow-md">
                         <UserCog className="h-6 w-6" />
                     </div>
                     <div>
-                        <h1 className="font-serif text-2xl sm:text-3xl font-bold text-stone-900">
+                        <h1 className="font-display text-2xl sm:text-3xl font-extrabold text-blue-950">
                             Edit Member Profile
                         </h1>
-                        <p className="text-sm text-stone-500 mt-0.5">
-                            Update your contact information and library membership preferences
+                        <p className="text-sm text-slate-500 mt-0.5 font-medium">
+                            Update your contact information and library membership details
                         </p>
                     </div>
                 </div>
@@ -94,7 +94,7 @@ export default function EditProfilePage() {
                             postFn={handleUpdateProfile}
                         />
                     ) : (
-                        <div className="py-12 text-center text-sm text-stone-500">
+                        <div className="py-12 text-center text-sm font-semibold text-blue-700">
                             Loading your profile details...
                         </div>
                     )}

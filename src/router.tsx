@@ -25,8 +25,8 @@ const EditProfilePage = React.lazy(() => import('@/app/(authenticated)/profile/e
 function PageFallback() {
   return (
     <div className="flex h-[60vh] flex-col items-center justify-center gap-3">
-      <div className="h-8 w-8 animate-spin rounded-full border-2 border-stone-300 border-t-rose-900" />
-      <div className="text-sm font-medium text-stone-500">Opening library catalogue...</div>
+      <div className="h-10 w-10 animate-spin rounded-full border-4 border-blue-200 border-t-blue-600 border-r-red-500" />
+      <div className="text-sm font-semibold text-blue-900/70">Opening library catalogue...</div>
     </div>
   )
 }
@@ -34,24 +34,26 @@ function PageFallback() {
 function NotFoundPage() {
   return (
     <div className="flex min-h-[70vh] flex-col items-center justify-center p-6 text-center">
-      <div className="rounded-2xl bg-white p-10 shadow-sm border border-stone-200/80 max-w-md w-full">
-        <div className="text-xs font-semibold uppercase tracking-widest text-rose-800 mb-2">Error 404</div>
-        <h1 className="font-serif text-3xl font-bold text-stone-900 mb-3">Page Not Found</h1>
-        <p className="text-sm text-stone-600 mb-8 leading-relaxed">
-          We couldn't find the shelf or page you were looking for. It may have been moved or archived.
+      <div className="rounded-3xl bg-white p-10 shadow-xl border-2 border-blue-100 max-w-md w-full">
+        <div className="inline-block px-3 py-1 rounded-full bg-red-50 text-xs font-bold uppercase tracking-widest text-red-600 mb-3">
+          Oops! Error 404
+        </div>
+        <h1 className="font-display text-3xl font-extrabold text-blue-950 mb-3">Page Not Found</h1>
+        <p className="text-sm text-slate-600 mb-8 leading-relaxed">
+          We couldn't find the book shelf or page you were looking for. Let's get you back to the library!
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <Link
             to="/books"
-            className="px-5 py-2.5 bg-rose-900 text-white text-sm font-medium rounded-lg hover:bg-rose-800 transition shadow-sm"
+            className="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white text-sm font-bold rounded-full hover:from-blue-700 hover:to-blue-800 transition shadow-md shadow-blue-600/20"
           >
-            Browse Books
+            Explore Books
           </Link>
           <Link
             to="/"
-            className="px-5 py-2.5 bg-stone-100 text-stone-800 text-sm font-medium rounded-lg hover:bg-stone-200 transition"
+            className="px-6 py-3 bg-red-50 text-red-600 text-sm font-bold rounded-full hover:bg-red-100 transition"
           >
-            Return Home
+            Back Home
           </Link>
         </div>
       </div>
@@ -73,7 +75,7 @@ function withSuspense(Component: React.ComponentType<any>, extraProps: Record<st
 const rootRoute = createRootRoute({
   component: () => (
     <AuthProvider>
-      <div className="min-h-screen bg-[#FDFBF7] text-stone-900 flex flex-col">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50/70 via-white to-red-50/60 text-slate-900 flex flex-col">
         <Outlet />
         <Toaster />
       </div>

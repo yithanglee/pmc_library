@@ -266,55 +266,58 @@ export default function BooksPage() {
     Boolean(appliedFilters.publisher)
 
   return (
-    <div className="min-h-screen bg-[#FDFBF7] pb-20">
-      {/* Catalogue Header Banner */}
-      <div className="bg-[#FAF6EE] border-b border-stone-200/80 py-8 sm:py-10">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen pb-20">
+      {/* Lively Blue-Red Catalogue Header Banner */}
+      <div className="relative overflow-hidden bg-gradient-to-r from-blue-900 via-blue-800 to-red-800 text-white py-10 sm:py-12 shadow-md">
+        <div className="pointer-events-none absolute -top-24 right-10 h-64 w-64 rounded-full bg-red-500/20 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-24 left-10 h-64 w-64 rounded-full bg-blue-400/20 blur-3xl" />
+
+        <div className="container relative mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
-              <div className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-widest text-rose-800 mb-2">
-                <Sparkles className="h-3.5 w-3.5" />
-                <span>Community Library Collection</span>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15 backdrop-blur-sm text-xs font-extrabold uppercase tracking-widest text-red-200 mb-3">
+                <Sparkles className="h-3.5 w-3.5 text-red-300" />
+                <span>PMC Community Book Collection</span>
               </div>
-              <h1 className="font-serif text-3xl sm:text-4xl font-bold text-stone-900">
-                Book Catalogue
+              <h1 className="font-display text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+                Explore Our Library Books
               </h1>
-              <p className="text-sm sm:text-base text-stone-600 mt-1">
-                Browse by category or search across titles, authors, and publishers.
+              <p className="text-sm sm:text-base text-blue-100 mt-1.5 font-medium">
+                Pick a category shelf or search by title, author, and publisher!
               </p>
             </div>
 
             {/* Search Bar Form */}
             <form onSubmit={handleApplySearch} className="w-full md:max-w-xl">
               <div className="flex flex-col gap-2.5">
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 bg-white/15 backdrop-blur-md p-1.5 rounded-2xl border border-white/20">
                   <div className="relative flex-grow">
-                    <Search className="h-4 w-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                    <Search className="h-4 w-4 text-blue-600 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                     <Input
                       type="text"
                       placeholder="Search by book title..."
                       value={titleSearch}
                       onChange={(e) => setTitleSearch(e.target.value)}
-                      className="pl-10 h-11 bg-white border-stone-300 rounded-xl text-sm focus-visible:ring-rose-800"
+                      className="pl-10 h-11 bg-white text-slate-900 border-0 rounded-xl text-sm font-medium focus-visible:ring-2 focus-visible:ring-blue-500"
                     />
                   </div>
                   <Button
                     type="button"
                     variant="outline"
                     onClick={() => setShowAdvancedSearch(!showAdvancedSearch)}
-                    className={`h-11 px-3.5 rounded-xl border-stone-300 bg-white text-stone-700 hover:bg-stone-100 ${
+                    className={`h-11 px-3.5 rounded-xl border-0 font-bold ${
                       showAdvancedSearch || authorSearch || publisherSearch
-                        ? 'border-rose-800 text-rose-900 bg-rose-50/50'
-                        : ''
+                        ? 'bg-blue-100 text-blue-800'
+                        : 'bg-white/90 text-slate-700 hover:bg-white'
                     }`}
                     title="Filter by Author or Publisher"
                   >
-                    <SlidersHorizontal className="h-4 w-4 sm:mr-1.5" />
-                    <span className="hidden sm:inline text-xs font-medium">More Filters</span>
+                    <SlidersHorizontal className="h-4 w-4 sm:mr-1.5 text-blue-600" />
+                    <span className="hidden sm:inline text-xs">Filters</span>
                   </Button>
                   <Button
                     type="submit"
-                    className="h-11 px-5 rounded-xl bg-rose-900 hover:bg-rose-800 text-white font-medium text-sm shadow-sm"
+                    className="h-11 px-6 rounded-xl bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 text-white font-bold text-sm shadow-md"
                   >
                     Search
                   </Button>
@@ -324,23 +327,23 @@ export default function BooksPage() {
                 {showAdvancedSearch && (
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1 animate-in fade-in slide-in-from-top-1">
                     <div className="relative">
-                      <User className="h-3.5 w-3.5 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                      <User className="h-3.5 w-3.5 text-blue-600 absolute left-3.5 top-1/2 -translate-y-1/2" />
                       <Input
                         type="text"
                         placeholder="Filter by author name..."
                         value={authorSearch}
                         onChange={(e) => setAuthorSearch(e.target.value)}
-                        className="pl-9 h-9 bg-white border-stone-300 rounded-lg text-xs"
+                        className="pl-9 h-10 bg-white text-slate-900 border-0 rounded-xl text-xs font-medium shadow-sm"
                       />
                     </div>
                     <div className="relative">
-                      <Building2 className="h-3.5 w-3.5 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                      <Building2 className="h-3.5 w-3.5 text-red-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
                       <Input
                         type="text"
                         placeholder="Filter by publisher..."
                         value={publisherSearch}
                         onChange={(e) => setPublisherSearch(e.target.value)}
-                        className="pl-9 h-9 bg-white border-stone-300 rounded-lg text-xs"
+                        className="pl-9 h-10 bg-white text-slate-900 border-0 rounded-xl text-xs font-medium shadow-sm"
                       />
                     </div>
                   </div>
@@ -358,32 +361,32 @@ export default function BooksPage() {
           <Button
             variant="outline"
             onClick={() => setShowMobileCategories(!showMobileCategories)}
-            className="w-full justify-between bg-white border-stone-300 rounded-xl h-11 text-stone-800"
+            className="w-full justify-between bg-white border-2 border-blue-200 rounded-2xl h-12 text-blue-950 shadow-sm"
           >
-            <span className="flex items-center gap-2 text-sm font-medium truncate">
-              <Filter className="h-4 w-4 text-rose-800 shrink-0" />
+            <span className="flex items-center gap-2 text-sm font-bold truncate">
+              <Filter className="h-4 w-4 text-red-500 shrink-0" />
               <span>Category: {selectedCategoryTitle}</span>
             </span>
-            <span className="text-xs text-stone-500 ml-2 shrink-0">
+            <span className="text-xs font-bold text-blue-600 ml-2 shrink-0 bg-blue-50 px-2.5 py-1 rounded-full">
               {showMobileCategories ? 'Hide' : 'Change'}
             </span>
           </Button>
 
           {showMobileCategories && (
-            <div className="mt-2 paper-card rounded-2xl p-4 max-h-80 overflow-y-auto space-y-1.5">
+            <div className="mt-2 bg-white border-2 border-blue-100 shadow-xl rounded-2xl p-4 max-h-80 overflow-y-auto space-y-1.5">
               <Input
-                placeholder="Filter categories..."
+                placeholder="Quick find category..."
                 value={categoryFilterText}
                 onChange={(e) => setCategoryFilterText(e.target.value)}
-                className="h-9 text-xs mb-2 bg-stone-50"
+                className="h-9 text-xs mb-2 bg-blue-50/50 border-blue-200 rounded-xl"
               />
               <button
                 type="button"
                 onClick={() => handleSelectCategory(null)}
-                className={`w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition ${
+                className={`w-full text-left px-3.5 py-2.5 rounded-xl text-sm font-bold transition ${
                   !selectedCategoryId
-                    ? 'bg-rose-900 text-white'
-                    : 'text-stone-700 hover:bg-stone-100'
+                    ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-sm'
+                    : 'text-slate-700 hover:bg-blue-50'
                 }`}
               >
                 All Collections
@@ -395,15 +398,15 @@ export default function BooksPage() {
                     key={cat.id || cat.code}
                     type="button"
                     onClick={() => handleSelectCategory(cat)}
-                    className={`w-full text-left px-3 py-2 rounded-lg text-sm transition flex items-center gap-2 ${
+                    className={`w-full text-left px-3 py-2 rounded-xl text-sm transition flex items-center gap-2 ${
                       active
-                        ? 'bg-rose-900 text-white font-medium'
-                        : 'text-stone-700 hover:bg-stone-100'
+                        ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold shadow-sm'
+                        : 'text-slate-700 hover:bg-blue-50 font-medium'
                     }`}
                   >
                     <span
-                      className={`text-xs font-mono px-1.5 py-0.5 rounded ${
-                        active ? 'bg-rose-800 text-rose-100' : 'bg-stone-100 text-stone-600'
+                      className={`text-xs font-mono font-bold px-2 py-0.5 rounded-md ${
+                        active ? 'bg-white/20 text-white' : 'bg-blue-50 text-blue-700'
                       }`}
                     >
                       {cat.code}
@@ -419,37 +422,37 @@ export default function BooksPage() {
         <div className="flex flex-col lg:flex-row gap-8 items-start">
           {/* Desktop Sidebar: Categories */}
           <aside className="hidden lg:block w-72 shrink-0 sticky top-28">
-            <div className="paper-card rounded-2xl overflow-hidden">
-              <div className="p-4 border-b border-stone-200/80 bg-[#FAF7F2]">
+            <div className="bg-white border-2 border-blue-100 rounded-3xl overflow-hidden shadow-lg shadow-blue-900/5">
+              <div className="p-4 border-b border-blue-100 bg-gradient-to-r from-blue-50/80 to-red-50/50">
                 <div className="flex items-center justify-between mb-3">
-                  <h2 className="font-serif font-bold text-base text-stone-900 flex items-center gap-2">
-                    <Layers className="h-4 w-4 text-rose-800" />
-                    <span>Categories</span>
+                  <h2 className="font-display font-extrabold text-base text-blue-950 flex items-center gap-2">
+                    <Layers className="h-4 w-4 text-red-500" />
+                    <span>Book Categories</span>
                   </h2>
-                  <span className="text-xs text-stone-500 font-medium">
-                    {categories.length} shelves
+                  <span className="text-xs bg-white text-blue-700 border border-blue-200 px-2 py-0.5 rounded-full font-bold">
+                    {categories.length}
                   </span>
                 </div>
                 <div className="relative">
-                  <Search className="h-3.5 w-3.5 text-stone-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
+                  <Search className="h-3.5 w-3.5 text-blue-400 absolute left-3 top-1/2 -translate-y-1/2" />
                   <Input
                     type="text"
-                    placeholder="Find category..."
+                    placeholder="Find a shelf..."
                     value={categoryFilterText}
                     onChange={(e) => setCategoryFilterText(e.target.value)}
-                    className="pl-8 h-8 text-xs bg-white border-stone-200 rounded-lg"
+                    className="pl-8 h-9 text-xs bg-white border-blue-200 rounded-xl"
                   />
                 </div>
               </div>
 
-              <div className="max-h-[calc(100vh-16rem)] overflow-y-auto p-2 space-y-0.5">
+              <div className="max-h-[calc(100vh-16rem)] overflow-y-auto p-2.5 space-y-1">
                 <button
                   type="button"
                   onClick={() => handleSelectCategory(null)}
-                  className={`w-full text-left px-3 py-2.5 rounded-xl text-sm transition-colors flex items-center justify-between ${
+                  className={`w-full text-left px-3.5 py-2.5 rounded-xl text-sm transition-all flex items-center justify-between ${
                     !selectedCategoryId
-                      ? 'bg-rose-900 text-white font-semibold shadow-sm'
-                      : 'text-stone-700 hover:bg-stone-100 font-medium'
+                      ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold shadow-md shadow-blue-600/20'
+                      : 'text-slate-700 hover:bg-blue-50/70 font-bold'
                   }`}
                 >
                   <span>All Collections</span>
@@ -462,17 +465,17 @@ export default function BooksPage() {
                       key={item.id || item.code}
                       type="button"
                       onClick={() => handleSelectCategory(item)}
-                      className={`w-full text-left px-3 py-2 rounded-xl text-sm transition-colors flex items-start gap-2.5 group ${
+                      className={`w-full text-left px-3 py-2 rounded-xl text-sm transition-all flex items-start gap-2.5 group ${
                         isSelected
-                          ? 'bg-rose-900 text-white font-medium shadow-sm'
-                          : 'text-stone-700 hover:bg-stone-100'
+                          ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold shadow-md shadow-blue-600/20'
+                          : 'text-slate-700 hover:bg-blue-50/70 font-medium'
                       }`}
                     >
                       <span
-                        className={`text-[11px] font-mono font-semibold px-1.5 py-0.5 rounded mt-0.5 shrink-0 ${
+                        className={`text-[11px] font-mono font-extrabold px-1.5 py-0.5 rounded-md mt-0.5 shrink-0 ${
                           isSelected
-                            ? 'bg-rose-800 text-rose-100'
-                            : 'bg-stone-100 text-stone-600 group-hover:bg-stone-200'
+                            ? 'bg-white/20 text-white'
+                            : 'bg-blue-50 text-blue-700 group-hover:bg-blue-100'
                         }`}
                       >
                         {item.code}
@@ -488,12 +491,12 @@ export default function BooksPage() {
           {/* Right Column: Book Grid */}
           <div className="flex-1 w-full min-w-0">
             {/* Active Shelf & Filter Summary Bar */}
-            <div className="flex flex-wrap items-center justify-between gap-4 mb-6 pb-4 border-b border-stone-200/80">
+            <div className="flex flex-wrap items-center justify-between gap-4 mb-6 pb-4 border-b border-blue-100">
               <div>
-                <div className="text-xs font-medium uppercase tracking-wider text-stone-400">
+                <div className="text-xs font-extrabold uppercase tracking-wider text-red-500">
                   Currently Browsing
                 </div>
-                <h2 className="font-serif text-2xl font-bold text-stone-900 mt-0.5">
+                <h2 className="font-display text-2xl font-extrabold text-blue-950 mt-0.5">
                   {selectedCategoryTitle}
                 </h2>
               </div>
@@ -502,17 +505,17 @@ export default function BooksPage() {
                 {hasActiveSearch && (
                   <>
                     {appliedFilters.title && (
-                      <Badge variant="secondary" className="bg-rose-900/10 text-rose-900 border-rose-200 gap-1 px-2.5 py-1">
+                      <Badge variant="secondary" className="bg-blue-50 text-blue-700 border border-blue-200 gap-1 px-3 py-1 font-bold rounded-full">
                         Title: {appliedFilters.title}
                       </Badge>
                     )}
                     {appliedFilters.author && (
-                      <Badge variant="secondary" className="bg-rose-900/10 text-rose-900 border-rose-200 gap-1 px-2.5 py-1">
+                      <Badge variant="secondary" className="bg-blue-50 text-blue-700 border border-blue-200 gap-1 px-3 py-1 font-bold rounded-full">
                         Author: {appliedFilters.author}
                       </Badge>
                     )}
                     {appliedFilters.publisher && (
-                      <Badge variant="secondary" className="bg-rose-900/10 text-rose-900 border-rose-200 gap-1 px-2.5 py-1">
+                      <Badge variant="secondary" className="bg-blue-50 text-blue-700 border border-blue-200 gap-1 px-3 py-1 font-bold rounded-full">
                         Publisher: {appliedFilters.publisher}
                       </Badge>
                     )}
@@ -520,7 +523,7 @@ export default function BooksPage() {
                       variant="ghost"
                       size="sm"
                       onClick={handleClearSearch}
-                      className="h-7 px-2 text-xs text-stone-500 hover:text-rose-900"
+                      className="h-7 px-2.5 text-xs font-bold text-red-600 hover:bg-red-50 rounded-full"
                     >
                       <X className="h-3.5 w-3.5 mr-1" />
                       Clear filters
@@ -529,8 +532,8 @@ export default function BooksPage() {
                 )}
 
                 {!isLoading && totalRecords > 0 && (
-                  <span className="text-xs font-medium text-stone-500 bg-stone-100 px-3 py-1.5 rounded-full">
-                    Showing page {currentPage} of {totalPages}
+                  <span className="text-xs font-bold text-blue-700 bg-blue-50 border border-blue-200 px-3.5 py-1.5 rounded-full">
+                    Page {currentPage} of {totalPages}
                   </span>
                 )}
               </div>
@@ -542,36 +545,36 @@ export default function BooksPage() {
                 {Array.from({ length: 10 }).map((_, idx) => (
                   <div
                     key={idx}
-                    className="paper-card rounded-2xl p-3.5 space-y-3 animate-pulse"
+                    className="bg-white border-2 border-blue-50 rounded-2xl p-3.5 space-y-3 animate-pulse"
                   >
-                    <div className="aspect-[3/4] w-full rounded-xl bg-stone-200/70" />
-                    <div className="h-3 w-1/2 rounded bg-stone-200" />
-                    <div className="h-4 w-full rounded bg-stone-200" />
-                    <div className="h-3 w-2/3 rounded bg-stone-200" />
+                    <div className="aspect-[3/4] w-full rounded-xl bg-blue-100/60" />
+                    <div className="h-3 w-1/2 rounded bg-blue-100" />
+                    <div className="h-4 w-full rounded bg-blue-100" />
+                    <div className="h-3 w-2/3 rounded bg-blue-100" />
                   </div>
                 ))}
               </div>
             ) : books.length === 0 ? (
               /* Empty State */
-              <div className="paper-card rounded-2xl p-12 text-center my-4">
-                <div className="h-14 w-14 rounded-2xl bg-stone-100 text-stone-400 flex items-center justify-center mx-auto mb-4">
-                  <BookOpen className="h-7 w-7" />
+              <div className="bg-white border-2 border-blue-100 rounded-3xl p-12 text-center my-4 shadow-sm">
+                <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-blue-50 to-red-50 text-blue-600 flex items-center justify-center mx-auto mb-4 border border-blue-100">
+                  <BookOpen className="h-8 w-8" />
                 </div>
-                <h3 className="font-serif text-xl font-bold text-stone-900 mb-1">
-                  No books found matching your criteria
+                <h3 className="font-display text-xl font-extrabold text-blue-950 mb-1">
+                  No books found on this shelf
                 </h3>
-                <p className="text-sm text-stone-500 max-w-md mx-auto mb-6">
-                  Try clearing your search filters or selecting another category shelf from the sidebar.
+                <p className="text-sm text-slate-500 max-w-md mx-auto mb-6 font-medium">
+                  Try clearing your search filters or picking another category from the left!
                 </p>
                 <div className="flex justify-center gap-3">
                   {hasActiveSearch && (
-                    <Button variant="outline" onClick={handleClearSearch}>
+                    <Button variant="outline" onClick={handleClearSearch} className="rounded-full font-bold border-blue-200 text-blue-700">
                       Clear Search Filters
                     </Button>
                   )}
                   {selectedCategoryId && (
                     <Button
-                      className="bg-rose-900 hover:bg-rose-800 text-white"
+                      className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-full font-bold"
                       onClick={() => handleSelectCategory(null)}
                     >
                       View All Collections
@@ -594,11 +597,11 @@ export default function BooksPage() {
                       <Link
                         key={item.id}
                         href={`/books/${item.id}/detail`}
-                        className="group paper-card rounded-2xl p-3.5 flex flex-col justify-between transition-all duration-200 hover:-translate-y-1 hover:shadow-lg hover:border-stone-300"
+                        className="group bg-white border-2 border-blue-100/80 rounded-2xl p-3.5 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:shadow-blue-600/10 hover:border-blue-300"
                       >
                         <div>
                           {/* Book Cover Container */}
-                          <div className="relative aspect-[3/4] w-full rounded-xl bg-[#F5F0E6] overflow-hidden mb-3.5 flex items-center justify-center border border-stone-200/60">
+                          <div className="relative aspect-[3/4] w-full rounded-xl bg-gradient-to-br from-blue-50 via-indigo-50/40 to-red-50 overflow-hidden mb-3.5 flex items-center justify-center border border-blue-100">
                             {coverImg ? (
                               <Image
                                 src={`${baseUrl}${coverImg.startsWith('/') ? '' : '/'}${coverImg}`}
@@ -609,8 +612,10 @@ export default function BooksPage() {
                               />
                             ) : (
                               <div className="flex flex-col items-center justify-center p-4 text-center">
-                                <BookOpen className="h-10 w-10 text-stone-400/80 mb-2 stroke-[1.5]" />
-                                <span className="font-serif text-xs text-stone-500 line-clamp-2 px-2">
+                                <div className="h-12 w-12 rounded-2xl bg-white/80 shadow-sm flex items-center justify-center mb-2 text-blue-600">
+                                  <BookOpen className="h-6 w-6" />
+                                </div>
+                                <span className="font-display font-bold text-xs text-blue-950/70 line-clamp-2 px-2">
                                   {bookTitle}
                                 </span>
                               </div>
@@ -619,27 +624,27 @@ export default function BooksPage() {
 
                           {/* Category Tag */}
                           {categoryName && (
-                            <div className="text-[11px] font-semibold uppercase tracking-wider text-rose-800/90 truncate mb-1">
+                            <div className="text-[10px] font-extrabold uppercase tracking-wider text-red-500 truncate mb-1">
                               {categoryName}
                             </div>
                           )}
 
                           {/* Book Title */}
-                          <h3 className="font-serif font-bold text-stone-900 text-base leading-snug line-clamp-2 group-hover:text-rose-900 transition-colors">
+                          <h3 className="font-display font-bold text-slate-900 text-sm sm:text-base leading-snug line-clamp-2 group-hover:text-blue-600 transition-colors">
                             {bookTitle}
                           </h3>
 
                           {/* Author */}
-                          <p className="text-xs text-stone-500 mt-1 truncate">
+                          <p className="text-xs font-medium text-slate-500 mt-1 truncate">
                             {authorName}
                           </p>
                         </div>
 
                         {/* Footer Call No / Barcode */}
                         {barcode && (
-                          <div className="mt-3 pt-2.5 border-t border-stone-100 flex items-center justify-between text-[11px] text-stone-400 font-mono">
-                            <span className="flex items-center gap-1 truncate">
-                              <Barcode className="h-3 w-3 shrink-0" />
+                          <div className="mt-3 pt-2.5 border-t border-blue-50 flex items-center justify-between text-[11px] text-blue-700 font-mono font-bold">
+                            <span className="flex items-center gap-1 truncate bg-blue-50/80 px-2 py-0.5 rounded-md">
+                              <Barcode className="h-3 w-3 shrink-0 text-blue-500" />
                               {barcode}
                             </span>
                           </div>
@@ -651,10 +656,10 @@ export default function BooksPage() {
 
                 {/* Pagination Bar */}
                 {totalPages > 1 && (
-                  <div className="mt-10 pt-6 border-t border-stone-200/80 flex flex-col sm:flex-row items-center justify-between gap-4">
-                    <p className="text-xs sm:text-sm text-stone-500">
-                      Page <span className="font-semibold text-stone-900">{currentPage}</span> of{' '}
-                      <span className="font-semibold text-stone-900">{totalPages}</span>
+                  <div className="mt-10 pt-6 border-t border-blue-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <p className="text-xs sm:text-sm font-semibold text-slate-600">
+                      Showing page <span className="font-extrabold text-blue-700">{currentPage}</span> of{' '}
+                      <span className="font-extrabold text-blue-700">{totalPages}</span>
                     </p>
 
                     <div className="flex items-center gap-1.5">
@@ -663,10 +668,10 @@ export default function BooksPage() {
                         size="sm"
                         disabled={currentPage <= 1}
                         onClick={() => handlePageChange(currentPage - 1)}
-                        className="rounded-lg border-stone-300 bg-white text-stone-700"
+                        className="rounded-full border-blue-200 bg-white text-blue-700 font-bold hover:bg-blue-50"
                       >
                         <ChevronLeft className="h-4 w-4 mr-1" />
-                        Previous
+                        Prev
                       </Button>
 
                       {/* Page Numbers */}
@@ -687,7 +692,7 @@ export default function BooksPage() {
                           }, [])
                           .map((item, idx) =>
                             item === '...' ? (
-                              <span key={`ellipsis-${idx}`} className="px-2 text-xs text-stone-400">
+                              <span key={`ellipsis-${idx}`} className="px-2 text-xs text-slate-400 font-bold">
                                 …
                               </span>
                             ) : (
@@ -696,10 +701,10 @@ export default function BooksPage() {
                                 variant={currentPage === item ? 'default' : 'ghost'}
                                 size="sm"
                                 onClick={() => handlePageChange(item as number)}
-                                className={`h-8 w-8 p-0 rounded-lg text-xs font-medium ${
+                                className={`h-9 w-9 p-0 rounded-full text-xs font-bold ${
                                   currentPage === item
-                                    ? 'bg-rose-900 text-white hover:bg-rose-800'
-                                    : 'text-stone-600 hover:bg-stone-200/60'
+                                    ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-600/20'
+                                    : 'text-slate-600 hover:bg-blue-50 hover:text-blue-700'
                                 }`}
                               >
                                 {item}
@@ -713,7 +718,7 @@ export default function BooksPage() {
                         size="sm"
                         disabled={currentPage >= totalPages}
                         onClick={() => handlePageChange(currentPage + 1)}
-                        className="rounded-lg border-stone-300 bg-white text-stone-700"
+                        className="rounded-full border-blue-200 bg-white text-blue-700 font-bold hover:bg-blue-50"
                       >
                         Next
                         <ChevronRight className="h-4 w-4 ml-1" />

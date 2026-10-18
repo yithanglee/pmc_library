@@ -58,7 +58,8 @@ const config: Config = {
   		},
   		fontFamily: {
   			sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
-  			serif: ['Newsreader', 'Georgia', 'serif'],
+  			display: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
+  			serif: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
   		}
   	}
   },
