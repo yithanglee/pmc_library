@@ -31,7 +31,7 @@ export default function CommunityLibrary() {
             <Link href="/books" key={index}>
               <div
 
-                className={`blur-white p-6 rounded-lg shadow-lg transform transition-all duration-500 ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
+                className={`blur-white p-6 rounded-lg shadow-lg transform transition-all duration-500 ${isLoaded ? 'translate-y-0 opacity-100 floating' : 'translate-y-4 opacity-0'
                   }`}
                 style={{ animationDelay: `${index * 200}ms` }}
               >
@@ -53,23 +53,6 @@ export default function CommunityLibrary() {
           </Link>
         </div>
       </footer>
-
-      <style jsx global>{`
-        @keyframes float {
-          0% {
-            transform: translateY(0px);
-          }
-          50% {
-            transform: translateY(-10px);
-          }
-          100% {
-            transform: translateY(0px);
-          }
-        }
-        .${isLoaded ? 'translate-y-0' : ''} {
-          animation: float 3s ease-in-out infinite;
-        }
-      `}</style>
     </div>
   )
 }
