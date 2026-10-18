@@ -1,22 +1,21 @@
 'use client';
 
 import DynamicForm from "@/components/data/dynaform";
-
 import { useEffect, useState } from "react";
 import { genInputs } from '@/lib/svt_utils'
 import { PHX_ENDPOINT, PHX_HTTP_PROTOCOL } from "@/lib/constants";
-import { Separator } from "@/components/ui/separator";
 import { useRouter } from 'next/navigation';
 import { toast } from "@/hooks/use-toast"
 import { useAuth } from "@/lib/auth";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft, UserCog } from "lucide-react";
+import Link from "next/link";
 
 export default function EditProfilePage() {
     const { user, updateUserProfile } = useAuth();
     const router = useRouter();
     const [colInputs, setColInputs] = useState<any[]>([]);
     const url = PHX_HTTP_PROTOCOL + PHX_ENDPOINT;
-
-
 
     useEffect(() => {
         const fetchColInputs = async () => {
@@ -26,33 +25,46 @@ export default function EditProfilePage() {
         fetchColInputs();
     }, []);
 
-
     const handleUpdateProfile = async (e: any) => {
-        console.log("data", e)
         try {
             await updateUserProfile(e.email, e.name);
             toast({
-                title: "Success",
-                description: "Profile updated successfully.",
+                title: "Profile Updated",
+                description: "Your member profile details have been saved.",
             });
             window.location.href = '/profile';
         } catch (error) {
             console.error("Error updating profile:", error);
-          
         }
     }
 
     return (
-        <div className="space-y-6">
-            <div className="flex justify-between items-center">
-                <div className="flex flex-col gap-2">
-                    <h2 className="text-3xl font-bold tracking-tight">Edit Profile</h2>
-                    <div className="text-sm text-gray-500">Update your personal details here</div>
-                </div>
+        <div className="max-w-4xl mx-auto space-y-6">
+            <div>
+                <Link href="/profile">
+                    <Button variant="ghost" className="text-stone-600 hover:text-stone-900 -ml-3 gap-2 text-sm">
+                        <ArrowLeft className="h-4 w-4" />
+                        <span>Back to My Loans & Profile</span>
+                    </Button>
+                </Link>
             </div>
-            <Separator />
-            <div className="grid grid-cols-6">
-                <div className="col-span-6">
+
+            <div className="paper-card rounded-3xl p-6 sm:p-8 lg:p-10 space-y-6">
+                <div className="flex items-center gap-3.5 border-b border-stone-200/80 pb-6">
+                    <div className="h-12 w-12 rounded-2xl bg-rose-900/10 text-rose-900 flex items-center justify-center shrink-0">
+                        <UserCog className="h-6 w-6" />
+                    </div>
+                    <div>
+                        <h1 className="font-serif text-2xl sm:text-3xl font-bold text-stone-900">
+                            Edit Member Profile
+                        </h1>
+                        <p className="text-sm text-stone-500 mt-0.5">
+                            Update your contact information and library membership preferences
+                        </p>
+                    </div>
+                </div>
+
+                <div className="pt-2">
                     {user ? (
                         <DynamicForm
                             style="flat"
@@ -81,10 +93,13 @@ export default function EditProfilePage() {
                             module={'Member'}
                             postFn={handleUpdateProfile}
                         />
-                    ) : null}
-                    
+                    ) : (
+                        <div className="py-12 text-center text-sm text-stone-500">
+                            Loading your profile details...
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
     );
-} 
+}

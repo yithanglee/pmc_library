@@ -6,12 +6,11 @@ export default function AuthenticatedLayout({
   children: React.ReactNode
 }) {
   return (
-    <>
+    <div className="min-h-screen flex flex-col bg-[#FDFBF7]">
       <Header />
-
-      <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8 pl-4">
+      <main className="flex-grow container mx-auto py-8 px-4 sm:px-6 lg:px-8">
         {children}
       </main>
-    </>
+    </div>
   )
 }

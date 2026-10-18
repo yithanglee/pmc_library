@@ -24,23 +24,37 @@ const EditProfilePage = React.lazy(() => import('@/app/(authenticated)/profile/e
 
 function PageFallback() {
   return (
-    <div className="flex h-64 items-center justify-center">
-      <div className="text-sm text-gray-500 animate-pulse">Loading...</div>
+    <div className="flex h-[60vh] flex-col items-center justify-center gap-3">
+      <div className="h-8 w-8 animate-spin rounded-full border-2 border-stone-300 border-t-rose-900" />
+      <div className="text-sm font-medium text-stone-500">Opening library catalogue...</div>
     </div>
   )
 }
 
 function NotFoundPage() {
   return (
-    <div className="flex min-h-[60vh] flex-col items-center justify-center p-4 text-center">
-      <h1 className="text-4xl font-bold text-blue-900 mb-2">404</h1>
-      <p className="text-lg text-gray-600 mb-6">Page not found</p>
-      <Link
-        to="/"
-        className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
-      >
-        Go back home
-      </Link>
+    <div className="flex min-h-[70vh] flex-col items-center justify-center p-6 text-center">
+      <div className="rounded-2xl bg-white p-10 shadow-sm border border-stone-200/80 max-w-md w-full">
+        <div className="text-xs font-semibold uppercase tracking-widest text-rose-800 mb-2">Error 404</div>
+        <h1 className="font-serif text-3xl font-bold text-stone-900 mb-3">Page Not Found</h1>
+        <p className="text-sm text-stone-600 mb-8 leading-relaxed">
+          We couldn't find the shelf or page you were looking for. It may have been moved or archived.
+        </p>
+        <div className="flex flex-col sm:flex-row gap-3 justify-center">
+          <Link
+            to="/books"
+            className="px-5 py-2.5 bg-rose-900 text-white text-sm font-medium rounded-lg hover:bg-rose-800 transition shadow-sm"
+          >
+            Browse Books
+          </Link>
+          <Link
+            to="/"
+            className="px-5 py-2.5 bg-stone-100 text-stone-800 text-sm font-medium rounded-lg hover:bg-stone-200 transition"
+          >
+            Return Home
+          </Link>
+        </div>
+      </div>
     </div>
   )
 }
@@ -59,7 +73,7 @@ function withSuspense(Component: React.ComponentType<any>, extraProps: Record<st
 const rootRoute = createRootRoute({
   component: () => (
     <AuthProvider>
-      <div className="min-h-screen bg-gradient-to-b from-blue-100 to-red-100">
+      <div className="min-h-screen bg-[#FDFBF7] text-stone-900 flex flex-col">
         <Outlet />
         <Toaster />
       </div>
