@@ -4,16 +4,16 @@ import DynamicForm from "@/components/data/dynaform";
 import { useEffect, useState } from "react";
 import { genInputs } from '@/lib/svt_utils'
 import { PHX_ENDPOINT, PHX_HTTP_PROTOCOL } from "@/lib/constants";
-import { useRouter } from 'next/navigation';
 import { toast } from "@/hooks/use-toast"
 import { useAuth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, UserCog } from "lucide-react";
 import Link from "next/link";
+import { useLanguage } from "@/i18n";
 
 export default function EditProfilePage() {
     const { user, updateUserProfile } = useAuth();
-    const router = useRouter();
+    const { t } = useLanguage();
     const [colInputs, setColInputs] = useState<any[]>([]);
     const url = PHX_HTTP_PROTOCOL + PHX_ENDPOINT;
 
@@ -29,8 +29,8 @@ export default function EditProfilePage() {
         try {
             await updateUserProfile(e.email, e.name);
             toast({
-                title: "Profile Updated!",
-                description: "Your member profile details have been saved.",
+                title: t("会友资料已更新！", "Profile Updated!"),
+                description: t("您的个人资料已成功保存。", "Your member profile details have been saved."),
             });
             window.location.href = '/profile';
         } catch (error) {
@@ -44,7 +44,7 @@ export default function EditProfilePage() {
                 <Link href="/profile">
                     <Button variant="ghost" className="text-blue-700 hover:text-blue-900 hover:bg-blue-50 -ml-3 gap-2 text-sm font-bold rounded-full px-4">
                         <ArrowLeft className="h-4 w-4" />
-                        <span>Back to My Loans & Profile</span>
+                        <span>{t('返回会友借阅特区', 'Back to My Loans & Profile')}</span>
                     </Button>
                 </Link>
             </div>
@@ -56,10 +56,10 @@ export default function EditProfilePage() {
                     </div>
                     <div>
                         <h1 className="font-display text-2xl sm:text-3xl font-extrabold text-blue-950">
-                            Edit Member Profile
+                            {t('编辑会友资料', 'Edit Member Profile')}
                         </h1>
                         <p className="text-sm text-slate-500 mt-0.5 font-medium">
-                            Update your contact information and library membership details
+                            {t('更新您的联络方式与图书馆会友借阅信息', 'Update your contact information and library membership details')}
                         </p>
                     </div>
                 </div>
@@ -72,8 +72,8 @@ export default function EditProfilePage() {
                             inputs={colInputs}
                             customCols={[
                                 {
-                                    title: 'Personal Information',
-                                    description: 'Your personal information',
+                                    title: t('个人基本资料', 'Personal Information'),
+                                    description: t('您的姓名、电子邮箱与电话', 'Your personal information'),
                                     list: [
                                         { label: 'id', alt_class: 'hidden w-1/3 mx-4 my-2' },
                                         { label: 'name', alt_class: 'w-full mx-4 my-2' },
@@ -82,8 +82,8 @@ export default function EditProfilePage() {
                                     ]
                                 },
                                 {
-                                    title: 'Additional Details',
-                                    description: 'Other information about you',
+                                    title: t('其他资料', 'Additional Details'),
+                                    description: t('通讯地址与备注信息', 'Other information about you'),
                                     list: [
                                         { label: 'address', alt_class: 'w-full mx-4 my-2' },
                                         { label: 'notes', alt_class: 'w-full mx-4 my-2' },
@@ -95,7 +95,7 @@ export default function EditProfilePage() {
                         />
                     ) : (
                         <div className="py-12 text-center text-sm font-semibold text-blue-700">
-                            Loading your profile details...
+                            {t('正在加载您的会友资料...', 'Loading your profile details...')}
                         </div>
                     )}
                 </div>

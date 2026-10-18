@@ -9,8 +9,10 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import Link from 'next/link'
 import Header from '@/components/ui/header'
 import { ArrowLeft, KeyRound, Mail, CheckCircle2 } from 'lucide-react'
+import { useLanguage } from '@/i18n'
 
 export default function ForgotPassword() {
+  const { t } = useLanguage()
   const [email, setEmail] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [message, setMessage] = useState<string | null>(null)
@@ -24,12 +26,17 @@ export default function ForgotPassword() {
 
     try {
       await forgotPassword(email)
-      setMessage('Password reset email sent! Please check your inbox for instructions.')
+      setMessage(
+        t(
+          '密码重置邮件已发送！请前往您的电子邮箱查看重置步骤。',
+          'Password reset email sent! Please check your inbox for instructions.'
+        )
+      )
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message)
       } else {
-        setError('An unexpected error occurred')
+        setError(t('发生未知错误', 'An unexpected error occurred'))
       }
     } finally {
       setIsLoading(false)
@@ -47,16 +54,19 @@ export default function ForgotPassword() {
           </div>
 
           <h1 className="font-display text-2xl sm:text-3xl font-extrabold text-blue-950">
-            Reset Your Password
+            {t('重置您的密码', 'Reset Your Password')}
           </h1>
           <p className="text-sm text-slate-500 mt-1.5 mb-6 leading-relaxed font-medium">
-            Enter the email address for your library member account and we'll send you a password reset link!
+            {t(
+              '请输入您注册图书馆会友账号的电子邮箱，我们将发送密码重置链接给您！',
+              "Enter the email address for your library member account and we'll send you a password reset link!"
+            )}
           </p>
 
           <form onSubmit={handleForgotPassword} className="space-y-4">
             <div className="space-y-1.5">
               <Label htmlFor="email" className="text-xs font-extrabold uppercase tracking-wider text-blue-900">
-                Email Address
+                {t('电子邮箱 (Email)', 'Email Address')}
               </Label>
               <div className="relative">
                 <Mail className="h-4 w-4 text-blue-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -90,7 +100,7 @@ export default function ForgotPassword() {
               className="w-full h-12 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-full font-bold shadow-md"
               disabled={isLoading}
             >
-              {isLoading ? 'Sending Reset Link...' : 'Send Password Reset Link'}
+              {isLoading ? t('正在发送重置链接...', 'Sending Reset Link...') : t('发送密码重置链接', 'Send Password Reset Link')}
             </Button>
           </form>
 
@@ -100,10 +110,10 @@ export default function ForgotPassword() {
               className="font-extrabold text-blue-600 hover:underline inline-flex items-center gap-1.5"
             >
               <ArrowLeft className="h-3.5 w-3.5" />
-              <span>Back to Sign In</span>
+              <span>{t('返回会友登录', 'Back to Sign In')}</span>
             </Link>
             <Link href="/" className="font-bold text-red-500 hover:text-red-600">
-              Home
+              {t('返回主页', 'Home')}
             </Link>
           </div>
         </div>

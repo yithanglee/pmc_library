@@ -8,6 +8,7 @@ import {
   useNavigate,
 } from '@tanstack/react-router'
 import { AuthProvider } from '@/lib/auth'
+import { LanguageProvider, useLanguage } from '@/i18n'
 import { Toaster } from '@/components/ui/toaster'
 import AuthenticatedLayout from '@/app/(authenticated)/layout'
 import PublicLayout from '@/app/(public)/layout'
@@ -23,37 +24,46 @@ const ProfilePage = React.lazy(() => import('@/app/(authenticated)/profile/page'
 const EditProfilePage = React.lazy(() => import('@/app/(authenticated)/profile/edit/page'))
 
 function PageFallback() {
+  const { t } = useLanguage()
   return (
     <div className="flex h-[60vh] flex-col items-center justify-center gap-3">
       <div className="h-10 w-10 animate-spin rounded-full border-4 border-blue-200 border-t-blue-600 border-r-red-500" />
-      <div className="text-sm font-semibold text-blue-900/70">Opening library catalogue...</div>
+      <div className="text-sm font-semibold text-blue-900/70">
+        {t('正在加载图书馆目录...', 'Opening library catalogue...')}
+      </div>
     </div>
   )
 }
 
 function NotFoundPage() {
+  const { t } = useLanguage()
   return (
     <div className="flex min-h-[70vh] flex-col items-center justify-center p-6 text-center">
       <div className="rounded-3xl bg-white p-10 shadow-xl border-2 border-blue-100 max-w-md w-full">
         <div className="inline-block px-3 py-1 rounded-full bg-red-50 text-xs font-bold uppercase tracking-widest text-red-600 mb-3">
-          Oops! Error 404
+          {t('找不到页面 • 404', 'Oops! Error 404')}
         </div>
-        <h1 className="font-display text-3xl font-extrabold text-blue-950 mb-3">Page Not Found</h1>
+        <h1 className="font-display text-3xl font-extrabold text-blue-950 mb-3">
+          {t('此页面不存在', 'Page Not Found')}
+        </h1>
         <p className="text-sm text-slate-600 mb-8 leading-relaxed">
-          We couldn't find the book shelf or page you were looking for. Let's get you back to the library!
+          {t(
+            '抱歉，我们找不到您要浏览的书籍或页面。请返回主页或进入图书馆检索！',
+            "We couldn't find the book shelf or page you were looking for. Let's get you back to the library!"
+          )}
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <Link
             to="/books"
             className="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white text-sm font-bold rounded-full hover:from-blue-700 hover:to-blue-800 transition shadow-md shadow-blue-600/20"
           >
-            Explore Books
+            {t('图书馆检索', 'Explore Books')}
           </Link>
           <Link
             to="/"
             className="px-6 py-3 bg-red-50 text-red-600 text-sm font-bold rounded-full hover:bg-red-100 transition"
           >
-            Back Home
+            {t('返回主页', 'Back Home')}
           </Link>
         </div>
       </div>
@@ -74,12 +84,14 @@ function withSuspense(Component: React.ComponentType<any>, extraProps: Record<st
 // Root Route
 const rootRoute = createRootRoute({
   component: () => (
-    <AuthProvider>
-      <div className="min-h-screen bg-gradient-to-br from-blue-50/70 via-white to-red-50/60 text-slate-900 flex flex-col">
-        <Outlet />
-        <Toaster />
-      </div>
-    </AuthProvider>
+    <LanguageProvider>
+      <AuthProvider>
+        <div className="min-h-screen bg-gradient-to-br from-blue-50/70 via-white to-red-50/60 text-slate-900 flex flex-col">
+          <Outlet />
+          <Toaster />
+        </div>
+      </AuthProvider>
+    </LanguageProvider>
   ),
   notFoundComponent: NotFoundPage,
 })

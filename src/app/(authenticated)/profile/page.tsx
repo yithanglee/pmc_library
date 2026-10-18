@@ -37,6 +37,7 @@ import { toast } from "@/hooks/use-toast"
 import Link from 'next/link'
 import { useAuth } from "@/lib/auth"
 import Cookies from 'js-cookie'
+import { useLanguage } from '@/i18n'
 
 interface Loan {
   has_extended: boolean
@@ -56,7 +57,7 @@ interface ExtendLoanResponse {
   reason?: string
 }
 
-function getLoanTimingStatus(loan: Loan) {
+function getLoanTimingStatus(loan: Loan, t: (zh: string, en: string) => string) {
   const returnDate = startOfDay(new Date(loan.return_date))
   const today = startOfDay(new Date())
   const daysRemaining = differenceInCalendarDays(returnDate, today)
@@ -65,8 +66,11 @@ function getLoanTimingStatus(loan: Loan) {
     const overdueDays = loan.late_days > 0 ? loan.late_days : Math.abs(daysRemaining)
     return {
       type: 'overdue' as const,
-      label: `Overdue by ${overdueDays} ${overdueDays === 1 ? 'day' : 'days'}`,
-      sublabel: 'Please return to the library as soon as possible',
+      label: t(
+        `已逾期 ${overdueDays} 天`,
+        `Overdue by ${overdueDays} ${overdueDays === 1 ? 'day' : 'days'}`
+      ),
+      sublabel: t('请尽快归还至教会图书馆', 'Please return to the library as soon as possible'),
       badgeClass: 'bg-red-100 text-red-700 border-red-300',
       borderClass: 'border-red-300 bg-red-50/30',
       dateBoxClass: 'bg-red-50 border-red-200 text-red-800',
@@ -77,8 +81,8 @@ function getLoanTimingStatus(loan: Loan) {
   if (daysRemaining === 0) {
     return {
       type: 'due-soon' as const,
-      label: 'Due Today!',
-      sublabel: 'Return or extend your loan today',
+      label: t('今日到期！', 'Due Today!'),
+      sublabel: t('请于今日归还或线上续借', 'Return or extend your loan today'),
       badgeClass: 'bg-amber-100 text-amber-800 border-amber-300',
       borderClass: 'border-amber-300 bg-amber-50/20',
       dateBoxClass: 'bg-amber-50 border-amber-200 text-amber-900',
@@ -89,8 +93,11 @@ function getLoanTimingStatus(loan: Loan) {
   if (daysRemaining <= 3) {
     return {
       type: 'due-soon' as const,
-      label: `Due in ${daysRemaining} ${daysRemaining === 1 ? 'day' : 'days'}`,
-      sublabel: 'Return deadline approaching soon',
+      label: t(
+        `剩余 ${daysRemaining} 天到期`,
+        `Due in ${daysRemaining} ${daysRemaining === 1 ? 'day' : 'days'}`
+      ),
+      sublabel: t('归还期限即将到来', 'Return deadline approaching soon'),
       badgeClass: 'bg-amber-100 text-amber-800 border-amber-300',
       borderClass: 'border-amber-200 bg-white',
       dateBoxClass: 'bg-amber-50/80 border-amber-200 text-amber-900',
@@ -100,8 +107,8 @@ function getLoanTimingStatus(loan: Loan) {
 
   return {
     type: 'active' as const,
-    label: `${daysRemaining} days left`,
-    sublabel: 'Active loan on schedule',
+    label: t(`还剩 ${daysRemaining} 天`, `${daysRemaining} days left`),
+    sublabel: t('借阅期正常', 'Active loan on schedule'),
     badgeClass: 'bg-emerald-50 text-emerald-700 border-emerald-200',
     borderClass: 'border-blue-100 bg-white',
     dateBoxClass: 'bg-red-50/60 border-red-200 text-red-700',
@@ -116,9 +123,10 @@ function LoanCard({
   loan: Loan
   onExtend: (loanId: number) => Promise<ExtendLoanResponse>
 }) {
+  const { t } = useLanguage()
   const [isExtending, setIsExtending] = useState(false)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const status = getLoanTimingStatus(loan)
+  const status = getLoanTimingStatus(loan, t)
 
   const handleExtend = async () => {
     setIsExtending(true)
@@ -126,22 +134,25 @@ function LoanCard({
       const res = await onExtend(loan.id)
       if (res?.status === "error") {
         toast({
-          title: "Unable to Extend Loan",
-          description: `${res?.reason || 'Could not extend this loan.'}`,
+          title: t("无法续借图书", "Unable to Extend Loan"),
+          description: `${res?.reason || t('目前无法续借此书。', 'Could not extend this loan.')}`,
           variant: "destructive",
         })
       } else {
         toast({
-          title: "Loan Extended!",
-          description: `The return due date for "${loan.book.title}" has been extended.`,
+          title: t("续借成功！", "Loan Extended!"),
+          description: t(
+            `《${loan.book.title}》的应还日期已成功延长。`,
+            `The return due date for "${loan.book.title}" has been extended.`
+          ),
         })
       }
       setIsDialogOpen(false)
     } catch (error) {
       console.error('Error extending loan:', error)
       toast({
-        title: "Error",
-        description: "Failed to extend the loan. Please try again.",
+        title: t("错误", "Error"),
+        description: t("续借失败，请稍后再试。", "Failed to extend the loan. Please try again."),
         variant: "destructive",
       })
     } finally {
@@ -161,12 +172,12 @@ function LoanCard({
         <div className="flex items-center gap-2">
           <span className="inline-flex items-center gap-1.5 text-xs font-mono font-bold px-3 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-200">
             <Barcode className="h-3.5 w-3.5 text-blue-600" />
-            {loan.book.call_number || 'No Call #'}
+            {loan.book.call_number || t('无索书号', 'No Call #')}
           </span>
 
           {loan.has_extended && (
             <Badge variant="outline" className="text-[11px] font-bold bg-indigo-50 text-indigo-700 border-indigo-200 rounded-full">
-              Extended 1x
+              {t('已续借 1 次', 'Extended 1x')}
             </Badge>
           )}
         </div>
@@ -198,7 +209,7 @@ function LoanCard({
           </div>
           <div>
             <div className="text-[11px] font-extrabold uppercase tracking-wider text-blue-600">
-              Borrowed Date
+              {t('借出日期', 'Borrowed Date')}
             </div>
             <div className="text-sm font-extrabold text-slate-900 mt-0.5">
               {formattedLoanDate}
@@ -212,7 +223,7 @@ function LoanCard({
           </div>
           <div>
             <div className="text-[11px] font-extrabold uppercase tracking-wider opacity-85">
-              Return Due Date
+              {t('应还日期 (Due Date)', 'Return Due Date')}
             </div>
             <div className="text-sm font-extrabold mt-0.5">
               {formattedReturnDate}
@@ -226,10 +237,12 @@ function LoanCard({
         <div className="mb-4 rounded-2xl bg-red-100/90 border border-red-300 px-4 py-3 flex items-center justify-between text-red-900 text-sm">
           <div className="flex items-center gap-2 font-bold">
             <DollarSign className="h-4 w-4 text-red-600 shrink-0" />
-            <span>Overdue Fine ({loan.late_days} days late)</span>
+            <span>
+              {t(`逾期罚款 (逾期 ${loan.late_days} 天)`, `Overdue Fine (${loan.late_days} days late)`)}
+            </span>
           </div>
           <span className="font-extrabold font-mono text-base">
-            ${Math.abs(loan.fine_amount).toFixed(2)}
+            RM {Math.abs(loan.fine_amount).toFixed(2)}
           </span>
         </div>
       )}
@@ -238,8 +251,8 @@ function LoanCard({
       <div className="pt-3 border-t border-blue-100/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <span className="text-xs font-semibold text-slate-500">
           {!loan.has_extended
-            ? 'Want more time to read? Extend your loan online!'
-            : 'This book loan has already been extended once.'}
+            ? t('需要更多阅读时间？可在线一键延长借阅期限！', 'Want more time to read? Extend your loan online!')
+            : t('此书已续借过一次，请按应还日期归还。', 'This book loan has already been extended once.')}
         </span>
 
         {!loan.has_extended ? (
@@ -250,28 +263,29 @@ function LoanCard({
                 className="bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 text-white font-bold rounded-full px-6 shadow-md shadow-red-500/20 gap-2 sm:w-auto w-full transition-transform hover:scale-105"
               >
                 <RefreshCw className="h-4 w-4" />
-                <span>Extend Loan</span>
+                <span>{t('一键线上续借', 'Extend Loan')}</span>
               </Button>
             </DialogTrigger>
 
             <DialogContent className="bg-white border-2 border-blue-100 rounded-3xl sm:max-w-md">
               <DialogHeader>
                 <DialogTitle className="font-display text-2xl font-extrabold text-blue-950">
-                  Extend Your Book Loan
+                  {t('延长图书借阅期限', 'Extend Your Book Loan')}
                 </DialogTitle>
                 <DialogDescription className="text-slate-600 pt-1 font-medium">
-                  Would you like to extend the return due date for{' '}
-                  <span className="font-bold text-blue-700">"{loan.book.title}"</span>?
+                  {t('您确定要延长', 'Would you like to extend the return due date for')}{' '}
+                  <span className="font-bold text-blue-700">“{loan.book.title}”</span>
+                  {t(' 的应还日期吗？', '?')}
                 </DialogDescription>
               </DialogHeader>
 
               <div className="my-2 rounded-2xl bg-gradient-to-r from-blue-50 to-red-50 p-4 border border-blue-100 space-y-2 text-xs">
                 <div className="flex justify-between">
-                  <span className="font-semibold text-slate-500">Call Number:</span>
+                  <span className="font-semibold text-slate-500">{t('索书号：', 'Call Number:')}</span>
                   <span className="font-mono font-bold text-blue-800">{loan.book.call_number}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="font-semibold text-slate-500">Current Return Date:</span>
+                  <span className="font-semibold text-slate-500">{t('当前应还日期：', 'Current Return Date:')}</span>
                   <span className="font-extrabold text-red-600">{formattedReturnDate}</span>
                 </div>
               </div>
@@ -282,7 +296,7 @@ function LoanCard({
                   onClick={() => setIsDialogOpen(false)}
                   className="rounded-full border-blue-200 font-bold text-slate-700"
                 >
-                  Cancel
+                  {t('取消', 'Cancel')}
                 </Button>
                 <Button
                   onClick={handleExtend}
@@ -290,7 +304,7 @@ function LoanCard({
                   className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold rounded-full gap-2 shadow-md"
                 >
                   <RefreshCw className={`h-4 w-4 ${isExtending ? 'animate-spin' : ''}`} />
-                  {isExtending ? "Extending..." : "Confirm Extension"}
+                  {isExtending ? t("续借处理中...", "Extending...") : t("确认续借", "Confirm Extension")}
                 </Button>
               </DialogFooter>
             </DialogContent>
@@ -301,7 +315,7 @@ function LoanCard({
             disabled
             className="rounded-full border-slate-200 text-slate-400 font-bold sm:w-auto w-full"
           >
-            Already Extended
+            {t('已续借过', 'Already Extended')}
           </Button>
         )}
       </div>
@@ -311,6 +325,7 @@ function LoanCard({
 
 export default function MemberProfile() {
   const { user } = useAuth()
+  const { t } = useLanguage()
   const router = useRouter()
   const blog_url = PHX_HTTP_PROTOCOL + PHX_ENDPOINT
   const [outstandingLoans, setOutstandingLoans] = useState<Loan[]>([])
@@ -365,14 +380,14 @@ export default function MemberProfile() {
       const responseData: ExtendLoanResponse = await response.json()
 
       if (!response.ok) {
-        return { status: 'error', reason: 'Failed to extend loan' }
+        return { status: 'error', reason: t('续借失败', 'Failed to extend loan') }
       }
 
       await queryMember() // Refresh the loan list
       return responseData
     } catch (error) {
       console.error('Error extending loan:', error)
-      return { status: 'error', reason: 'An unexpected error occurred' }
+      return { status: 'error', reason: t('发生未知错误', 'An unexpected error occurred') }
     }
   }
 
@@ -387,14 +402,14 @@ export default function MemberProfile() {
   // Summary metrics
   const totalLoans = outstandingLoans.length
   const dueSoonOrOverdueCount = outstandingLoans.filter((l) => {
-    const s = getLoanTimingStatus(l)
+    const s = getLoanTimingStatus(l, t)
     return s.type === 'overdue' || s.type === 'due-soon'
   }).length
   const extendableCount = outstandingLoans.filter((l) => !l.has_extended).length
 
-  const memberName = user?.userStruct?.name || user?.username || 'Library Member'
+  const memberName = user?.userStruct?.name || user?.username || t('图书馆会友', 'Library Member')
   const memberEmail = user?.userStruct?.email || ''
-  const memberCode = user?.userStruct?.code || 'Member'
+  const memberCode = user?.userStruct?.code || t('会友', 'Member')
 
   return (
     <div className="max-w-6xl mx-auto space-y-8">
@@ -403,20 +418,23 @@ export default function MemberProfile() {
         <div>
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-50 border border-red-200 text-xs font-extrabold uppercase tracking-widest text-red-600 mb-2">
             <Sparkles className="h-3.5 w-3.5" />
-            <span>Member Loan Portal</span>
+            <span>{t('宣道堂 会友借阅特区', 'Member Loan Portal')}</span>
           </div>
           <h1 className="font-display text-3xl sm:text-4xl font-extrabold text-blue-950">
-            My Loans & Return Dates
+            {t('我的借阅与应还日期', 'My Loans & Return Dates')}
           </h1>
           <p className="text-sm sm:text-base text-slate-600 mt-1 font-medium">
-            See when your borrowed books are due back and extend active loans with one click!
+            {t(
+              '随时查看所借书籍的应还日期，并可在线一键延长借阅期限！',
+              'See when your borrowed books are due back and extend active loans with one click!'
+            )}
           </p>
         </div>
 
         <Link href="/books">
           <Button className="rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold px-6 shadow-md gap-2">
             <BookOpen className="h-4 w-4" />
-            <span>Browse More Books</span>
+            <span>{t('浏览更多书籍', 'Browse More Books')}</span>
           </Button>
         </Link>
       </div>
@@ -429,10 +447,10 @@ export default function MemberProfile() {
           </div>
           <div>
             <div className="text-xs font-extrabold uppercase tracking-wider text-blue-600">
-              Active Loans
+              {t('当前借阅书籍', 'Active Loans')}
             </div>
             <div className="font-display text-2xl font-extrabold text-slate-900">
-              {totalLoans} {totalLoans === 1 ? 'Book' : 'Books'}
+              {t(`${totalLoans} 本书`, `${totalLoans} ${totalLoans === 1 ? 'Book' : 'Books'}`)}
             </div>
           </div>
         </div>
@@ -449,10 +467,12 @@ export default function MemberProfile() {
           </div>
           <div>
             <div className="text-xs font-extrabold uppercase tracking-wider text-red-500">
-              Return Schedule
+              {t('归还状态提醒', 'Return Schedule')}
             </div>
             <div className="font-display text-2xl font-extrabold text-slate-900">
-              {dueSoonOrOverdueCount === 0 ? 'All On Time!' : `${dueSoonOrOverdueCount} Due Soon`}
+              {dueSoonOrOverdueCount === 0
+                ? t('全部准时！', 'All On Time!')
+                : t(`${dueSoonOrOverdueCount} 本即将到期`, `${dueSoonOrOverdueCount} Due Soon`)}
             </div>
           </div>
         </div>
@@ -463,10 +483,10 @@ export default function MemberProfile() {
           </div>
           <div>
             <div className="text-xs font-extrabold uppercase tracking-wider text-indigo-600">
-              Can Extend Online
+              {t('可线上续借', 'Can Extend Online')}
             </div>
             <div className="font-display text-2xl font-extrabold text-slate-900">
-              {extendableCount} {extendableCount === 1 ? 'Loan' : 'Loans'}
+              {t(`${extendableCount} 本可续借`, `${extendableCount} ${extendableCount === 1 ? 'Loan' : 'Loans'}`)}
             </div>
           </div>
         </div>
@@ -481,7 +501,7 @@ export default function MemberProfile() {
             <div className="bg-gradient-to-br from-blue-900 via-indigo-800 to-red-700 p-6 text-white">
               <div className="flex items-center justify-between mb-4">
                 <span className="text-[11px] font-extrabold uppercase tracking-widest text-blue-200">
-                  PMC Library Pass
+                  {t('宣道堂图书馆 • 会友借书证', 'PMC Library Pass')}
                 </span>
                 <UserCheck className="h-4 w-4 text-red-300" />
               </div>
@@ -506,7 +526,7 @@ export default function MemberProfile() {
 
               {memberCode && (
                 <div className="mt-5 pt-4 border-t border-white/20 flex items-center justify-between text-xs">
-                  <span className="text-blue-100 font-semibold">Member Code</span>
+                  <span className="text-blue-100 font-semibold">{t('会友编号', 'Member Code')}</span>
                   <span className="font-mono font-extrabold text-white bg-white/20 px-3 py-1 rounded-full">
                     {memberCode}
                   </span>
@@ -522,7 +542,7 @@ export default function MemberProfile() {
                   className="w-full justify-start gap-2.5 rounded-2xl border-blue-100 text-blue-900 hover:bg-blue-50 font-bold h-11"
                 >
                   <Settings className="h-4 w-4 text-blue-600" />
-                  <span>Edit My Profile</span>
+                  <span>{t('编辑会友资料', 'Edit My Profile')}</span>
                 </Button>
               </Link>
               <Button
@@ -531,7 +551,7 @@ export default function MemberProfile() {
                 className="w-full justify-start gap-2.5 rounded-2xl text-red-600 hover:bg-red-50 hover:text-red-700 font-bold h-11"
               >
                 <LogOut className="h-4 w-4" />
-                <span>Sign Out</span>
+                <span>{t('退出登录', 'Sign Out')}</span>
               </Button>
             </div>
           </div>
@@ -540,10 +560,13 @@ export default function MemberProfile() {
           <div className="rounded-3xl bg-gradient-to-br from-blue-50 to-red-50 border-2 border-blue-100 p-5 space-y-2">
             <h3 className="font-display font-extrabold text-blue-950 text-base flex items-center gap-2">
               <Sparkles className="h-4 w-4 text-red-500" />
-              Quick Loan Tip
+              {t('借阅与续借温馨提示', 'Quick Loan Tip')}
             </h3>
             <p className="text-xs text-slate-600 leading-relaxed font-medium">
-              Each borrowed book can be extended online once before its return due date. Returning books on time helps everyone in our community enjoy them!
+              {t(
+                '每本借阅的图书在到期前均可在线免费续借一次。准时归还图书能让教会更多弟兄姐妹一同享受阅读的祝福！',
+                'Each borrowed book can be extended online once before its return due date. Returning books on time helps everyone in our community enjoy them!'
+              )}
             </p>
           </div>
         </div>
@@ -553,7 +576,7 @@ export default function MemberProfile() {
           <div className="flex items-center justify-between">
             <h2 className="font-display text-2xl font-extrabold text-blue-950 flex items-center gap-2.5">
               <BookOpen className="h-6 w-6 text-red-500" />
-              <span>Your Borrowed Books</span>
+              <span>{t('您当前借阅的书籍', 'Your Borrowed Books')}</span>
             </h2>
             <Button
               variant="ghost"
@@ -562,7 +585,7 @@ export default function MemberProfile() {
               className="text-xs font-bold text-blue-600 hover:bg-blue-50 rounded-full gap-1.5"
             >
               <RefreshCw className={`h-3.5 w-3.5 ${isLoadingLoans ? 'animate-spin' : ''}`} />
-              <span>Refresh List</span>
+              <span>{t('刷新列表', 'Refresh List')}</span>
             </Button>
           </div>
 
@@ -586,16 +609,19 @@ export default function MemberProfile() {
               </div>
               <div className="space-y-1 max-w-md mx-auto">
                 <h3 className="font-display text-xl font-extrabold text-blue-950">
-                  No Active Loans Right Now!
+                  {t('目前没有待归还的借阅书籍！', 'No Active Loans Right Now!')}
                 </h3>
                 <p className="text-sm text-slate-500 leading-relaxed font-medium">
-                  You don't have any borrowed books due for return. Ready to discover your next favorite read?
+                  {t(
+                    '您目前没有任何外借中的书籍。欢迎前往图书馆检索，发掘您的下一本好书！',
+                    "You don't have any borrowed books due for return. Ready to discover your next favorite read?"
+                  )}
                 </p>
               </div>
               <div className="pt-2">
                 <Link href="/books">
                   <Button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold rounded-full px-7 shadow-md gap-2">
-                    <span>Explore Book Catalogue</span>
+                    <span>{t('进入教会图书馆检索', 'Explore Book Catalogue')}</span>
                     <ArrowRight className="h-4 w-4" />
                   </Button>
                 </Link>

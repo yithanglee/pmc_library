@@ -10,10 +10,12 @@ import Link from 'next/link'
 import Image from 'next/image'
 import Header from '@/components/ui/header'
 import { ArrowLeft, BookOpen, CalendarClock, Lock, Mail, RefreshCw } from 'lucide-react'
+import { useLanguage } from '@/i18n'
 
 export default function SignIn() {
   const [origin, setOrigin] = useState('')
   const { login } = useAuth()
+  const { t } = useLanguage()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
@@ -34,7 +36,7 @@ export default function SignIn() {
       if (error instanceof Error) {
         setError(error.message)
       } else {
-        setError('An unexpected error occurred')
+        setError(t('登录时发生未知错误', 'An unexpected error occurred'))
       }
     } finally {
       setIsLoading(false)
@@ -58,36 +60,41 @@ export default function SignIn() {
                   height={24}
                   className="bg-white rounded-full p-0.5"
                 />
-                <span className="text-xs font-extrabold tracking-wide">PMC Library Portal</span>
+                <span className="text-xs font-extrabold tracking-wide">
+                  {t('宣道堂 会友特区', 'PMC Library Portal')}
+                </span>
               </div>
 
               <div className="space-y-2 pt-2">
                 <h1 className="font-display text-2xl sm:text-3xl font-extrabold text-white leading-snug">
-                  Welcome Back, Reader!
+                  {t('欢迎回来，亲爱的读者！', 'Welcome Back, Reader!')}
                 </h1>
                 <p className="text-xs sm:text-sm text-blue-100 leading-relaxed font-medium">
-                  Log in to your member account to check your borrowed books, see due dates, and extend loans online!
+                  {t(
+                    '登录您的会友账号，即可查看已借阅书籍、掌握应还日期，并在线一键办理续借！',
+                    'Log in to your member account to check your borrowed books, see due dates, and extend loans online!'
+                  )}
                 </p>
               </div>
 
               <div className="space-y-3.5 pt-4 border-t border-white/20 text-xs text-white font-semibold">
                 <div className="flex items-start gap-2.5">
                   <CalendarClock className="h-4 w-4 text-red-300 shrink-0 mt-0.5" />
-                  <span>Know exact return due dates at a glance</span>
+                  <span>{t('清晰查看每本书的借出与应还日期', 'Know exact return due dates at a glance')}</span>
                 </div>
                 <div className="flex items-start gap-2.5">
                   <RefreshCw className="h-4 w-4 text-red-300 shrink-0 mt-0.5" />
-                  <span>Extend your book loans with 1 click</span>
+                  <span>{t('线上轻松一键延长借阅期限', 'Extend your book loans with 1 click')}</span>
                 </div>
                 <div className="flex items-start gap-2.5">
                   <BookOpen className="h-4 w-4 text-red-300 shrink-0 mt-0.5" />
-                  <span>View your digital library membership pass</span>
+                  <span>{t('专属电子会友借书证', 'View your digital library membership pass')}</span>
                 </div>
               </div>
             </div>
 
             <div className="pt-8 text-[11px] font-bold text-blue-200/80">
-              Pioneer Methodist Community Library
+              {t('实兆远甘文阁卫理公会宣道堂 • 图书馆', 'Pioneer Methodist Community Library')}
             </div>
           </div>
 
@@ -95,17 +102,17 @@ export default function SignIn() {
           <div className="md:col-span-7 p-6 sm:p-10 bg-white flex flex-col justify-center">
             <div className="mb-6">
               <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-blue-950">
-                Member Login
+                {t('会友登录', 'Member Login')}
               </h2>
               <p className="text-sm text-slate-500 mt-1 font-medium">
-                Enter your email and password to manage your loans
+                {t('请输入您的电子邮箱与密码以管理借阅记录', 'Enter your email and password to manage your loans')}
               </p>
             </div>
 
             <form onSubmit={handleSignIn} className="space-y-4">
               <div className="space-y-1.5">
                 <Label htmlFor="email" className="text-xs font-extrabold uppercase tracking-wider text-blue-900">
-                  Email Address
+                  {t('电子邮箱 (Email)', 'Email Address')}
                 </Label>
                 <div className="relative">
                   <Mail className="h-4 w-4 text-blue-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -124,13 +131,13 @@ export default function SignIn() {
               <div className="space-y-1.5">
                 <div className="flex items-center justify-between">
                   <Label htmlFor="password" className="text-xs font-extrabold uppercase tracking-wider text-blue-900">
-                    Password
+                    {t('密码 (Password)', 'Password')}
                   </Label>
                   <Link
                     href="/forgotPassword"
                     className="text-xs font-bold text-red-600 hover:underline"
                   >
-                    Forgot password?
+                    {t('忘记密码？', 'Forgot password?')}
                   </Link>
                 </div>
                 <div className="relative">
@@ -138,7 +145,7 @@ export default function SignIn() {
                   <Input
                     id="password"
                     type="password"
-                    placeholder="Enter your password"
+                    placeholder={t('请输入您的密码', 'Enter your password')}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
@@ -158,15 +165,15 @@ export default function SignIn() {
                 className="w-full h-12 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-full font-bold text-base shadow-lg shadow-blue-600/25 mt-2"
                 disabled={isLoading}
               >
-                {isLoading ? 'Signing In...' : 'Sign In to My Account'}
+                {isLoading ? t('登录中...', 'Signing In...') : t('登录会友借阅特区', 'Sign In to My Account')}
               </Button>
             </form>
 
             <div className="mt-8 pt-6 border-t border-blue-50 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm">
               <p className="text-slate-600 font-medium">
-                New to the library?{' '}
+                {t('还没有借阅账号？', 'New to the library?')}{' '}
                 <Link href="/signUp" className="font-extrabold text-red-600 hover:underline">
-                  Join Free Today
+                  {t('立即免费注册', 'Join Free Today')}
                 </Link>
               </p>
 
@@ -175,7 +182,7 @@ export default function SignIn() {
                 className="text-blue-600 font-bold hover:text-blue-800 inline-flex items-center gap-1"
               >
                 <ArrowLeft className="h-3.5 w-3.5" />
-                <span>Back Home</span>
+                <span>{t('返回主页', 'Back Home')}</span>
               </Link>
             </div>
           </div>

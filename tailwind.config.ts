@@ -57,9 +57,9 @@ const config: Config = {
   			sm: 'calc(var(--radius) - 4px)'
   		},
   		fontFamily: {
-  			sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
-  			display: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
-  			serif: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
+  			sans: ['"Noto Sans SC"', 'Inter', 'system-ui', '-apple-system', 'sans-serif'],
+  			display: ['"Plus Jakarta Sans"', '"Noto Sans SC"', 'Inter', 'sans-serif'],
+  			serif: ['"Plus Jakarta Sans"', '"Noto Sans SC"', 'Inter', 'sans-serif'],
   		}
   	}
   },

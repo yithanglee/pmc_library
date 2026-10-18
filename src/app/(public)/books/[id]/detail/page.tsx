@@ -22,6 +22,7 @@ import { PHX_ENDPOINT, PHX_HTTP_PROTOCOL } from '@/lib/constants'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useAuth } from '@/lib/auth'
+import { useLanguage } from '@/i18n'
 
 interface BookData {
   book: {
@@ -62,6 +63,7 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
   const [error, setError] = useState<string | null>(null)
   const router = useRouter()
   const { user } = useAuth()
+  const { t } = useLanguage()
 
   useEffect(() => {
     const fetchBookData = async () => {
@@ -120,7 +122,7 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
             className="text-blue-700 hover:text-blue-900 hover:bg-blue-50 -ml-3 gap-2 text-sm font-bold rounded-full px-4"
           >
             <ArrowLeft className="h-4 w-4" />
-            <span>Back to Book Catalogue</span>
+            <span>{t('返回图书馆目录', 'Back to Book Catalogue')}</span>
           </Button>
         </div>
 
@@ -166,10 +168,10 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
                   )}
                   <div>
                     <div className="text-xs font-extrabold uppercase tracking-wider">
-                      {available ? 'Available on Shelf' : 'Currently Checked Out'}
+                      {available ? t('在架上 • 可借阅', 'Available on Shelf') : t('已借出 • 外借中', 'Currently Checked Out')}
                     </div>
                     <div className="text-xs font-medium opacity-85 mt-0.5">
-                      Call No: <span className="font-mono font-bold">{code}</span>
+                      {t('索书号', 'Call No')}: <span className="font-mono font-bold">{code}</span>
                     </div>
                   </div>
                 </div>
@@ -197,7 +199,7 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
                         : 'border-red-300 bg-red-50 text-red-600'
                     }`}
                   >
-                    {available ? 'Ready to Borrow' : 'On Loan'}
+                    {available ? t('可借阅 (Available)', 'Ready to Borrow') : t('外借中 (On Loan)', 'On Loan')}
                   </Badge>
                 </div>
 
@@ -206,9 +208,9 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
                   {book.title}
                 </h1>
                 <p className="text-lg text-slate-600 mt-1.5 flex items-center gap-2 font-medium">
-                  <span>By</span>
+                  <span>{t('作者：', 'By')}</span>
                   <span className="font-bold text-red-600">
-                    {author?.name || 'Unknown Author'}
+                    {author?.name || t('未知作者', 'Unknown Author')}
                   </span>
                 </p>
 
@@ -216,7 +218,7 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
                 {book.description ? (
                   <div className="mt-6 pt-6 border-t border-blue-100">
                     <h2 className="text-xs font-extrabold uppercase tracking-widest text-blue-600 mb-2.5">
-                      About This Book
+                      {t('内容简介', 'About This Book')}
                     </h2>
                     <p className="text-slate-700 leading-relaxed text-sm sm:text-base whitespace-pre-line">
                       {book.description}
@@ -225,8 +227,10 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
                 ) : (
                   <div className="mt-6 pt-6 border-t border-blue-100">
                     <p className="text-sm text-slate-500 italic">
-                      No synopsis provided for this volume. Visit the library shelf at call number{' '}
-                      <span className="font-mono font-bold text-blue-700">{code}</span> to check it out in person!
+                      {t(
+                        `暂无本书内容简介。欢迎前往教会图书馆书架（索书号：${code}）翻阅借读！`,
+                        `No synopsis provided for this volume. Visit the library shelf at call number ${code} to check it out in person!`
+                      )}
                     </p>
                   </div>
                 )}
@@ -234,7 +238,7 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
                 {/* Catalogue Metadata Grid */}
                 <div className="mt-6 pt-6 border-t border-blue-100">
                   <h2 className="text-xs font-extrabold uppercase tracking-widest text-blue-600 mb-3.5">
-                    Book Details
+                    {t('馆藏资料 (Catalogue Info)', 'Book Details')}
                   </h2>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                     <div className="bg-blue-50/50 border border-blue-100 rounded-2xl p-3.5 flex items-start gap-3">
@@ -242,7 +246,9 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
                         <Hash className="h-4 w-4" />
                       </div>
                       <div>
-                        <div className="text-xs font-semibold text-slate-500">Call Number / Barcode</div>
+                        <div className="text-xs font-semibold text-slate-500">
+                          {t('索书号 / 条码 (Call Number)', 'Call Number / Barcode')}
+                        </div>
                         <div className="text-sm font-mono font-extrabold text-blue-950 mt-0.5">
                           {code || 'N/A'}
                         </div>
@@ -254,9 +260,11 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
                         <Building2 className="h-4 w-4" />
                       </div>
                       <div>
-                        <div className="text-xs font-semibold text-slate-500">Publisher</div>
+                        <div className="text-xs font-semibold text-slate-500">
+                          {t('出版社 (Publisher)', 'Publisher')}
+                        </div>
                         <div className="text-sm font-bold text-slate-900 mt-0.5">
-                          {publisher?.name || 'Not specified'}
+                          {publisher?.name || t('未注明', 'Not specified')}
                         </div>
                       </div>
                     </div>
@@ -280,7 +288,9 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
                         <Calendar className="h-4 w-4" />
                       </div>
                       <div>
-                        <div className="text-xs font-semibold text-slate-500">Added to Library</div>
+                        <div className="text-xs font-semibold text-slate-500">
+                          {t('入库日期 (Added Date)', 'Added to Library')}
+                        </div>
                         <div className="text-sm font-bold text-slate-900 mt-0.5">
                           {book.inserted_at
                             ? new Date(book.inserted_at).toLocaleDateString('en-GB', {
@@ -299,7 +309,9 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
                           <DollarSign className="h-4 w-4" />
                         </div>
                         <div>
-                          <div className="text-xs font-semibold text-slate-500">Book Value</div>
+                          <div className="text-xs font-semibold text-slate-500">
+                            {t('参考价格', 'Book Value')}
+                          </div>
                           <div className="text-sm font-bold text-slate-900 mt-0.5">
                             RM {book.price.toFixed(2)}
                           </div>
@@ -317,12 +329,22 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
                   <div className="text-xs sm:text-sm text-slate-700 font-medium">
                     {available ? (
                       <>
-                        <span className="font-extrabold text-blue-950">Want to borrow this book?</span> Find it on the shelf with call number{' '}
-                        <span className="font-mono font-extrabold text-red-600">{code}</span>!
+                        <span className="font-extrabold text-blue-950">
+                          {t('想要借阅这本书？', 'Want to borrow this book?')}
+                        </span>{' '}
+                        {t('请凭索书号 ', 'Find it on the shelf with call number ')}
+                        <span className="font-mono font-extrabold text-red-600">{code}</span>
+                        {t(' 在教会图书馆书架上取阅并登记借出！', '!')}
                       </>
                     ) : (
                       <>
-                        <span className="font-extrabold text-blue-950">Borrowed this book?</span> Log in to your member portal to check its return due date or extend your loan!
+                        <span className="font-extrabold text-blue-950">
+                          {t('您正在借阅这本书？', 'Borrowed this book?')}
+                        </span>{' '}
+                        {t(
+                          '请登录会友借阅特区查看应还日期或直接办理线上续借！',
+                          'Log in to your member portal to check its return due date or extend your loan!'
+                        )}
                       </>
                     )}
                   </div>
@@ -333,7 +355,7 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
                     className="bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 text-white font-bold rounded-full px-6 shadow-md w-full sm:w-auto"
                   >
                     <Clock className="h-4 w-4 mr-2" />
-                    {user ? 'My Loans' : 'Member Login'}
+                    {user ? t('我的借阅', 'My Loans') : t('会友登录', 'Member Login')}
                   </Button>
                 </Link>
               </div>
@@ -347,7 +369,7 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
             <div className="bg-white border-2 border-blue-100 rounded-3xl p-6 shadow-sm">
               <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-widest text-blue-600 mb-2">
                 <Layers className="h-4 w-4 text-red-500" />
-                <span>Collection Shelf</span>
+                <span>{t('所属书籍分类', 'Collection Shelf')}</span>
               </div>
               <h3 className="font-display text-xl font-extrabold text-blue-950 mb-2">
                 {book_category.name}
@@ -359,7 +381,12 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
               )}
               <div className="inline-flex items-center gap-2 text-xs font-bold text-blue-700 bg-blue-50 border border-blue-200 px-3.5 py-1.5 rounded-full">
                 <BookOpen className="h-3.5 w-3.5 text-blue-600" />
-                <span>{book_category.book_count} books in this category</span>
+                <span>
+                  {t(
+                    `此分类共有 ${book_category.book_count} 本藏书`,
+                    `${book_category.book_count} books in this category`
+                  )}
+                </span>
               </div>
             </div>
           )}
@@ -368,7 +395,7 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
             <div className="bg-white border-2 border-red-100 rounded-3xl p-6 shadow-sm">
               <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-widest text-red-500 mb-2">
                 <User className="h-4 w-4 text-blue-600" />
-                <span>About the Author</span>
+                <span>{t('作者简介', 'About the Author')}</span>
               </div>
               <h3 className="font-display text-xl font-extrabold text-blue-950 mb-2">
                 {author.name}

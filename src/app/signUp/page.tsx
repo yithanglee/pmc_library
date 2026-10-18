@@ -12,6 +12,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import Header from '@/components/ui/header'
+import { useLanguage } from '@/i18n'
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -26,6 +27,7 @@ const app = getApps().length ? getApp() : initializeApp(firebaseConfig)
 const auth = getAuth(app)
 
 export default function SignUpPage() {
+  const { t } = useLanguage()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
@@ -48,7 +50,7 @@ export default function SignUpPage() {
       if (err instanceof Error) {
         setError(err.message)
       } else {
-        setError('An unknown error occurred')
+        setError(t('发生未知错误', 'An unknown error occurred'))
       }
     } finally {
       setIsLoading(false)
@@ -72,32 +74,37 @@ export default function SignUpPage() {
                   height={24}
                   className="bg-white rounded-full p-0.5"
                 />
-                <span className="text-xs font-extrabold tracking-wide">Join Our Community</span>
+                <span className="text-xs font-extrabold tracking-wide">
+                  {t('加入宣道堂书香大家庭', 'Join Our Community')}
+                </span>
               </div>
 
               <div className="space-y-2 pt-2">
                 <h1 className="font-display text-2xl sm:text-3xl font-extrabold text-white leading-snug">
-                  Become a Library Member!
+                  {t('注册成为图书馆会友！', 'Become a Library Member!')}
                 </h1>
                 <p className="text-xs sm:text-sm text-red-100 leading-relaxed font-medium">
-                  Sign up for free to borrow books, track return due dates online, and extend your loans anytime!
+                  {t(
+                    '免费注册账号，即可借阅教会精选书籍、随时在线查询应还日期与一键续借！',
+                    'Sign up for free to borrow books, track return due dates online, and extend your loans anytime!'
+                  )}
                 </p>
               </div>
 
               <div className="space-y-3 pt-4 border-t border-white/20 text-xs text-white font-semibold">
                 <div className="flex items-center gap-2.5">
                   <Sparkles className="h-4 w-4 text-yellow-300 shrink-0" />
-                  <span>Free membership for everyone</span>
+                  <span>{t('免费开放予教会会友与社区读者', 'Free membership for everyone')}</span>
                 </div>
                 <div className="flex items-center gap-2.5">
                   <BookOpen className="h-4 w-4 text-blue-200 shrink-0" />
-                  <span>Easy online loan extensions & due dates</span>
+                  <span>{t('轻松在线查询应还日期与延长借期', 'Easy online loan extensions & due dates')}</span>
                 </div>
               </div>
             </div>
 
             <div className="pt-8 text-[11px] font-bold text-white/75">
-              Pioneer Methodist Community Library
+              {t('实兆远甘文阁卫理公会宣道堂 • 图书馆', 'Pioneer Methodist Community Library')}
             </div>
           </div>
 
@@ -105,17 +112,17 @@ export default function SignUpPage() {
           <div className="md:col-span-7 p-6 sm:p-10 bg-white flex flex-col justify-center">
             <div className="mb-6">
               <h2 className="font-display text-2xl sm:text-3xl font-extrabold text-blue-950">
-                Create Member Account
+                {t('注册会友借阅账号', 'Create Member Account')}
               </h2>
               <p className="text-sm text-slate-500 mt-1 font-medium">
-                Enter your email address and choose a password to get started
+                {t('请输入您的电子邮箱并设定登录密码', 'Enter your email address and choose a password to get started')}
               </p>
             </div>
 
             <form onSubmit={handleSignUp} className="space-y-4">
               <div className="space-y-1.5">
                 <Label htmlFor="email" className="text-xs font-extrabold uppercase tracking-wider text-blue-900">
-                  Email Address
+                  {t('电子邮箱 (Email)', 'Email Address')}
                 </Label>
                 <div className="relative">
                   <Mail className="h-4 w-4 text-blue-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -133,7 +140,7 @@ export default function SignUpPage() {
 
               <div className="space-y-1.5">
                 <Label htmlFor="password" className="text-xs font-extrabold uppercase tracking-wider text-blue-900">
-                  Password
+                  {t('设定密码 (Password)', 'Password')}
                 </Label>
                 <div className="relative">
                   <Lock className="h-4 w-4 text-blue-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -143,7 +150,7 @@ export default function SignUpPage() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
-                    placeholder="Create a secure password"
+                    placeholder={t('请输入安全密码', 'Create a secure password')}
                     className="pl-10 h-11 rounded-xl border-blue-200 focus-visible:ring-blue-600"
                   />
                 </div>
@@ -152,7 +159,7 @@ export default function SignUpPage() {
               {error && (
                 <Alert variant="destructive" className="rounded-xl">
                   <AlertCircle className="h-4 w-4" />
-                  <AlertTitle>Registration Error</AlertTitle>
+                  <AlertTitle>{t('注册错误', 'Registration Error')}</AlertTitle>
                   <AlertDescription>{error}</AlertDescription>
                 </Alert>
               )}
@@ -160,9 +167,9 @@ export default function SignUpPage() {
               {success && (
                 <Alert className="rounded-xl border-emerald-200 bg-emerald-50 text-emerald-900">
                   <CheckCircle2 className="h-4 w-4 text-emerald-600" />
-                  <AlertTitle className="font-bold">Account Created!</AlertTitle>
+                  <AlertTitle className="font-bold">{t('账号注册成功！', 'Account Created!')}</AlertTitle>
                   <AlertDescription>
-                    Registration successful! Redirecting you to sign in...
+                    {t('正在为您跳转至登录页面...', 'Registration successful! Redirecting you to sign in...')}
                   </AlertDescription>
                 </Alert>
               )}
@@ -173,15 +180,15 @@ export default function SignUpPage() {
                 className="w-full h-12 bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 text-white rounded-full font-bold text-base shadow-lg shadow-red-500/25 mt-2 gap-2"
               >
                 <UserPlus className="h-4 w-4" />
-                <span>{isLoading ? 'Creating Account...' : 'Join Library Free'}</span>
+                <span>{isLoading ? t('正在创建账号...', 'Creating Account...') : t('免费注册借阅账号', 'Join Library Free')}</span>
               </Button>
             </form>
 
             <div className="mt-8 pt-6 border-t border-blue-50 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm">
               <p className="text-slate-600 font-medium">
-                Already have an account?{' '}
+                {t('已经有账号了？', 'Already have an account?')}{' '}
                 <Link href="/signIn" className="font-extrabold text-blue-600 hover:underline">
-                  Sign in here
+                  {t('在此登录', 'Sign in here')}
                 </Link>
               </p>
 
@@ -190,7 +197,7 @@ export default function SignUpPage() {
                 className="text-blue-600 font-bold hover:text-blue-800 inline-flex items-center gap-1"
               >
                 <ArrowLeft className="h-3.5 w-3.5" />
-                <span>Back Home</span>
+                <span>{t('返回主页', 'Back Home')}</span>
               </Link>
             </div>
           </div>

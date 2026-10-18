@@ -2,6 +2,7 @@
 
 import { populateData } from '@/components/data/populateData'
 import { PHX_ENDPOINT, PHX_HTTP_PROTOCOL } from '@/lib/constants'
+import { useLanguage } from '@/i18n'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState, useCallback } from 'react'
 import Link from 'next/link'
@@ -48,11 +49,12 @@ function buildQueryString(data: any, parentKey: any = null): string {
 export default function BooksPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const { t } = useLanguage()
 
   // Categories
   const [categories, setCategories] = useState<any[]>([])
   const [selectedCategoryId, setSelectedCategoryId] = useState<string>('')
-  const [selectedCategoryTitle, setSelectedCategoryTitle] = useState<string>('All Collections')
+  const [selectedCategoryTitle, setSelectedCategoryTitle] = useState<string>('')
   const [categoryFilterText, setCategoryFilterText] = useState<string>('')
   const [showMobileCategories, setShowMobileCategories] = useState<boolean>(false)
 
@@ -111,7 +113,7 @@ export default function BooksPage() {
       }
     } else if (!currentCategoryCode) {
       setSelectedCategoryId('')
-      setSelectedCategoryTitle('All Collections')
+      setSelectedCategoryTitle('')
     }
   }, [categories, searchParams])
 
@@ -208,7 +210,7 @@ export default function BooksPage() {
     const currentParams = new URLSearchParams(searchParams)
     if (!cat) {
       setSelectedCategoryId('')
-      setSelectedCategoryTitle('All Collections')
+      setSelectedCategoryTitle('')
       currentParams.delete('category_code')
     } else {
       setSelectedCategoryId(String(cat.id))
@@ -265,6 +267,9 @@ export default function BooksPage() {
     Boolean(appliedFilters.author) ||
     Boolean(appliedFilters.publisher)
 
+  const displayCategoryTitle =
+    selectedCategoryTitle || t('全部馆藏丛书 (All Collections)', 'All Collections')
+
   return (
     <div className="min-h-screen pb-20">
       {/* Lively Blue-Red Catalogue Header Banner */}
@@ -277,13 +282,16 @@ export default function BooksPage() {
             <div>
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15 backdrop-blur-sm text-xs font-extrabold uppercase tracking-widest text-red-200 mb-3">
                 <Sparkles className="h-3.5 w-3.5 text-red-300" />
-                <span>PMC Community Book Collection</span>
+                <span>{t('卫理公会宣道堂 • 线上阅读', 'PMC Community Book Collection')}</span>
               </div>
               <h1 className="font-display text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-                Explore Our Library Books
+                {t('教会图书馆检索', 'Explore Our Library Books')}
               </h1>
               <p className="text-sm sm:text-base text-blue-100 mt-1.5 font-medium">
-                Pick a category shelf or search by title, author, and publisher!
+                {t(
+                  '一览教会丛书：按分类浏览，或输入书名、作者、出版社进行搜索！',
+                  'Pick a category shelf or search by title, author, and publisher!'
+                )}
               </p>
             </div>
 
@@ -295,7 +303,7 @@ export default function BooksPage() {
                     <Search className="h-4 w-4 text-blue-600 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                     <Input
                       type="text"
-                      placeholder="Search by book title..."
+                      placeholder={t('输入书名搜索 (Search by book title)...', 'Search by book title...')}
                       value={titleSearch}
                       onChange={(e) => setTitleSearch(e.target.value)}
                       className="pl-10 h-11 bg-white text-slate-900 border-0 rounded-xl text-sm font-medium focus-visible:ring-2 focus-visible:ring-blue-500"
@@ -310,16 +318,16 @@ export default function BooksPage() {
                         ? 'bg-blue-100 text-blue-800'
                         : 'bg-white/90 text-slate-700 hover:bg-white'
                     }`}
-                    title="Filter by Author or Publisher"
+                    title={t('按作者或出版社筛选', 'Filter by Author or Publisher')}
                   >
                     <SlidersHorizontal className="h-4 w-4 sm:mr-1.5 text-blue-600" />
-                    <span className="hidden sm:inline text-xs">Filters</span>
+                    <span className="hidden sm:inline text-xs">{t('更多筛选', 'Filters')}</span>
                   </Button>
                   <Button
                     type="submit"
                     className="h-11 px-6 rounded-xl bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 text-white font-bold text-sm shadow-md"
                   >
-                    Search
+                    {t('搜索', 'Search')}
                   </Button>
                 </div>
 
@@ -330,7 +338,7 @@ export default function BooksPage() {
                       <User className="h-3.5 w-3.5 text-blue-600 absolute left-3.5 top-1/2 -translate-y-1/2" />
                       <Input
                         type="text"
-                        placeholder="Filter by author name..."
+                        placeholder={t('按作者姓名筛选 (Author)...', 'Filter by author name...')}
                         value={authorSearch}
                         onChange={(e) => setAuthorSearch(e.target.value)}
                         className="pl-9 h-10 bg-white text-slate-900 border-0 rounded-xl text-xs font-medium shadow-sm"
@@ -340,7 +348,7 @@ export default function BooksPage() {
                       <Building2 className="h-3.5 w-3.5 text-red-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
                       <Input
                         type="text"
-                        placeholder="Filter by publisher..."
+                        placeholder={t('按出版社筛选 (Publisher)...', 'Filter by publisher...')}
                         value={publisherSearch}
                         onChange={(e) => setPublisherSearch(e.target.value)}
                         className="pl-9 h-10 bg-white text-slate-900 border-0 rounded-xl text-xs font-medium shadow-sm"
@@ -365,17 +373,19 @@ export default function BooksPage() {
           >
             <span className="flex items-center gap-2 text-sm font-bold truncate">
               <Filter className="h-4 w-4 text-red-500 shrink-0" />
-              <span>Category: {selectedCategoryTitle}</span>
+              <span>
+                {t('分类', 'Category')}: {displayCategoryTitle}
+              </span>
             </span>
             <span className="text-xs font-bold text-blue-600 ml-2 shrink-0 bg-blue-50 px-2.5 py-1 rounded-full">
-              {showMobileCategories ? 'Hide' : 'Change'}
+              {showMobileCategories ? t('收起', 'Hide') : t('切换分类', 'Change')}
             </span>
           </Button>
 
           {showMobileCategories && (
             <div className="mt-2 bg-white border-2 border-blue-100 shadow-xl rounded-2xl p-4 max-h-80 overflow-y-auto space-y-1.5">
               <Input
-                placeholder="Quick find category..."
+                placeholder={t('快速查找分类...', 'Quick find category...')}
                 value={categoryFilterText}
                 onChange={(e) => setCategoryFilterText(e.target.value)}
                 className="h-9 text-xs mb-2 bg-blue-50/50 border-blue-200 rounded-xl"
@@ -389,7 +399,7 @@ export default function BooksPage() {
                     : 'text-slate-700 hover:bg-blue-50'
                 }`}
               >
-                All Collections
+                {t('全部馆藏丛书 (All)', 'All Collections')}
               </button>
               {filteredCategories.map((cat) => {
                 const active = String(cat.id) === String(selectedCategoryId)
@@ -427,7 +437,7 @@ export default function BooksPage() {
                 <div className="flex items-center justify-between mb-3">
                   <h2 className="font-display font-extrabold text-base text-blue-950 flex items-center gap-2">
                     <Layers className="h-4 w-4 text-red-500" />
-                    <span>Book Categories</span>
+                    <span>{t('书籍分类 (Categories)', 'Book Categories')}</span>
                   </h2>
                   <span className="text-xs bg-white text-blue-700 border border-blue-200 px-2 py-0.5 rounded-full font-bold">
                     {categories.length}
@@ -437,7 +447,7 @@ export default function BooksPage() {
                   <Search className="h-3.5 w-3.5 text-blue-400 absolute left-3 top-1/2 -translate-y-1/2" />
                   <Input
                     type="text"
-                    placeholder="Find a shelf..."
+                    placeholder={t('查找分类代码或名称...', 'Find a shelf...')}
                     value={categoryFilterText}
                     onChange={(e) => setCategoryFilterText(e.target.value)}
                     className="pl-8 h-9 text-xs bg-white border-blue-200 rounded-xl"
@@ -455,7 +465,7 @@ export default function BooksPage() {
                       : 'text-slate-700 hover:bg-blue-50/70 font-bold'
                   }`}
                 >
-                  <span>All Collections</span>
+                  <span>{t('全部馆藏丛书 (All)', 'All Collections')}</span>
                 </button>
 
                 {filteredCategories.map((item) => {
@@ -494,10 +504,10 @@ export default function BooksPage() {
             <div className="flex flex-wrap items-center justify-between gap-4 mb-6 pb-4 border-b border-blue-100">
               <div>
                 <div className="text-xs font-extrabold uppercase tracking-wider text-red-500">
-                  Currently Browsing
+                  {t('当前浏览分类', 'Currently Browsing')}
                 </div>
                 <h2 className="font-display text-2xl font-extrabold text-blue-950 mt-0.5">
-                  {selectedCategoryTitle}
+                  {displayCategoryTitle}
                 </h2>
               </div>
 
@@ -506,17 +516,17 @@ export default function BooksPage() {
                   <>
                     {appliedFilters.title && (
                       <Badge variant="secondary" className="bg-blue-50 text-blue-700 border border-blue-200 gap-1 px-3 py-1 font-bold rounded-full">
-                        Title: {appliedFilters.title}
+                        {t('书名', 'Title')}: {appliedFilters.title}
                       </Badge>
                     )}
                     {appliedFilters.author && (
                       <Badge variant="secondary" className="bg-blue-50 text-blue-700 border border-blue-200 gap-1 px-3 py-1 font-bold rounded-full">
-                        Author: {appliedFilters.author}
+                        {t('作者', 'Author')}: {appliedFilters.author}
                       </Badge>
                     )}
                     {appliedFilters.publisher && (
                       <Badge variant="secondary" className="bg-blue-50 text-blue-700 border border-blue-200 gap-1 px-3 py-1 font-bold rounded-full">
-                        Publisher: {appliedFilters.publisher}
+                        {t('出版社', 'Publisher')}: {appliedFilters.publisher}
                       </Badge>
                     )}
                     <Button
@@ -526,14 +536,14 @@ export default function BooksPage() {
                       className="h-7 px-2.5 text-xs font-bold text-red-600 hover:bg-red-50 rounded-full"
                     >
                       <X className="h-3.5 w-3.5 mr-1" />
-                      Clear filters
+                      {t('清除筛选', 'Clear filters')}
                     </Button>
                   </>
                 )}
 
                 {!isLoading && totalRecords > 0 && (
                   <span className="text-xs font-bold text-blue-700 bg-blue-50 border border-blue-200 px-3.5 py-1.5 rounded-full">
-                    Page {currentPage} of {totalPages}
+                    {t(`第 ${currentPage} / ${totalPages} 页`, `Page ${currentPage} of ${totalPages}`)}
                   </span>
                 )}
               </div>
@@ -561,15 +571,18 @@ export default function BooksPage() {
                   <BookOpen className="h-8 w-8" />
                 </div>
                 <h3 className="font-display text-xl font-extrabold text-blue-950 mb-1">
-                  No books found on this shelf
+                  {t('未找到符合条件的书籍', 'No books found on this shelf')}
                 </h3>
                 <p className="text-sm text-slate-500 max-w-md mx-auto mb-6 font-medium">
-                  Try clearing your search filters or picking another category from the left!
+                  {t(
+                    '请尝试清除搜索筛选条件，或从左侧选择其他书籍分类！',
+                    'Try clearing your search filters or picking another category from the left!'
+                  )}
                 </p>
                 <div className="flex justify-center gap-3">
                   {hasActiveSearch && (
                     <Button variant="outline" onClick={handleClearSearch} className="rounded-full font-bold border-blue-200 text-blue-700">
-                      Clear Search Filters
+                      {t('清除搜索条件', 'Clear Search Filters')}
                     </Button>
                   )}
                   {selectedCategoryId && (
@@ -577,7 +590,7 @@ export default function BooksPage() {
                       className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-full font-bold"
                       onClick={() => handleSelectCategory(null)}
                     >
-                      View All Collections
+                      {t('查看全部馆藏', 'View All Collections')}
                     </Button>
                   )}
                 </div>
@@ -588,8 +601,8 @@ export default function BooksPage() {
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-5">
                   {books.map((item) => {
                     const coverImg = item.book_images?.[0]?.img_url
-                    const bookTitle = item.book?.title || 'Untitled Volume'
-                    const authorName = item.author?.name || 'Unknown Author'
+                    const bookTitle = item.book?.title || t('未命名书籍', 'Untitled Volume')
+                    const authorName = item.author?.name || t('未知作者', 'Unknown Author')
                     const categoryName = item.book_category?.name
                     const barcode = item.code
 
@@ -658,8 +671,11 @@ export default function BooksPage() {
                 {totalPages > 1 && (
                   <div className="mt-10 pt-6 border-t border-blue-100 flex flex-col sm:flex-row items-center justify-between gap-4">
                     <p className="text-xs sm:text-sm font-semibold text-slate-600">
-                      Showing page <span className="font-extrabold text-blue-700">{currentPage}</span> of{' '}
+                      {t('当前显示第 ', 'Showing page ')}
+                      <span className="font-extrabold text-blue-700">{currentPage}</span>
+                      {t(' 页，共 ', ' of ')}
                       <span className="font-extrabold text-blue-700">{totalPages}</span>
+                      {t(' 页', '')}
                     </p>
 
                     <div className="flex items-center gap-1.5">
@@ -671,7 +687,7 @@ export default function BooksPage() {
                         className="rounded-full border-blue-200 bg-white text-blue-700 font-bold hover:bg-blue-50"
                       >
                         <ChevronLeft className="h-4 w-4 mr-1" />
-                        Prev
+                        {t('上一页', 'Prev')}
                       </Button>
 
                       {/* Page Numbers */}
@@ -720,7 +736,7 @@ export default function BooksPage() {
                         onClick={() => handlePageChange(currentPage + 1)}
                         className="rounded-full border-blue-200 bg-white text-blue-700 font-bold hover:bg-blue-50"
                       >
-                        Next
+                        {t('下一页', 'Next')}
                         <ChevronRight className="h-4 w-4 ml-1" />
                       </Button>
                     </div>
