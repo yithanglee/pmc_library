@@ -85,14 +85,14 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
     return (
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="max-w-5xl mx-auto animate-pulse space-y-8">
-          <div className="h-5 w-36 bg-blue-100 rounded-full" />
+          <div className="h-5 w-36 bg-slate-200 rounded-full" />
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
-            <div className="md:col-span-4 aspect-[3/4] bg-blue-100/70 rounded-3xl" />
+            <div className="md:col-span-4 aspect-[3/4] bg-slate-100 rounded-2xl" />
             <div className="md:col-span-8 space-y-4">
-              <div className="h-6 w-32 bg-blue-100 rounded-full" />
-              <div className="h-10 w-3/4 bg-blue-100 rounded-xl" />
-              <div className="h-5 w-1/3 bg-blue-100 rounded-xl" />
-              <div className="h-32 w-full bg-blue-50 rounded-2xl mt-6" />
+              <div className="h-6 w-32 bg-slate-100 rounded-full" />
+              <div className="h-10 w-3/4 bg-slate-100 rounded-xl" />
+              <div className="h-5 w-1/3 bg-slate-100 rounded-xl" />
+              <div className="h-32 w-full bg-slate-100 rounded-xl mt-6" />
             </div>
           </div>
         </div>
@@ -119,7 +119,7 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
           <Button
             variant="ghost"
             onClick={() => router.back()}
-            className="text-blue-700 hover:text-blue-900 hover:bg-blue-50 -ml-3 gap-2 text-sm font-bold rounded-full px-4"
+            className="text-slate-600 hover:text-[#0097bf] hover:bg-sky-50/60 -ml-3 gap-2 text-sm font-medium rounded-full px-4"
           >
             <ArrowLeft className="h-4 w-4" />
             <span>{t('返回图书馆目录', 'Back to Book Catalogue')}</span>
@@ -127,11 +127,11 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
         </div>
 
         {/* Main Book Showcase Card */}
-        <div className="bg-white border-2 border-blue-100 rounded-3xl p-6 sm:p-8 lg:p-10 shadow-xl shadow-blue-900/5">
+        <div className="bg-white border border-slate-200/80 rounded-2xl p-6 sm:p-8 lg:p-10 shadow-sm">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-start">
             {/* Left Column: Book Cover */}
             <div className="md:col-span-4 flex flex-col items-center">
-              <div className="w-full max-w-[280px] aspect-[3/4] rounded-2xl bg-gradient-to-br from-blue-50 via-indigo-50/40 to-red-50 border-2 border-blue-100 overflow-hidden book-shadow flex items-center justify-center relative">
+              <div className="w-full max-w-[280px] aspect-[3/4] rounded-xl bg-[#fbfbfc] border border-slate-200/80 overflow-hidden book-shadow flex items-center justify-center relative">
                 {coverUrl ? (
                   <Image
                     src={coverUrl}
@@ -142,10 +142,10 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
                   />
                 ) : (
                   <div className="flex flex-col items-center justify-center p-6 text-center">
-                    <div className="h-16 w-16 rounded-2xl bg-white shadow-sm flex items-center justify-center mb-3 text-blue-600">
-                      <BookOpen className="w-9 h-9" />
+                    <div className="h-14 w-14 rounded-xl bg-sky-50 flex items-center justify-center mb-3 text-[#00bff2]">
+                      <BookOpen className="w-8 h-8" />
                     </div>
-                    <span className="font-display text-sm text-blue-950 font-bold">
+                    <span className="font-display text-sm text-slate-700 font-semibold">
                       {book.title}
                     </span>
                   </div>
@@ -154,24 +154,24 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
 
               {/* Availability Status Card under cover */}
               <div
-                className={`w-full max-w-[280px] mt-5 rounded-2xl p-4 border-2 flex items-center justify-between ${
+                className={`w-full max-w-[280px] mt-5 rounded-xl p-4 border flex items-center justify-between ${
                   available
-                    ? 'bg-emerald-50/80 border-emerald-200 text-emerald-900'
-                    : 'bg-red-50/80 border-red-200 text-red-900'
+                    ? 'bg-emerald-50/60 border-emerald-200/80 text-emerald-900'
+                    : 'bg-amber-50/60 border-amber-200/80 text-amber-900'
                 }`}
               >
                 <div className="flex items-center gap-3">
                   {available ? (
-                    <CheckCircle2 className="h-6 w-6 text-emerald-600 shrink-0" />
+                    <CheckCircle2 className="h-5 w-5 text-emerald-600 shrink-0" />
                   ) : (
-                    <XCircle className="h-6 w-6 text-red-500 shrink-0" />
+                    <XCircle className="h-5 w-5 text-amber-600 shrink-0" />
                   )}
                   <div>
-                    <div className="text-xs font-extrabold uppercase tracking-wider">
+                    <div className="text-xs font-semibold uppercase tracking-wider">
                       {available ? t('在架上 • 可借阅', 'Available on Shelf') : t('已借出 • 外借中', 'Currently Checked Out')}
                     </div>
-                    <div className="text-xs font-medium opacity-85 mt-0.5">
-                      {t('索书号', 'Call No')}: <span className="font-mono font-bold">{code}</span>
+                    <div className="text-xs opacity-85 mt-0.5">
+                      {t('索书号', 'Call No')}: <span className="font-mono font-semibold">{code}</span>
                     </div>
                   </div>
                 </div>
@@ -186,17 +186,17 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
                   {book_category?.name && (
                     <Badge
                       variant="secondary"
-                      className="bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200 px-3.5 py-1 text-xs font-extrabold rounded-full"
+                      className="bg-sky-50 text-[#0097bf] hover:bg-sky-100 border border-sky-200/70 px-3.5 py-1 text-xs font-semibold rounded-full"
                     >
                       {book_category.name}
                     </Badge>
                   )}
                   <Badge
                     variant="outline"
-                    className={`rounded-full px-3.5 py-1 text-xs font-extrabold ${
+                    className={`rounded-full px-3.5 py-1 text-xs font-semibold ${
                       available
-                        ? 'border-emerald-300 bg-emerald-50 text-emerald-700'
-                        : 'border-red-300 bg-red-50 text-red-600'
+                        ? 'border-emerald-200 bg-emerald-50 text-emerald-700'
+                        : 'border-amber-200 bg-amber-50 text-amber-700'
                     }`}
                   >
                     {available ? t('可借阅 (Available)', 'Ready to Borrow') : t('外借中 (On Loan)', 'On Loan')}
@@ -204,94 +204,94 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
                 </div>
 
                 {/* Title & Author */}
-                <h1 className="font-display text-3xl sm:text-4xl font-extrabold text-blue-950 leading-tight">
+                <h1 className="font-display text-3xl sm:text-4xl font-bold text-slate-800 leading-tight">
                   {book.title}
                 </h1>
-                <p className="text-lg text-slate-600 mt-1.5 flex items-center gap-2 font-medium">
+                <p className="text-base sm:text-lg text-slate-500 mt-1.5 flex items-center gap-2">
                   <span>{t('作者：', 'By')}</span>
-                  <span className="font-bold text-red-600">
+                  <span className="font-semibold text-[#0097bf]">
                     {author?.name || t('未知作者', 'Unknown Author')}
                   </span>
                 </p>
 
                 {/* Description / Synopsis */}
                 {book.description ? (
-                  <div className="mt-6 pt-6 border-t border-blue-100">
-                    <h2 className="text-xs font-extrabold uppercase tracking-widest text-blue-600 mb-2.5">
+                  <div className="mt-6 pt-6 border-t border-slate-100">
+                    <h2 className="text-xs font-semibold uppercase tracking-widest text-[#0097bf] mb-2.5">
                       {t('内容简介', 'About This Book')}
                     </h2>
-                    <p className="text-slate-700 leading-relaxed text-sm sm:text-base whitespace-pre-line">
+                    <p className="text-slate-600 leading-relaxed text-sm sm:text-base whitespace-pre-line">
                       {book.description}
                     </p>
                   </div>
                 ) : (
-                  <div className="mt-6 pt-6 border-t border-blue-100">
-                    <p className="text-sm text-slate-500 italic">
+                  <div className="mt-6 pt-6 border-t border-slate-100">
+                    <p className="text-sm text-slate-400 italic">
                       {t(
-                        `暂无本书内容简介。欢迎前往教会图书馆书架（索书号：${code}）翻阅借读！`,
-                        `No synopsis provided for this volume. Visit the library shelf at call number ${code} to check it out in person!`
+                        `暂无本书内容简介。欢迎前往教会图书馆书架（索书号：${code}）翻阅借读。`,
+                        `No synopsis provided for this volume. Visit the library shelf at call number ${code} to check it out in person.`
                       )}
                     </p>
                   </div>
                 )}
 
                 {/* Catalogue Metadata Grid */}
-                <div className="mt-6 pt-6 border-t border-blue-100">
-                  <h2 className="text-xs font-extrabold uppercase tracking-widest text-blue-600 mb-3.5">
+                <div className="mt-6 pt-6 border-t border-slate-100">
+                  <h2 className="text-xs font-semibold uppercase tracking-widest text-[#0097bf] mb-3.5">
                     {t('馆藏资料 (Catalogue Info)', 'Book Details')}
                   </h2>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                    <div className="bg-blue-50/50 border border-blue-100 rounded-2xl p-3.5 flex items-start gap-3">
-                      <div className="h-8 w-8 rounded-xl bg-blue-600 text-white flex items-center justify-center shrink-0">
+                    <div className="bg-[#fbfbfc] border border-slate-200/70 rounded-xl p-3.5 flex items-start gap-3">
+                      <div className="h-8 w-8 rounded-lg bg-sky-50 text-[#00bff2] flex items-center justify-center shrink-0">
                         <Hash className="h-4 w-4" />
                       </div>
                       <div>
-                        <div className="text-xs font-semibold text-slate-500">
+                        <div className="text-xs text-slate-400">
                           {t('索书号 / 条码 (Call Number)', 'Call Number / Barcode')}
                         </div>
-                        <div className="text-sm font-mono font-extrabold text-blue-950 mt-0.5">
+                        <div className="text-sm font-mono font-semibold text-slate-800 mt-0.5">
                           {code || 'N/A'}
                         </div>
                       </div>
                     </div>
 
-                    <div className="bg-red-50/50 border border-red-100 rounded-2xl p-3.5 flex items-start gap-3">
-                      <div className="h-8 w-8 rounded-xl bg-red-500 text-white flex items-center justify-center shrink-0">
+                    <div className="bg-[#fbfbfc] border border-slate-200/70 rounded-xl p-3.5 flex items-start gap-3">
+                      <div className="h-8 w-8 rounded-lg bg-sky-50 text-[#00bff2] flex items-center justify-center shrink-0">
                         <Building2 className="h-4 w-4" />
                       </div>
                       <div>
-                        <div className="text-xs font-semibold text-slate-500">
+                        <div className="text-xs text-slate-400">
                           {t('出版社 (Publisher)', 'Publisher')}
                         </div>
-                        <div className="text-sm font-bold text-slate-900 mt-0.5">
+                        <div className="text-sm font-semibold text-slate-800 mt-0.5">
                           {publisher?.name || t('未注明', 'Not specified')}
                         </div>
                       </div>
                     </div>
 
                     {book.isbn && (
-                      <div className="bg-blue-50/50 border border-blue-100 rounded-2xl p-3.5 flex items-start gap-3">
-                        <div className="h-8 w-8 rounded-xl bg-indigo-600 text-white flex items-center justify-center shrink-0">
+                      <div className="bg-[#fbfbfc] border border-slate-200/70 rounded-xl p-3.5 flex items-start gap-3">
+                        <div className="h-8 w-8 rounded-lg bg-sky-50 text-[#00bff2] flex items-center justify-center shrink-0">
                           <BookOpen className="h-4 w-4" />
                         </div>
                         <div>
-                          <div className="text-xs font-semibold text-slate-500">ISBN</div>
-                          <div className="text-sm font-mono font-bold text-slate-900 mt-0.5">
+                          <div className="text-xs text-slate-400">ISBN</div>
+                          <div className="text-sm font-mono font-semibold text-slate-800 mt-0.5">
                             {book.isbn}
                           </div>
                         </div>
                       </div>
                     )}
 
-                    <div className="bg-red-50/50 border border-red-100 rounded-2xl p-3.5 flex items-start gap-3">
-                      <div className="h-8 w-8 rounded-xl bg-rose-500 text-white flex items-center justify-center shrink-0">
+                    <div className="bg-[#fbfbfc] border border-slate-200/70 rounded-xl p-3.5 flex items-start gap-3">
+                      <div className="h-8 w-8 rounded-lg bg-sky-50 text-[#00bff2] flex items-center justify-center shrink-0">
                         <Calendar className="h-4 w-4" />
                       </div>
                       <div>
-                        <div className="text-xs font-semibold text-slate-500">
+                        <div className="text-xs text-slate-400">
                           {t('入库日期 (Added Date)', 'Added to Library')}
                         </div>
-                        <div className="text-sm font-bold text-slate-900 mt-0.5">
+                        <div className="text-sm font-semibold text-slate-800 mt-0.5">
                           {book.inserted_at
                             ? new Date(book.inserted_at).toLocaleDateString('en-GB', {
                                 day: 'numeric',
@@ -304,15 +304,15 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
                     </div>
 
                     {book.price > 0 && (
-                      <div className="bg-blue-50/50 border border-blue-100 rounded-2xl p-3.5 flex items-start gap-3">
-                        <div className="h-8 w-8 rounded-xl bg-blue-600 text-white flex items-center justify-center shrink-0">
+                      <div className="bg-[#fbfbfc] border border-slate-200/70 rounded-xl p-3.5 flex items-start gap-3">
+                        <div className="h-8 w-8 rounded-lg bg-sky-50 text-[#00bff2] flex items-center justify-center shrink-0">
                           <DollarSign className="h-4 w-4" />
                         </div>
                         <div>
-                          <div className="text-xs font-semibold text-slate-500">
+                          <div className="text-xs text-slate-400">
                             {t('参考价格', 'Book Value')}
                           </div>
-                          <div className="text-sm font-bold text-slate-900 mt-0.5">
+                          <div className="text-sm font-semibold text-slate-800 mt-0.5">
                             RM {book.price.toFixed(2)}
                           </div>
                         </div>
@@ -323,27 +323,27 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
               </div>
 
               {/* Borrowing Guidance Callout */}
-              <div className="pt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-gradient-to-r from-blue-50 via-indigo-50/50 to-red-50 p-5 rounded-2xl border-2 border-blue-100">
+              <div className="pt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-sky-50/60 p-5 rounded-xl border border-sky-100">
                 <div className="flex items-start gap-3">
-                  <Info className="h-5 w-5 text-blue-600 shrink-0 mt-0.5" />
-                  <div className="text-xs sm:text-sm text-slate-700 font-medium">
+                  <Info className="h-5 w-5 text-[#00bff2] shrink-0 mt-0.5" />
+                  <div className="text-xs sm:text-sm text-slate-600">
                     {available ? (
                       <>
-                        <span className="font-extrabold text-blue-950">
+                        <span className="font-semibold text-slate-800">
                           {t('想要借阅这本书？', 'Want to borrow this book?')}
                         </span>{' '}
                         {t('请凭索书号 ', 'Find it on the shelf with call number ')}
-                        <span className="font-mono font-extrabold text-red-600">{code}</span>
-                        {t(' 在教会图书馆书架上取阅并登记借出！', '!')}
+                        <span className="font-mono font-semibold text-[#0097bf]">{code}</span>
+                        {t(' 在教会图书馆书架上取阅并登记借出。', '.')}
                       </>
                     ) : (
                       <>
-                        <span className="font-extrabold text-blue-950">
+                        <span className="font-semibold text-slate-800">
                           {t('您正在借阅这本书？', 'Borrowed this book?')}
                         </span>{' '}
                         {t(
-                          '请登录会友借阅特区查看应还日期或直接办理线上续借！',
-                          'Log in to your member portal to check its return due date or extend your loan!'
+                          '请登录会友借阅特区查看应还日期或直接办理线上续借。',
+                          'Log in to your member portal to check its return due date or extend your loan.'
                         )}
                       </>
                     )}
@@ -352,7 +352,7 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
 
                 <Link href={user ? '/profile' : '/signIn'} className="shrink-0">
                   <Button
-                    className="bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 text-white font-bold rounded-full px-6 shadow-md w-full sm:w-auto"
+                    className="bg-[#00bff2] hover:bg-[#0097bf] text-white font-semibold rounded-full px-6 shadow-sm w-full sm:w-auto"
                   >
                     <Clock className="h-4 w-4 mr-2" />
                     {user ? t('我的借阅', 'My Loans') : t('会友登录', 'Member Login')}
@@ -366,21 +366,21 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
         {/* Secondary Info Cards: Category & Author Bio */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
           {book_category && (
-            <div className="bg-white border-2 border-blue-100 rounded-3xl p-6 shadow-sm">
-              <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-widest text-blue-600 mb-2">
-                <Layers className="h-4 w-4 text-red-500" />
+            <div className="bg-white border border-slate-200/80 rounded-2xl p-6 shadow-sm">
+              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-[#0097bf] mb-2">
+                <Layers className="h-4 w-4 text-[#00bff2]" />
                 <span>{t('所属书籍分类', 'Collection Shelf')}</span>
               </div>
-              <h3 className="font-display text-xl font-extrabold text-blue-950 mb-2">
+              <h3 className="font-display text-lg font-bold text-slate-800 mb-2">
                 {book_category.name}
               </h3>
               {book_category.description && (
-                <p className="text-sm text-slate-600 mb-4 leading-relaxed">
+                <p className="text-sm text-slate-500 mb-4 leading-relaxed">
                   {book_category.description}
                 </p>
               )}
-              <div className="inline-flex items-center gap-2 text-xs font-bold text-blue-700 bg-blue-50 border border-blue-200 px-3.5 py-1.5 rounded-full">
-                <BookOpen className="h-3.5 w-3.5 text-blue-600" />
+              <div className="inline-flex items-center gap-2 text-xs font-semibold text-[#0097bf] bg-sky-50 border border-sky-100 px-3.5 py-1.5 rounded-full">
+                <BookOpen className="h-3.5 w-3.5 text-[#00bff2]" />
                 <span>
                   {t(
                     `此分类共有 ${book_category.book_count} 本藏书`,
@@ -392,15 +392,15 @@ export default function BookDetailPage({ params }: { params: { id: string } }) {
           )}
 
           {author?.bio && (
-            <div className="bg-white border-2 border-red-100 rounded-3xl p-6 shadow-sm">
-              <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-widest text-red-500 mb-2">
-                <User className="h-4 w-4 text-blue-600" />
+            <div className="bg-white border border-slate-200/80 rounded-2xl p-6 shadow-sm">
+              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-[#0097bf] mb-2">
+                <User className="h-4 w-4 text-[#00bff2]" />
                 <span>{t('作者简介', 'About the Author')}</span>
               </div>
-              <h3 className="font-display text-xl font-extrabold text-blue-950 mb-2">
+              <h3 className="font-display text-lg font-bold text-slate-800 mb-2">
                 {author.name}
               </h3>
-              <p className="text-sm text-slate-600 leading-relaxed">{author.bio}</p>
+              <p className="text-sm text-slate-500 leading-relaxed">{author.bio}</p>
             </div>
           )}
         </div>

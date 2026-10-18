@@ -42,23 +42,23 @@ export default function EditProfilePage() {
         <div className="max-w-4xl mx-auto space-y-6">
             <div>
                 <Link href="/profile">
-                    <Button variant="ghost" className="text-blue-700 hover:text-blue-900 hover:bg-blue-50 -ml-3 gap-2 text-sm font-bold rounded-full px-4">
+                    <Button variant="ghost" className="text-slate-600 hover:text-[#0097bf] hover:bg-sky-50/60 -ml-3 gap-2 text-sm font-medium rounded-full px-4">
                         <ArrowLeft className="h-4 w-4" />
                         <span>{t('返回会友借阅特区', 'Back to My Loans & Profile')}</span>
                     </Button>
                 </Link>
             </div>
 
-            <div className="bg-white border-2 border-blue-100 rounded-3xl p-6 sm:p-8 lg:p-10 space-y-6 shadow-xl shadow-blue-900/5">
-                <div className="flex items-center gap-3.5 border-b border-blue-100 pb-6">
-                    <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-blue-600 to-red-500 text-white flex items-center justify-center shrink-0 shadow-md">
-                        <UserCog className="h-6 w-6" />
+            <div className="bg-white border border-slate-200/80 rounded-2xl p-6 sm:p-8 lg:p-10 space-y-6 shadow-sm">
+                <div className="flex items-center gap-3.5 border-b border-slate-100 pb-6">
+                    <div className="h-11 w-11 rounded-xl bg-sky-50 text-[#00bff2] border border-sky-100 flex items-center justify-center shrink-0">
+                        <UserCog className="h-5 w-5" />
                     </div>
                     <div>
-                        <h1 className="font-display text-2xl sm:text-3xl font-extrabold text-blue-950">
+                        <h1 className="font-display text-2xl sm:text-3xl font-bold text-slate-800">
                             {t('编辑会友资料', 'Edit Member Profile')}
                         </h1>
-                        <p className="text-sm text-slate-500 mt-0.5 font-medium">
+                        <p className="text-sm text-slate-500 mt-0.5">
                             {t('更新您的联络方式与图书馆会友借阅信息', 'Update your contact information and library membership details')}
                         </p>
                     </div>
@@ -94,7 +94,7 @@ export default function EditProfilePage() {
                             postFn={handleUpdateProfile}
                         />
                     ) : (
-                        <div className="py-12 text-center text-sm font-semibold text-blue-700">
+                        <div className="py-12 text-center text-sm font-medium text-slate-500">
                             {t('正在加载您的会友资料...', 'Loading your profile details...')}
                         </div>
                     )}

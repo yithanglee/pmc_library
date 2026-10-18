@@ -5,7 +5,6 @@ import {
   createRouter,
   Outlet,
   Link,
-  useNavigate,
 } from '@tanstack/react-router'
 import { AuthProvider } from '@/lib/auth'
 import { LanguageProvider, useLanguage } from '@/i18n'
@@ -27,8 +26,8 @@ function PageFallback() {
   const { t } = useLanguage()
   return (
     <div className="flex h-[60vh] flex-col items-center justify-center gap-3">
-      <div className="h-10 w-10 animate-spin rounded-full border-4 border-blue-200 border-t-blue-600 border-r-red-500" />
-      <div className="text-sm font-semibold text-blue-900/70">
+      <div className="h-9 w-9 animate-spin rounded-full border-3 border-slate-200 border-t-[#00bff2]" />
+      <div className="text-sm font-medium text-slate-500">
         {t('正在加载图书馆目录...', 'Opening library catalogue...')}
       </div>
     </div>
@@ -39,29 +38,29 @@ function NotFoundPage() {
   const { t } = useLanguage()
   return (
     <div className="flex min-h-[70vh] flex-col items-center justify-center p-6 text-center">
-      <div className="rounded-3xl bg-white p-10 shadow-xl border-2 border-blue-100 max-w-md w-full">
-        <div className="inline-block px-3 py-1 rounded-full bg-red-50 text-xs font-bold uppercase tracking-widest text-red-600 mb-3">
-          {t('找不到页面 • 404', 'Oops! Error 404')}
+      <div className="rounded-2xl bg-white p-10 shadow-sm border border-slate-200/80 max-w-md w-full">
+        <div className="inline-block px-3 py-1 rounded-full bg-sky-50 text-xs font-semibold uppercase tracking-widest text-[#0097bf] mb-3">
+          {t('找不到页面 • 404', 'Error 404')}
         </div>
-        <h1 className="font-display text-3xl font-extrabold text-blue-950 mb-3">
+        <h1 className="font-display text-2xl font-bold text-slate-800 mb-2">
           {t('此页面不存在', 'Page Not Found')}
         </h1>
-        <p className="text-sm text-slate-600 mb-8 leading-relaxed">
+        <p className="text-sm text-slate-500 mb-8 leading-relaxed">
           {t(
-            '抱歉，我们找不到您要浏览的书籍或页面。请返回主页或进入图书馆检索！',
-            "We couldn't find the book shelf or page you were looking for. Let's get you back to the library!"
+            '抱歉，我们找不到您要浏览的书籍或页面。请返回主页或进入图书馆检索。',
+            "We couldn't find the book shelf or page you were looking for. Let's get you back to the library."
           )}
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <Link
             to="/books"
-            className="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white text-sm font-bold rounded-full hover:from-blue-700 hover:to-blue-800 transition shadow-md shadow-blue-600/20"
+            className="px-6 py-2.5 bg-[#00bff2] hover:bg-[#0097bf] text-white text-sm font-semibold rounded-full transition shadow-sm"
           >
             {t('图书馆检索', 'Explore Books')}
           </Link>
           <Link
             to="/"
-            className="px-6 py-3 bg-red-50 text-red-600 text-sm font-bold rounded-full hover:bg-red-100 transition"
+            className="px-6 py-2.5 bg-slate-100 text-slate-700 text-sm font-semibold rounded-full hover:bg-slate-200 transition"
           >
             {t('返回主页', 'Back Home')}
           </Link>
@@ -86,7 +85,7 @@ const rootRoute = createRootRoute({
   component: () => (
     <LanguageProvider>
       <AuthProvider>
-        <div className="min-h-screen bg-gradient-to-br from-blue-50/70 via-white to-red-50/60 text-slate-900 flex flex-col">
+        <div className="min-h-screen bg-[#fbfbfc] text-slate-800 flex flex-col">
           <Outlet />
           <Toaster />
         </div>

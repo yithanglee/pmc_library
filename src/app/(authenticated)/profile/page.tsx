@@ -71,9 +71,9 @@ function getLoanTimingStatus(loan: Loan, t: (zh: string, en: string) => string) 
         `Overdue by ${overdueDays} ${overdueDays === 1 ? 'day' : 'days'}`
       ),
       sublabel: t('请尽快归还至教会图书馆', 'Please return to the library as soon as possible'),
-      badgeClass: 'bg-red-100 text-red-700 border-red-300',
-      borderClass: 'border-red-300 bg-red-50/30',
-      dateBoxClass: 'bg-red-50 border-red-200 text-red-800',
+      badgeClass: 'bg-amber-50 text-amber-800 border-amber-200',
+      borderClass: 'border-amber-200 bg-amber-50/20',
+      dateBoxClass: 'bg-amber-50/70 border-amber-200 text-amber-900',
       daysRemaining,
     }
   }
@@ -81,11 +81,11 @@ function getLoanTimingStatus(loan: Loan, t: (zh: string, en: string) => string) 
   if (daysRemaining === 0) {
     return {
       type: 'due-soon' as const,
-      label: t('今日到期！', 'Due Today!'),
+      label: t('今日到期', 'Due Today'),
       sublabel: t('请于今日归还或线上续借', 'Return or extend your loan today'),
-      badgeClass: 'bg-amber-100 text-amber-800 border-amber-300',
-      borderClass: 'border-amber-300 bg-amber-50/20',
-      dateBoxClass: 'bg-amber-50 border-amber-200 text-amber-900',
+      badgeClass: 'bg-amber-50 text-amber-800 border-amber-200',
+      borderClass: 'border-amber-200 bg-white',
+      dateBoxClass: 'bg-amber-50/60 border-amber-200 text-amber-900',
       daysRemaining,
     }
   }
@@ -98,9 +98,9 @@ function getLoanTimingStatus(loan: Loan, t: (zh: string, en: string) => string) 
         `Due in ${daysRemaining} ${daysRemaining === 1 ? 'day' : 'days'}`
       ),
       sublabel: t('归还期限即将到来', 'Return deadline approaching soon'),
-      badgeClass: 'bg-amber-100 text-amber-800 border-amber-300',
-      borderClass: 'border-amber-200 bg-white',
-      dateBoxClass: 'bg-amber-50/80 border-amber-200 text-amber-900',
+      badgeClass: 'bg-sky-50 text-[#0097bf] border-sky-200',
+      borderClass: 'border-slate-200/80 bg-white',
+      dateBoxClass: 'bg-sky-50/60 border-sky-200/70 text-slate-800',
       daysRemaining,
     }
   }
@@ -109,9 +109,9 @@ function getLoanTimingStatus(loan: Loan, t: (zh: string, en: string) => string) 
     type: 'active' as const,
     label: t(`还剩 ${daysRemaining} 天`, `${daysRemaining} days left`),
     sublabel: t('借阅期正常', 'Active loan on schedule'),
-    badgeClass: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-    borderClass: 'border-blue-100 bg-white',
-    dateBoxClass: 'bg-red-50/60 border-red-200 text-red-700',
+    badgeClass: 'bg-emerald-50 text-emerald-700 border-emerald-200/70',
+    borderClass: 'border-slate-200/80 bg-white',
+    dateBoxClass: 'bg-sky-50/60 border-sky-100 text-slate-800',
     daysRemaining,
   }
 }
@@ -165,25 +165,25 @@ function LoanCard({
 
   return (
     <div
-      className={`rounded-3xl border-2 p-5 sm:p-6 transition-all shadow-md hover:shadow-lg ${status.borderClass}`}
+      className={`rounded-2xl border p-5 sm:p-6 transition-all shadow-sm hover:border-[#00bff2] ${status.borderClass}`}
     >
       {/* Top Row: Call Number, Status Pill, Extension Badge */}
       <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
         <div className="flex items-center gap-2">
-          <span className="inline-flex items-center gap-1.5 text-xs font-mono font-bold px-3 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-200">
-            <Barcode className="h-3.5 w-3.5 text-blue-600" />
+          <span className="inline-flex items-center gap-1.5 text-xs font-mono font-semibold px-3 py-1 rounded-full bg-sky-50 text-[#0097bf] border border-sky-100">
+            <Barcode className="h-3.5 w-3.5 text-[#00bff2]" />
             {loan.book.call_number || t('无索书号', 'No Call #')}
           </span>
 
           {loan.has_extended && (
-            <Badge variant="outline" className="text-[11px] font-bold bg-indigo-50 text-indigo-700 border-indigo-200 rounded-full">
+            <Badge variant="outline" className="text-[11px] font-medium bg-slate-50 text-slate-600 border-slate-200 rounded-full">
               {t('已续借 1 次', 'Extended 1x')}
             </Badge>
           )}
         </div>
 
         <span
-          className={`inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-extrabold border ${status.badgeClass}`}
+          className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold border ${status.badgeClass}`}
         >
           {status.type === 'overdue' ? (
             <AlertTriangle className="h-3.5 w-3.5" />
@@ -197,35 +197,35 @@ function LoanCard({
       </div>
 
       {/* Book Title */}
-      <h3 className="font-display text-xl font-extrabold text-blue-950 leading-snug mb-4">
+      <h3 className="font-display text-lg sm:text-xl font-bold text-slate-800 leading-snug mb-4">
         {loan.book.title}
       </h3>
 
       {/* Dates & Fine Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
-        <div className="rounded-2xl p-3.5 bg-blue-50/60 border border-blue-100 flex items-center gap-3">
-          <div className="h-10 w-10 rounded-xl bg-blue-600 text-white flex items-center justify-center shrink-0 shadow-sm">
-            <Calendar className="h-5 w-5" />
+        <div className="rounded-xl p-3.5 bg-[#fbfbfc] border border-slate-200/70 flex items-center gap-3">
+          <div className="h-9 w-9 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center shrink-0">
+            <Calendar className="h-4 w-4" />
           </div>
           <div>
-            <div className="text-[11px] font-extrabold uppercase tracking-wider text-blue-600">
+            <div className="text-[11px] font-medium uppercase tracking-wider text-slate-400">
               {t('借出日期', 'Borrowed Date')}
             </div>
-            <div className="text-sm font-extrabold text-slate-900 mt-0.5">
+            <div className="text-sm font-semibold text-slate-800 mt-0.5">
               {formattedLoanDate}
             </div>
           </div>
         </div>
 
-        <div className={`rounded-2xl p-3.5 border flex items-center gap-3 ${status.dateBoxClass}`}>
-          <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-red-500 to-rose-600 text-white flex items-center justify-center shrink-0 shadow-sm">
-            <Clock className="h-5 w-5" />
+        <div className={`rounded-xl p-3.5 border flex items-center gap-3 ${status.dateBoxClass}`}>
+          <div className="h-9 w-9 rounded-lg bg-[#00bff2] text-white flex items-center justify-center shrink-0">
+            <Clock className="h-4 w-4" />
           </div>
           <div>
-            <div className="text-[11px] font-extrabold uppercase tracking-wider opacity-85">
+            <div className="text-[11px] font-semibold uppercase tracking-wider text-[#0097bf]">
               {t('应还日期 (Due Date)', 'Return Due Date')}
             </div>
-            <div className="text-sm font-extrabold mt-0.5">
+            <div className="text-sm font-bold mt-0.5">
               {formattedReturnDate}
             </div>
           </div>
@@ -234,24 +234,24 @@ function LoanCard({
 
       {/* Fine Alert if applicable */}
       {(loan.late_days > 0 || loan.fine_amount > 0) && (
-        <div className="mb-4 rounded-2xl bg-red-100/90 border border-red-300 px-4 py-3 flex items-center justify-between text-red-900 text-sm">
-          <div className="flex items-center gap-2 font-bold">
-            <DollarSign className="h-4 w-4 text-red-600 shrink-0" />
+        <div className="mb-4 rounded-xl bg-amber-50 border border-amber-200 px-4 py-3 flex items-center justify-between text-amber-900 text-sm">
+          <div className="flex items-center gap-2 font-medium">
+            <DollarSign className="h-4 w-4 text-amber-600 shrink-0" />
             <span>
               {t(`逾期罚款 (逾期 ${loan.late_days} 天)`, `Overdue Fine (${loan.late_days} days late)`)}
             </span>
           </div>
-          <span className="font-extrabold font-mono text-base">
+          <span className="font-bold font-mono text-base">
             RM {Math.abs(loan.fine_amount).toFixed(2)}
           </span>
         </div>
       )}
 
       {/* Action Footer: Extend Loan Button or Status Note */}
-      <div className="pt-3 border-t border-blue-100/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <span className="text-xs font-semibold text-slate-500">
+      <div className="pt-3 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <span className="text-xs text-slate-500">
           {!loan.has_extended
-            ? t('需要更多阅读时间？可在线一键延长借阅期限！', 'Want more time to read? Extend your loan online!')
+            ? t('需要更多阅读时间？可在线一键延长借阅期限。', 'Want more time to read? Extend your loan online.')
             : t('此书已续借过一次，请按应还日期归还。', 'This book loan has already been extended once.')}
         </span>
 
@@ -260,33 +260,33 @@ function LoanCard({
             <DialogTrigger asChild>
               <Button
                 onClick={() => setIsDialogOpen(true)}
-                className="bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 text-white font-bold rounded-full px-6 shadow-md shadow-red-500/20 gap-2 sm:w-auto w-full transition-transform hover:scale-105"
+                className="bg-[#00bff2] hover:bg-[#0097bf] text-white font-semibold rounded-full px-6 shadow-sm gap-2 sm:w-auto w-full transition-colors"
               >
                 <RefreshCw className="h-4 w-4" />
                 <span>{t('一键线上续借', 'Extend Loan')}</span>
               </Button>
             </DialogTrigger>
 
-            <DialogContent className="bg-white border-2 border-blue-100 rounded-3xl sm:max-w-md">
+            <DialogContent className="bg-white border border-slate-200 rounded-2xl sm:max-w-md">
               <DialogHeader>
-                <DialogTitle className="font-display text-2xl font-extrabold text-blue-950">
+                <DialogTitle className="font-display text-xl font-bold text-slate-800">
                   {t('延长图书借阅期限', 'Extend Your Book Loan')}
                 </DialogTitle>
-                <DialogDescription className="text-slate-600 pt-1 font-medium">
+                <DialogDescription className="text-slate-500 pt-1">
                   {t('您确定要延长', 'Would you like to extend the return due date for')}{' '}
-                  <span className="font-bold text-blue-700">“{loan.book.title}”</span>
+                  <span className="font-semibold text-[#0097bf]">“{loan.book.title}”</span>
                   {t(' 的应还日期吗？', '?')}
                 </DialogDescription>
               </DialogHeader>
 
-              <div className="my-2 rounded-2xl bg-gradient-to-r from-blue-50 to-red-50 p-4 border border-blue-100 space-y-2 text-xs">
+              <div className="my-2 rounded-xl bg-sky-50/60 p-4 border border-sky-100 space-y-2 text-xs">
                 <div className="flex justify-between">
-                  <span className="font-semibold text-slate-500">{t('索书号：', 'Call Number:')}</span>
-                  <span className="font-mono font-bold text-blue-800">{loan.book.call_number}</span>
+                  <span className="text-slate-500">{t('索书号：', 'Call Number:')}</span>
+                  <span className="font-mono font-semibold text-slate-800">{loan.book.call_number}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="font-semibold text-slate-500">{t('当前应还日期：', 'Current Return Date:')}</span>
-                  <span className="font-extrabold text-red-600">{formattedReturnDate}</span>
+                  <span className="text-slate-500">{t('当前应还日期：', 'Current Return Date:')}</span>
+                  <span className="font-bold text-[#0097bf]">{formattedReturnDate}</span>
                 </div>
               </div>
 
@@ -294,14 +294,14 @@ function LoanCard({
                 <Button
                   variant="outline"
                   onClick={() => setIsDialogOpen(false)}
-                  className="rounded-full border-blue-200 font-bold text-slate-700"
+                  className="rounded-full border-slate-200 font-medium text-slate-600"
                 >
                   {t('取消', 'Cancel')}
                 </Button>
                 <Button
                   onClick={handleExtend}
                   disabled={isExtending}
-                  className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold rounded-full gap-2 shadow-md"
+                  className="bg-[#00bff2] hover:bg-[#0097bf] text-white font-semibold rounded-full gap-2 shadow-sm"
                 >
                   <RefreshCw className={`h-4 w-4 ${isExtending ? 'animate-spin' : ''}`} />
                   {isExtending ? t("续借处理中...", "Extending...") : t("确认续借", "Confirm Extension")}
@@ -313,7 +313,7 @@ function LoanCard({
           <Button
             variant="outline"
             disabled
-            className="rounded-full border-slate-200 text-slate-400 font-bold sm:w-auto w-full"
+            className="rounded-full border-slate-200 text-slate-400 font-medium sm:w-auto w-full"
           >
             {t('已续借过', 'Already Extended')}
           </Button>
@@ -414,25 +414,24 @@ export default function MemberProfile() {
   return (
     <div className="max-w-6xl mx-auto space-y-8">
       {/* Page Header */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-blue-100 pb-6">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-slate-200/80 pb-6">
         <div>
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-50 border border-red-200 text-xs font-extrabold uppercase tracking-widest text-red-600 mb-2">
-            <Sparkles className="h-3.5 w-3.5" />
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-50 border border-sky-100 text-xs font-semibold uppercase tracking-widest text-[#0097bf] mb-2">
             <span>{t('宣道堂 会友借阅特区', 'Member Loan Portal')}</span>
           </div>
-          <h1 className="font-display text-3xl sm:text-4xl font-extrabold text-blue-950">
+          <h1 className="font-display text-3xl sm:text-4xl font-bold text-slate-800">
             {t('我的借阅与应还日期', 'My Loans & Return Dates')}
           </h1>
-          <p className="text-sm sm:text-base text-slate-600 mt-1 font-medium">
+          <p className="text-sm sm:text-base text-slate-500 mt-1">
             {t(
-              '随时查看所借书籍的应还日期，并可在线一键延长借阅期限！',
-              'See when your borrowed books are due back and extend active loans with one click!'
+              '随时查看所借书籍的应还日期，并可在线一键延长借阅期限。',
+              'See when your borrowed books are due back and extend active loans with one click.'
             )}
           </p>
         </div>
 
         <Link href="/books">
-          <Button className="rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold px-6 shadow-md gap-2">
+          <Button className="rounded-full bg-[#00bff2] hover:bg-[#0097bf] text-white font-semibold px-6 shadow-sm gap-2">
             <BookOpen className="h-4 w-4" />
             <span>{t('浏览更多书籍', 'Browse More Books')}</span>
           </Button>
@@ -441,51 +440,51 @@ export default function MemberProfile() {
 
       {/* Quick Summary Metrics Row */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-        <div className="bg-white border-2 border-blue-100 rounded-3xl p-5 flex items-center gap-4 shadow-md shadow-blue-900/5">
-          <div className="h-13 w-13 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-700 text-white flex items-center justify-center shrink-0 p-3.5 shadow-md shadow-blue-600/20">
+        <div className="bg-white border border-slate-200/80 rounded-2xl p-5 flex items-center gap-4 shadow-sm">
+          <div className="h-12 w-12 rounded-xl bg-sky-50 text-[#00bff2] border border-sky-100 flex items-center justify-center shrink-0">
             <BookOpen className="h-6 w-6" />
           </div>
           <div>
-            <div className="text-xs font-extrabold uppercase tracking-wider text-blue-600">
+            <div className="text-xs font-semibold uppercase tracking-wider text-slate-400">
               {t('当前借阅书籍', 'Active Loans')}
             </div>
-            <div className="font-display text-2xl font-extrabold text-slate-900">
+            <div className="font-display text-2xl font-bold text-slate-800">
               {t(`${totalLoans} 本书`, `${totalLoans} ${totalLoans === 1 ? 'Book' : 'Books'}`)}
             </div>
           </div>
         </div>
 
-        <div className="bg-white border-2 border-red-100 rounded-3xl p-5 flex items-center gap-4 shadow-md shadow-red-900/5">
+        <div className="bg-white border border-slate-200/80 rounded-2xl p-5 flex items-center gap-4 shadow-sm">
           <div
-            className={`h-13 w-13 rounded-2xl flex items-center justify-center shrink-0 p-3.5 shadow-md ${
+            className={`h-12 w-12 rounded-xl flex items-center justify-center shrink-0 border ${
               dueSoonOrOverdueCount > 0
-                ? 'bg-gradient-to-br from-red-500 to-rose-600 text-white shadow-red-500/20'
-                : 'bg-gradient-to-br from-emerald-500 to-teal-600 text-white shadow-emerald-500/20'
+                ? 'bg-amber-50 text-amber-600 border-amber-100'
+                : 'bg-emerald-50 text-emerald-600 border-emerald-100'
             }`}
           >
             <Clock className="h-6 w-6" />
           </div>
           <div>
-            <div className="text-xs font-extrabold uppercase tracking-wider text-red-500">
+            <div className="text-xs font-semibold uppercase tracking-wider text-slate-400">
               {t('归还状态提醒', 'Return Schedule')}
             </div>
-            <div className="font-display text-2xl font-extrabold text-slate-900">
+            <div className="font-display text-2xl font-bold text-slate-800">
               {dueSoonOrOverdueCount === 0
-                ? t('全部准时！', 'All On Time!')
+                ? t('全部准时', 'All On Time')
                 : t(`${dueSoonOrOverdueCount} 本即将到期`, `${dueSoonOrOverdueCount} Due Soon`)}
             </div>
           </div>
         </div>
 
-        <div className="bg-white border-2 border-indigo-100 rounded-3xl p-5 flex items-center gap-4 shadow-md shadow-indigo-900/5">
-          <div className="h-13 w-13 rounded-2xl bg-gradient-to-br from-indigo-500 to-blue-600 text-white flex items-center justify-center shrink-0 p-3.5 shadow-md shadow-indigo-500/20">
+        <div className="bg-white border border-slate-200/80 rounded-2xl p-5 flex items-center gap-4 shadow-sm">
+          <div className="h-12 w-12 rounded-xl bg-sky-50 text-[#00bff2] border border-sky-100 flex items-center justify-center shrink-0">
             <RefreshCw className="h-6 w-6" />
           </div>
           <div>
-            <div className="text-xs font-extrabold uppercase tracking-wider text-indigo-600">
+            <div className="text-xs font-semibold uppercase tracking-wider text-slate-400">
               {t('可线上续借', 'Can Extend Online')}
             </div>
-            <div className="font-display text-2xl font-extrabold text-slate-900">
+            <div className="font-display text-2xl font-bold text-slate-800">
               {t(`${extendableCount} 本可续借`, `${extendableCount} ${extendableCount === 1 ? 'Loan' : 'Loans'}`)}
             </div>
           </div>
@@ -494,30 +493,30 @@ export default function MemberProfile() {
 
       {/* Main Two-Column Grid: Member Card (Left) + Loans List (Right) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        {/* Left Column: Library Membership Card */}
+        {/* Left Column: Minimalist Library Membership Card */}
         <div className="lg:col-span-4 space-y-6">
-          <div className="bg-white border-2 border-blue-100 rounded-3xl overflow-hidden shadow-xl shadow-blue-900/5">
+          <div className="bg-white border border-slate-200/80 rounded-2xl overflow-hidden shadow-sm">
             {/* Digital Library Card Header */}
-            <div className="bg-gradient-to-br from-blue-900 via-indigo-800 to-red-700 p-6 text-white">
+            <div className="bg-gradient-to-br from-[#00bff2] to-[#0097bf] p-6 text-white">
               <div className="flex items-center justify-between mb-4">
-                <span className="text-[11px] font-extrabold uppercase tracking-widest text-blue-200">
+                <span className="text-[11px] font-semibold uppercase tracking-widest text-white/90">
                   {t('宣道堂图书馆 • 会友借书证', 'PMC Library Pass')}
                 </span>
-                <UserCheck className="h-4 w-4 text-red-300" />
+                <UserCheck className="h-4 w-4 text-white/90" />
               </div>
 
               <div className="flex items-center gap-4">
-                <Avatar className="h-15 w-15 border-2 border-white/40 bg-red-500 text-white shadow-md">
-                  <AvatarFallback className="bg-gradient-to-br from-red-500 to-rose-600 text-white font-display text-xl font-extrabold">
+                <Avatar className="h-14 w-14 border-2 border-white/50 bg-white/20 text-white">
+                  <AvatarFallback className="bg-white/20 text-white font-display text-xl font-bold">
                     {memberName?.[0]?.toUpperCase() || 'M'}
                   </AvatarFallback>
                 </Avatar>
                 <div className="min-w-0">
-                  <h2 className="font-display text-xl font-extrabold text-white truncate">
+                  <h2 className="font-display text-xl font-bold text-white truncate">
                     {memberName}
                   </h2>
                   {memberEmail && (
-                    <p className="text-xs text-blue-100 truncate mt-0.5 font-medium">
+                    <p className="text-xs text-white/85 truncate mt-0.5">
                       {memberEmail}
                     </p>
                   )}
@@ -526,8 +525,8 @@ export default function MemberProfile() {
 
               {memberCode && (
                 <div className="mt-5 pt-4 border-t border-white/20 flex items-center justify-between text-xs">
-                  <span className="text-blue-100 font-semibold">{t('会友编号', 'Member Code')}</span>
-                  <span className="font-mono font-extrabold text-white bg-white/20 px-3 py-1 rounded-full">
+                  <span className="text-white/85">{t('会友编号', 'Member Code')}</span>
+                  <span className="font-mono font-semibold text-white bg-white/20 px-3 py-1 rounded-full">
                     {memberCode}
                   </span>
                 </div>
@@ -535,20 +534,20 @@ export default function MemberProfile() {
             </div>
 
             {/* Member Actions */}
-            <div className="p-5 space-y-2.5 bg-white">
+            <div className="p-5 space-y-2 bg-white">
               <Link href="/profile/edit" className="block">
                 <Button
                   variant="outline"
-                  className="w-full justify-start gap-2.5 rounded-2xl border-blue-100 text-blue-900 hover:bg-blue-50 font-bold h-11"
+                  className="w-full justify-start gap-2.5 rounded-xl border-slate-200 text-slate-700 hover:border-[#00bff2] hover:text-[#0097bf] hover:bg-sky-50/40 font-medium h-11"
                 >
-                  <Settings className="h-4 w-4 text-blue-600" />
+                  <Settings className="h-4 w-4 text-[#00bff2]" />
                   <span>{t('编辑会友资料', 'Edit My Profile')}</span>
                 </Button>
               </Link>
               <Button
                 onClick={handleSignOut}
                 variant="ghost"
-                className="w-full justify-start gap-2.5 rounded-2xl text-red-600 hover:bg-red-50 hover:text-red-700 font-bold h-11"
+                className="w-full justify-start gap-2.5 rounded-xl text-slate-500 hover:bg-slate-100 hover:text-slate-800 font-medium h-11"
               >
                 <LogOut className="h-4 w-4" />
                 <span>{t('退出登录', 'Sign Out')}</span>
@@ -557,15 +556,15 @@ export default function MemberProfile() {
           </div>
 
           {/* Helpful Borrowing Policy Note */}
-          <div className="rounded-3xl bg-gradient-to-br from-blue-50 to-red-50 border-2 border-blue-100 p-5 space-y-2">
-            <h3 className="font-display font-extrabold text-blue-950 text-base flex items-center gap-2">
-              <Sparkles className="h-4 w-4 text-red-500" />
+          <div className="rounded-2xl bg-sky-50/60 border border-sky-100 p-5 space-y-2">
+            <h3 className="font-display font-bold text-slate-800 text-sm flex items-center gap-2">
+              <Sparkles className="h-4 w-4 text-[#00bff2]" />
               {t('借阅与续借温馨提示', 'Quick Loan Tip')}
             </h3>
-            <p className="text-xs text-slate-600 leading-relaxed font-medium">
+            <p className="text-xs text-slate-500 leading-relaxed">
               {t(
-                '每本借阅的图书在到期前均可在线免费续借一次。准时归还图书能让教会更多弟兄姐妹一同享受阅读的祝福！',
-                'Each borrowed book can be extended online once before its return due date. Returning books on time helps everyone in our community enjoy them!'
+                '每本借阅的图书在到期前均可在线免费续借一次。准时归还图书能让教会更多弟兄姐妹一同享受阅读的祝福。',
+                'Each borrowed book can be extended online once before its return due date. Returning books on time helps everyone in our community enjoy them.'
               )}
             </p>
           </div>
@@ -574,15 +573,15 @@ export default function MemberProfile() {
         {/* Right Column: Outstanding Loans List */}
         <div className="lg:col-span-8 space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="font-display text-2xl font-extrabold text-blue-950 flex items-center gap-2.5">
-              <BookOpen className="h-6 w-6 text-red-500" />
+            <h2 className="font-display text-xl font-bold text-slate-800 flex items-center gap-2.5">
+              <BookOpen className="h-5 w-5 text-[#00bff2]" />
               <span>{t('您当前借阅的书籍', 'Your Borrowed Books')}</span>
             </h2>
             <Button
               variant="ghost"
               size="sm"
               onClick={queryMember}
-              className="text-xs font-bold text-blue-600 hover:bg-blue-50 rounded-full gap-1.5"
+              className="text-xs font-semibold text-[#0097bf] hover:bg-sky-50 rounded-full gap-1.5"
             >
               <RefreshCw className={`h-3.5 w-3.5 ${isLoadingLoans ? 'animate-spin' : ''}`} />
               <span>{t('刷新列表', 'Refresh List')}</span>
@@ -592,35 +591,35 @@ export default function MemberProfile() {
           {isLoadingLoans ? (
             <div className="space-y-4">
               {[1, 2].map((n) => (
-                <div key={n} className="bg-white border-2 border-blue-100 rounded-3xl p-6 animate-pulse space-y-4">
-                  <div className="h-4 w-1/4 bg-blue-100 rounded-full" />
-                  <div className="h-6 w-2/3 bg-blue-100 rounded-xl" />
+                <div key={n} className="bg-white border border-slate-200/80 rounded-2xl p-6 animate-pulse space-y-4">
+                  <div className="h-4 w-1/4 bg-slate-100 rounded-full" />
+                  <div className="h-6 w-2/3 bg-slate-100 rounded-xl" />
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="h-14 bg-blue-50 rounded-2xl" />
-                    <div className="h-14 bg-red-50 rounded-2xl" />
+                    <div className="h-14 bg-slate-50 rounded-xl" />
+                    <div className="h-14 bg-sky-50/50 rounded-xl" />
                   </div>
                 </div>
               ))}
             </div>
           ) : outstandingLoans.length === 0 ? (
-            <div className="bg-white border-2 border-blue-100 rounded-3xl p-10 text-center space-y-4 shadow-sm">
-              <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-blue-50 to-emerald-50 text-emerald-600 flex items-center justify-center mx-auto border border-emerald-200">
-                <CheckCircle2 className="h-8 w-8" />
+            <div className="bg-white border border-slate-200/80 rounded-2xl p-10 text-center space-y-4 shadow-sm">
+              <div className="h-14 w-14 rounded-xl bg-sky-50 text-[#00bff2] flex items-center justify-center mx-auto border border-sky-100">
+                <CheckCircle2 className="h-7 w-7" />
               </div>
               <div className="space-y-1 max-w-md mx-auto">
-                <h3 className="font-display text-xl font-extrabold text-blue-950">
-                  {t('目前没有待归还的借阅书籍！', 'No Active Loans Right Now!')}
+                <h3 className="font-display text-lg font-bold text-slate-800">
+                  {t('目前没有待归还的借阅书籍', 'No Active Loans Right Now')}
                 </h3>
-                <p className="text-sm text-slate-500 leading-relaxed font-medium">
+                <p className="text-sm text-slate-500 leading-relaxed">
                   {t(
-                    '您目前没有任何外借中的书籍。欢迎前往图书馆检索，发掘您的下一本好书！',
+                    '您目前没有任何外借中的书籍。欢迎前往图书馆检索，发掘您的下一本好书。',
                     "You don't have any borrowed books due for return. Ready to discover your next favorite read?"
                   )}
                 </p>
               </div>
               <div className="pt-2">
                 <Link href="/books">
-                  <Button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold rounded-full px-7 shadow-md gap-2">
+                  <Button className="bg-[#00bff2] hover:bg-[#0097bf] text-white font-semibold rounded-full px-7 shadow-sm gap-2">
                     <span>{t('进入教会图书馆检索', 'Explore Book Catalogue')}</span>
                     <ArrowRight className="h-4 w-4" />
                   </Button>
