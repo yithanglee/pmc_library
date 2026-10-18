@@ -9,12 +9,11 @@ import {
   RefreshCw,
   Search,
   ArrowRight,
-  Sparkles,
   CheckCircle2,
-  Bookmark,
   Clock,
   Heart,
-  Layers
+  Layers,
+  Sparkles
 } from 'lucide-react'
 import Header from '@/components/ui/header'
 import { Button } from '@/components/ui/button'
@@ -44,8 +43,8 @@ export default function CommunityLibrary() {
       <Header />
 
       <main className="flex-grow">
-        {/* Hero Section */}
-        <section className="relative overflow-hidden border-b border-blue-100 bg-gradient-to-br from-blue-50 via-white to-red-50/80 pt-12 pb-20 lg:pt-20 lg:pb-28">
+        {/* Hero Section featuring /1009.jpg */}
+        <section className="relative overflow-hidden border-b border-blue-100 bg-gradient-to-br from-blue-50 via-white to-red-50/80 pt-10 pb-20 lg:pt-16 lg:pb-28">
           {/* Playful decorative floating blobs */}
           <div className="pointer-events-none absolute -top-20 -right-10 h-96 w-96 rounded-full bg-red-400/15 blur-3xl" />
           <div className="pointer-events-none absolute top-32 -left-16 h-96 w-96 rounded-full bg-blue-500/15 blur-3xl" />
@@ -54,7 +53,7 @@ export default function CommunityLibrary() {
           <div className="container relative mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid lg:grid-cols-12 gap-12 lg:gap-10 items-center">
               {/* Left Column: Lively Copy & CTAs */}
-              <div className="lg:col-span-7 space-y-6 text-left">
+              <div className="lg:col-span-6 space-y-6 text-left">
                 <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white shadow-sm border border-blue-200 text-blue-700 text-xs font-extrabold tracking-wide uppercase">
                   <Heart className="h-3.5 w-3.5 text-red-500 fill-red-500 animate-pulse" />
                   <span>Pioneer Methodist Community Library</span>
@@ -63,11 +62,11 @@ export default function CommunityLibrary() {
                 <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold text-blue-950 tracking-tight leading-[1.12]">
                   Discover Great Books &{' '}
                   <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-red-500 bg-clip-text text-transparent">
-                    Manage Loans Easily!
+                    Connect Together!
                   </span>
                 </h1>
 
-                <p className="text-base sm:text-lg text-slate-600 max-w-2xl leading-relaxed font-medium">
+                <p className="text-base sm:text-lg text-slate-600 max-w-xl leading-relaxed font-medium">
                   Welcome to your friendly neighborhood book hub! Explore hundreds of inspiring reads across faith, family, and life. Log in anytime to check when your books are due back or extend your loan with a single click.
                 </p>
 
@@ -107,7 +106,7 @@ export default function CommunityLibrary() {
                 </div>
 
                 {/* Fun Feature Pills */}
-                <div className="pt-6 flex flex-wrap items-center gap-3 text-xs sm:text-sm font-bold text-slate-700">
+                <div className="pt-4 flex flex-wrap items-center gap-3 text-xs sm:text-sm font-bold text-slate-700">
                   <div className="flex items-center gap-2 bg-white/90 px-3.5 py-2 rounded-full border border-blue-100 shadow-sm">
                     <CheckCircle2 className="h-4 w-4 text-blue-600 shrink-0" />
                     <span>Live Shelf Status</span>
@@ -123,82 +122,65 @@ export default function CommunityLibrary() {
                 </div>
               </div>
 
-              {/* Right Column: Interactive-Looking Member Loan Card Preview */}
-              <div className="lg:col-span-5">
-                <div className="relative mx-auto max-w-md lg:max-w-none animate-float-slow">
-                  {/* Vibrant glow behind card */}
-                  <div className="absolute -inset-3 rounded-[2rem] bg-gradient-to-tr from-blue-500/20 via-indigo-400/15 to-red-500/20 blur-xl" />
+              {/* Right Column: Hero Photo (/1009.jpg) with Floating Badges */}
+              <div className="lg:col-span-6">
+                <div className="relative mx-auto max-w-xl lg:max-w-none">
+                  {/* Vibrant Blue & Red backdrop glow */}
+                  <div className="absolute -inset-3 rounded-[2.25rem] bg-gradient-to-tr from-blue-600/25 via-indigo-500/15 to-red-500/25 blur-xl" />
 
-                  <div className="relative rounded-3xl bg-white border-2 border-blue-100 shadow-2xl p-6 sm:p-7 space-y-5">
-                    {/* Card Header */}
-                    <div className="flex items-center justify-between border-b border-slate-100 pb-4">
-                      <div className="flex items-center gap-3">
-                        <div className="h-11 w-11 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white flex items-center justify-center shadow-md shadow-blue-600/20">
-                          <Bookmark className="h-5 w-5" />
-                        </div>
-                        <div>
-                          <div className="text-[11px] font-extrabold uppercase tracking-wider text-blue-600">
-                            Member Loan Tracker
-                          </div>
-                          <div className="font-display text-lg font-extrabold text-slate-900">
-                            Know When to Return!
-                          </div>
-                        </div>
-                      </div>
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                        <span className="h-2 w-2 rounded-full bg-emerald-500 animate-ping" />
-                        5 Days Left
+                  {/* Decorative tilted background frame */}
+                  <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-r from-blue-600 to-red-500 rotate-2 opacity-20 hidden sm:block" />
+
+                  {/* Main Hero Image Frame */}
+                  <div className="relative rounded-[2rem] overflow-hidden border-4 border-white shadow-2xl bg-blue-950">
+                    <Image
+                      src="/1009.jpg"
+                      alt="Community members reading and connecting at PMC Library"
+                      width={800}
+                      height={560}
+                      priority
+                      className="w-full h-[340px] sm:h-[430px] object-cover object-center transition-transform duration-700 hover:scale-105"
+                    />
+                    {/* Subtle bottom gradient overlay for contrast */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-blue-950/75 via-blue-950/15 to-transparent" />
+
+                    {/* Top-right floating pill badge */}
+                    <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-md px-3.5 py-1.5 rounded-full shadow-lg border border-blue-100 flex items-center gap-2">
+                      <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-ping" />
+                      <span className="text-xs font-extrabold text-blue-950">
+                        Open to Our Community
                       </span>
                     </div>
 
-                    {/* Sample Active Loan Box */}
-                    <div className="rounded-2xl bg-gradient-to-br from-blue-50/70 via-white to-red-50/50 border-2 border-blue-100/80 p-4 space-y-3.5">
-                      <div className="flex items-start justify-between gap-2">
+                    {/* Bottom overlayfloating Loan & Due Date Quick-Action Card */}
+                    <div className="absolute bottom-4 left-4 right-4 sm:bottom-5 sm:left-5 sm:right-5 bg-white/95 backdrop-blur-md rounded-2xl p-4 shadow-xl border border-blue-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                      <div className="flex items-center gap-3.5">
+                        <div className="h-11 w-11 rounded-xl bg-gradient-to-br from-blue-600 to-red-500 text-white flex items-center justify-center shrink-0 shadow-md">
+                          <Clock className="h-5 w-5" />
+                        </div>
                         <div>
-                          <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-blue-700 bg-blue-100/80 px-2.5 py-0.5 rounded-full">
-                            Call No: C-204.1
-                          </span>
-                          <h4 className="font-display font-extrabold text-slate-900 text-base mt-2">
-                            Mere Christianity & Reflections
-                          </h4>
+                          <div className="flex items-center gap-2">
+                            <span className="text-[11px] font-extrabold uppercase tracking-wider text-red-600">
+                              Member Loan Tracker
+                            </span>
+                            <span className="hidden sm:inline-block text-[10px] font-bold bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full border border-blue-200">
+                              Online Renewal
+                            </span>
+                          </div>
+                          <p className="font-display text-sm sm:text-base font-extrabold text-slate-900 leading-snug">
+                            Track return due dates & extend loans in 1 click!
+                          </p>
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-2 gap-2.5 text-xs">
-                        <div className="bg-white rounded-xl p-3 border border-blue-100 shadow-sm">
-                          <span className="text-slate-400 font-semibold block">Borrowed On</span>
-                          <span className="font-bold text-slate-800 mt-0.5 block">05 Oct 2026</span>
-                        </div>
-                        <div className="bg-red-50/80 rounded-xl p-3 border border-red-200 shadow-sm">
-                          <span className="text-red-600 font-bold block">Return Due Date</span>
-                          <span className="font-extrabold text-red-700 mt-0.5 block">19 Oct 2026</span>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center justify-between pt-1">
-                        <span className="text-xs font-semibold text-slate-600 flex items-center gap-1.5">
-                          <Clock className="h-3.5 w-3.5 text-blue-600" />
-                          Need more time to finish?
-                        </span>
-                        <Link
-                          href={user ? '/profile' : '/signIn'}
-                          className="inline-flex items-center gap-1.5 text-xs font-bold text-white bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 px-3.5 py-2 rounded-full shadow-sm transition-transform hover:scale-105"
+                      <Link href={user ? '/profile' : '/signIn'} className="shrink-0">
+                        <Button
+                          size="sm"
+                          className="w-full sm:w-auto rounded-full bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 text-white font-bold px-4 shadow-md gap-1.5"
                         >
-                          <RefreshCw className="h-3 w-3" />
-                          Extend Loan
-                        </Link>
-                      </div>
-                    </div>
-
-                    {/* Bottom Card Callout */}
-                    <div className="flex items-center justify-between text-xs font-semibold text-slate-500 pt-1">
-                      <span>Manage all your borrowed books online</span>
-                      <Link
-                        href={user ? '/profile' : '/signIn'}
-                        className="font-extrabold text-blue-600 hover:text-red-600 flex items-center gap-1 transition-colors"
-                      >
-                        <span>{user ? 'Go to My Loans' : 'Login Now'}</span>
-                        <ArrowRight className="h-3.5 w-3.5" />
+                          <RefreshCw className="h-3.5 w-3.5" />
+                          <span>{user ? 'My Loans' : 'Extend Loan'}</span>
+                        </Button>
                       </Link>
                     </div>
                   </div>
